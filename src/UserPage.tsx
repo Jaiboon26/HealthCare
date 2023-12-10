@@ -45,7 +45,7 @@ function App() {
 
       
       setDisplayName(userDisplayName);
-      setPictureUrl(userPictureUrl);
+      setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
     }
