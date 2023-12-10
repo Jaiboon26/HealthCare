@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
-import "./App.css";
 
 function App() {
   const [message, setMessage] = useState("");
