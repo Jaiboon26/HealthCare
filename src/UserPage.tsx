@@ -56,7 +56,7 @@ function UserPage() {
   }, []);
 
   return (
-    <div className="App">
+    <div>
       <h1>Profile</h1>
       {message && <p>{message}</p>}
       {error && (

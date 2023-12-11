@@ -3,7 +3,7 @@ import liff from "@line/liff";
 
 function NotiManagePage() {
   return (
-    <div className="NotiManagePage">
+    <div>
         <h1>จัดการแจ้งเตือนของสมาชิก</h1>
     </div>
   );

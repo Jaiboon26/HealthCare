@@ -3,7 +3,7 @@ import liff from "@line/liff";
 
 function AddMedicPage() {
   return (
-    <div className="AddMedicPage">
+    <div>
         <h1>เพิ่มรายการยา</h1>
     </div>
   );
