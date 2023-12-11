@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
 
-function App() {
+function UserPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
@@ -78,4 +78,4 @@ function App() {
   );
 }
 
-export default App;
+export default UserPage;

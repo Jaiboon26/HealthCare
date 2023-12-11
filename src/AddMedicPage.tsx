@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
 
-function App() {
+function AddMedicPage() {
   return (
-    <div className="App">
+    <div className="AddMedicPage">
         <h1>เพิ่มรายการยา</h1>
     </div>
   );
 }
-
-export default App;
+export default AddMedicPage;

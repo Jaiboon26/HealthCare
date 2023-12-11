@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
 
-function App() {
+function MemberPage() {
   return (
-    <div className="App">
+    <div className="MemberPage">
         <h1>ดูข้อมูลสมาชิกที่ดูแล</h1>
     </div>
   );
 }
 
-export default App;
+export default MemberPage;
