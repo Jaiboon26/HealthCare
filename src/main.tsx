@@ -10,8 +10,13 @@ import AddMedicPage from "./AddMedicPage";
 import MedicDetailPage from "./MedicDetailPage";
 import MemberPage from "./MemberPage";
 import NotiManagePage from "./NotiManagePage";
+import HomePage from "./HomePage";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <HomePage />
+  },
   {
     path: "UserPage",
     element: <UserPage />
