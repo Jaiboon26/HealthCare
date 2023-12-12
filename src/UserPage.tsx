@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import liff from "@line/liff";
 import profile from "./assets/pic/profile.jpg";
 import './UserPage.css'
-import { Avatar, Box, Typography, createTheme } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import QRCode from "react-qr-code";
@@ -13,6 +13,7 @@ function UserPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
 
+  /*
   const initializeLiff = async () => {
     try {
       await liff.init({
@@ -33,7 +34,7 @@ function UserPage() {
         const accessToken = liff.getIDToken();
         console.log(accessToken);
       }
-      */
+      
 
       // Fetch user profile
       fetchUserProfile();
@@ -61,9 +62,9 @@ function UserPage() {
 
   useEffect(() => {
     initializeLiff();
-  }, []);
-
-
+  }, 
+  []);*/
+ 
   return (
     <div>
       {message && <p>{message}</p>}
