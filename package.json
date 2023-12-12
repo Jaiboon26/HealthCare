@@ -1,9 +1,9 @@
 {
   "name": "demomui",
-  "private": true,
+  "homepage": "https://jaiboon26.github.io/HealthCare/",
+  "private": false,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://jaiboon26.github.io/HealthCare/",
   "scripts": {
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
