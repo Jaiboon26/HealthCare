@@ -16,27 +16,27 @@ import HomePage from "./HomePage";
 
 const router = createBrowserRouter([
   {
-    path: "HealthCare",
+    path: "/HealthCare",
     element: <HomePage />
   },
   {
-    path: "UserPage",
+    path: "/UserPage",
     element: <UserPage />
   },
   {
-    path: "AddMedicPage",
+    path: "/AddMedicPage",
     element: <AddMedicPage />
   },
   {
-    path: "MedicDetailPage",
+    path: "/MedicDetailPage",
     element: <MedicDetailPage />
   },
   {
-    path: "MemberPage",
+    path: "/MemberPage",
     element: <MemberPage />
   },
   {
-    path: "NotiManagePage",
+    path: "/NotiManagePage",
     element: <NotiManagePage />
   }
 ])
