@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
 import profile from "./assets/pic/profile.jpg";
