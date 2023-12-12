@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
-import profile from "./assets/pic/profile.jpg";
+//import profile from "./assets/pic/profile.jpg";
 import './UserPage.css'
 import { Avatar, Box, Typography } from "@mui/material";
 import Card from '@mui/material/Card';
@@ -89,7 +89,7 @@ function UserPage() {
       }}>
         <Avatar
           alt="Remy Sharp"
-          src={profile}
+          //src={profile}
           sx={{ width: 100, height: 100, marginLeft: '10px' }}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
