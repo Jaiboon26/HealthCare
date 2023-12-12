@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://jaiboon26.github.io/HealthCare/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
