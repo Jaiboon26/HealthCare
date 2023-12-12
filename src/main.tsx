@@ -17,30 +17,16 @@ import HomePage from "./HomePage";
 
 const router = createHashRouter([
   {
-    path: "/HealthCare",
-    element: <HomePage />
+    path: "/",
+    element: <HomePage />,
+    children: [
+      {
+        path: "UserPage",
+        element: <UserPage />,
+      },
+    ],
   },
-  {
-    path: "/UserPage",
-    element: <UserPage />
-  },
-  {
-    path: "/AddMedicPage",
-    element: <AddMedicPage />
-  },
-  {
-    path: "/MedicDetailPage",
-    element: <MedicDetailPage />
-  },
-  {
-    path: "/MemberPage",
-    element: <MemberPage />
-  },
-  {
-    path: "/NotiManagePage",
-    element: <NotiManagePage />
-  }
-])
+]);
 
 root.render(
   <React.StrictMode>
