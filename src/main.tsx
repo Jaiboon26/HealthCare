@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
   RouterProvider,
+  createHashRouter,
 } from "react-router-dom";
 
 let root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -14,7 +15,7 @@ import MemberPage from "./MemberPage";
 import NotiManagePage from "./NotiManagePage";
 import HomePage from "./HomePage";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/HealthCare",
     element: <HomePage />
