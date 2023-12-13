@@ -16,7 +16,7 @@ import HomePage from "./HomePage";
 
 const router = createBrowserRouter([
   {
-    path: "/HealthCare",
+    path: "/",
     element: <HomePage />
   },
   {

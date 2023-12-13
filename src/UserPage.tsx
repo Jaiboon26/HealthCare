@@ -14,17 +14,15 @@ function UserPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
 
-  /*
   const initializeLiff = async () => {
     try {
       await liff.init({
-        liffId: import.meta.env.VITE_LIFF_ID
+        liffId: "2002106411-BlOzNXLw"
       });
 
       //setMessage("LIFF init succeeded.");
 
       // login
-      /*
       if (!liff.isLoggedIn()) {
         try {
           await liff.login();
@@ -35,7 +33,7 @@ function UserPage() {
         const accessToken = liff.getIDToken();
         console.log(accessToken);
       }
-      
+
 
       // Fetch user profile
       fetchUserProfile();
@@ -63,9 +61,9 @@ function UserPage() {
 
   useEffect(() => {
     initializeLiff();
-  }, 
-  []);*/
- 
+  },
+    []);
+
   return (
     <div>
       {message && <p>{message}</p>}
@@ -89,13 +87,13 @@ function UserPage() {
       }}>
         <Avatar
           alt="Remy Sharp"
-          //src={profile}
+          src={pictureUrl}
           sx={{ width: 100, height: 100, marginLeft: '10px' }}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Typography component="div" variant="h5">
-              Kantapon
+              {displayName}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" component="div">
               Thailand <br />
@@ -118,7 +116,7 @@ function UserPage() {
         <QRCode
           size={256}
           style={{ height: "auto", maxWidth: "auto", width: "auto" }}
-          value="test"
+          value={displayName}
           viewBox={`0 0 256 256`}
         />
         <CardContent>
