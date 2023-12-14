@@ -14,6 +14,7 @@ function UserPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
 
+  /*
   const initializeLiff = async () => {
     try {
       await liff.init({
@@ -63,6 +64,7 @@ function UserPage() {
     initializeLiff();
   },
     []);
+    */
 
   return (
     <div>
@@ -87,13 +89,13 @@ function UserPage() {
       }}>
         <Avatar
           alt="Remy Sharp"
-          src={pictureUrl}
+          //src={pictureUrl}
           sx={{ width: 100, height: 100, marginLeft: '10px' }}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Typography component="div" variant="h5">
-              {displayName}
+              Kantapon
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" component="div">
               Thailand <br />
@@ -116,7 +118,7 @@ function UserPage() {
         <QRCode
           size={256}
           style={{ height: "auto", maxWidth: "auto", width: "auto" }}
-          value={displayName}
+          value="test"
           viewBox={`0 0 256 256`}
         />
         <CardContent>
