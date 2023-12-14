@@ -10,6 +10,13 @@ import { Card, CardContent, Divider, Fab, IconButton } from "@mui/material";
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import SvgIcon from '@mui/material/SvgIcon';
+import { SxProps } from '@mui/system';
+
+const fabStyle = {
+  position: 'absolute',
+  bottom: 16,
+  right: 16,
+};
 
 
 function MemberPage() {
@@ -217,6 +224,21 @@ function MemberPage() {
           </Box>
         </Card>
       </div>
+      <Box sx={{
+        '& > :not(style)': { m: 1 },
+        margin: 0,
+        top: 'auto',
+        right: 20,
+        bottom: 20,
+        left: 'auto',
+        position: 'fixed',
+      }}>
+        <Fab color="primary" aria-label="add">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </Fab>
+      </Box>
     </>
   );
 }
