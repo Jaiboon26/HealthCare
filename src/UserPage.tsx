@@ -14,7 +14,6 @@ function UserPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
 
-  /*
   const initializeLiff = async () => {
     try {
       await liff.init({
@@ -64,7 +63,6 @@ function UserPage() {
     initializeLiff();
   },
     []);
-    */
 
   return (
     <div>
