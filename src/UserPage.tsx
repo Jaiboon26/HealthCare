@@ -13,6 +13,7 @@ function UserPage() {
   const [error, setError] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const [userID, setUserID] = useState("");
 
   const initializeLiff = async () => {
     try {
@@ -53,6 +54,7 @@ function UserPage() {
 
 
       setDisplayName(userDisplayName);
+      setUserID(userProfile);
       setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
@@ -86,14 +88,14 @@ function UserPage() {
         minWidth: '310px'
       }}>
         <Avatar
-          alt="Remy Sharp"
-          //src={pictureUrl}
+          alt={displayName}
+          src={pictureUrl}
           sx={{ width: 100, height: 100, marginLeft: '10px' }}
         />
         <Box sx={{ display: 'flex', flexDirection: 'column' }}>
           <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Typography component="div" variant="h5">
-              Kantapon
+              {displayName}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" component="div">
               Thailand <br />
@@ -116,7 +118,7 @@ function UserPage() {
         <QRCode
           size={256}
           style={{ height: "auto", maxWidth: "auto", width: "auto" }}
-          value="test"
+          value={userID}
           viewBox={`0 0 256 256`}
         />
         <CardContent>
