@@ -5,7 +5,7 @@ import React from "react";
 function NotiManagePage() {
   return (
     <div>
-        <h1>จัดการแจ้งเตือนของสมาชิก</h1>
+        <h1>ข้อมูลยา</h1>
     </div>
   );
 }

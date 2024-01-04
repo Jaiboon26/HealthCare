@@ -13,6 +13,7 @@ import MedicDetailPage from "./MedicDetailPage";
 import MemberPage from "./MemberPage";
 import NotiManagePage from "./NotiManagePage";
 import HomePage from "./HomePage";
+import ExQueryData from "./ExQueryData";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
   {
     path: "/NotiManagePage",
     element: <NotiManagePage />
+  },
+  {
+    path: "/testQuery",
+    element: <ExQueryData />
   }
 ])
 
