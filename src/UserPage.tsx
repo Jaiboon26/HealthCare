@@ -41,6 +41,7 @@ function UserPage() {
 
       // Fetch user profile
       fetchUserProfile();
+      findProfile();
     } catch (e) {
       setMessage("LIFF init failed.");
       setError(`${e}`);
@@ -94,7 +95,6 @@ function UserPage() {
 
   useEffect(() => {
     initializeLiff();
-    findProfile();
   },
     []);
 
