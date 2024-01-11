@@ -7,6 +7,8 @@ import { Avatar, Box, Typography } from "@mui/material";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import QRCode from "react-qr-code";
+import axios from "axios";
+import { ConnectDB } from "./connectDB";
 
 function UserPage() {
   const [message, setMessage] = useState("");
@@ -14,6 +16,7 @@ function UserPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [userID, setUserID] = useState("");
+  const accessToken = ConnectDB();
 
   const initializeLiff = async () => {
     try {
@@ -61,8 +64,40 @@ function UserPage() {
     }
   };
 
+  const findProfile = async () => {
+    try {
+      const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
+        collection: 'User',
+        database: 'HealthCare',
+        dataSource: 'HealthCareDemo',
+        filter: {
+          LineID: { userID },
+        },
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = response.data;
+      console.log(accessToken);
+
+      if (data && data.document) {
+        console.log('Yes');
+      } else {
+        console.log('No');
+      }
+    } catch (error) {
+      console.error('Error fetching data from MongoDB:', error);
+
+    }
+  };
+
   useEffect(() => {
     initializeLiff();
+    findProfile();
   },
     []);
 
