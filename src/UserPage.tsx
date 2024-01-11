@@ -128,9 +128,15 @@ function UserPage() {
 
   useEffect(() => {
     initializeLiff();
-    findProfile();
   },
     []);
+
+  useEffect(() => {
+    // Trigger findProfile when userID or displayName changes
+    if (userID && displayName) {
+      findProfile();
+    }
+  }, [userID, displayName]);
 
   return (
     <div>
