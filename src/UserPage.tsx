@@ -65,6 +65,33 @@ function UserPage() {
     }
   };
 
+  const InsertProfile = async () => {
+    try {
+      const responseInsert = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+        collection: 'User',
+        database: 'HealthCare',
+        dataSource: 'HealthCareDemo',
+        document: {
+          LineID: { userID },
+          Name: { displayName },
+        },
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          'apiKey': '42Mj5aTcsC0gDjJtE818IKNasjZreviaQUuui8pPMEzcYauqAxmL3ohRnTrcIKge',
+        },
+      });
+
+      const data = responseInsert.data;
+      console.log(data);
+
+    } catch (error) {
+      console.error('Error fetching data from MongoDB:', error);
+
+    }
+  }
+
   const findProfile = async () => {
     const accessToken = ConnectDB();
     try {
@@ -89,30 +116,7 @@ function UserPage() {
       if (data) {
         console.log(data);
       } else {
-        try {
-          const responseInsert = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
-            collection: 'User',
-            database: 'HealthCare',
-            dataSource: 'HealthCareDemo',
-            document: {
-              LineID: { userID },
-              Name: { displayName },
-            },
-          }, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Request-Headers': '*',
-              'apiKey': '42Mj5aTcsC0gDjJtE818IKNasjZreviaQUuui8pPMEzcYauqAxmL3ohRnTrcIKge',
-            },
-          });
-
-          const data = responseInsert.data;
-          console.log(data);
-
-        } catch (error) {
-          console.error('Error fetching data from MongoDB:', error);
-
-        }
+        InsertProfile();
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
@@ -122,6 +126,7 @@ function UserPage() {
 
   useEffect(() => {
     initializeLiff();
+    findProfile();
   },
     []);
 
