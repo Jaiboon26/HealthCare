@@ -41,7 +41,7 @@ function UserPage() {
 
       // Fetch user profile
       fetchUserProfile();
-
+      findProfile();
     } catch (e) {
       setMessage("LIFF init failed.");
       setError(`${e}`);
@@ -65,16 +65,15 @@ function UserPage() {
     }
   };
 
-  const CreateProfile = async () => {
+  const findProfile = async () => {
     const accessToken = ConnectDB();
     try {
-      const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
         collection: 'User',
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
-        document: {
+        filter: {
           LineID: { userID },
-          Name: { displayName },
         },
       }, {
         headers: {
@@ -84,9 +83,37 @@ function UserPage() {
         },
       });
 
-      const data = response.data;
+      const data = responseFind.data;
       console.log(data);
 
+      if (data) {
+        console.log(data);
+      } else {
+        try {
+          const responseInsert = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+            collection: 'User',
+            database: 'HealthCare',
+            dataSource: 'HealthCareDemo',
+            document: {
+              LineID: { userID },
+              Name: { displayName },
+            },
+          }, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Request-Headers': '*',
+              'apiKey': '42Mj5aTcsC0gDjJtE818IKNasjZreviaQUuui8pPMEzcYauqAxmL3ohRnTrcIKge',
+            },
+          });
+
+          const data = responseInsert.data;
+          console.log(data);
+
+        } catch (error) {
+          console.error('Error fetching data from MongoDB:', error);
+
+        }
+      }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
 
@@ -95,7 +122,6 @@ function UserPage() {
 
   useEffect(() => {
     initializeLiff();
-    CreateProfile();
   },
     []);
 
