@@ -16,7 +16,7 @@ function UserPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [userID, setUserID] = useState("");
-  const accessToken = ConnectDB();
+
 
   const initializeLiff = async () => {
     try {
@@ -65,6 +65,7 @@ function UserPage() {
   };
 
   const findProfile = async () => {
+    const accessToken = ConnectDB();
     try {
       const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
         collection: 'User',
