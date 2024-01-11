@@ -75,6 +75,7 @@ function UserPage() {
         document: {
           LineID: userID,
           Name: displayName,
+          Picture: pictureUrl,
         },
       }, {
         headers: {
