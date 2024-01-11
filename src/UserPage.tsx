@@ -73,8 +73,8 @@ function UserPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         document: {
-          LineID: { userID },
-          Name: { displayName },
+          LineID: userID,
+          Name: displayName,
         },
       }, {
         headers: {
@@ -102,7 +102,7 @@ function UserPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: { userID },
+          LineID: userID,
         },
       }, {
         headers: {
