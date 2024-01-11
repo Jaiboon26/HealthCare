@@ -1,7 +1,7 @@
 // ConnectDB.tsx
 import { useEffect, useState } from "react";
 import axios from 'axios';
-import { ConnectDB } from "./connectDB";
+import { getAccessToken } from "./connectDB";
 
 // export function ConnectDB() {
 //     const [accessToken, setAccessToken] = useState('');
@@ -45,11 +45,12 @@ const ExQueryData = () => {
     const [queriedid, setQueriedId] = useState('');
     const [queriedstatus, setQueriedStatus] = useState('');
     const [queriedText, setQueriedText] = useState('');
-    const accessToken = ConnectDB();
+    
 
     useEffect(() => {
         const fetchDataFromMongoDB = async () => {
             try {
+                const accessToken = await getAccessToken();
                 const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
                     collection: 'User',
                     database: 'HealthCare',
@@ -82,7 +83,7 @@ const ExQueryData = () => {
         };
 
         fetchDataFromMongoDB();
-    }, [accessToken]);
+    }, []);
 
     return (
         <div>

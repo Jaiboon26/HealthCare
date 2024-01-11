@@ -8,7 +8,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import QRCode from "react-qr-code";
 import axios from "axios";
-import { ConnectDB } from "./connectDB";
+import { getAccessToken } from "./connectDB";
 
 function UserPage() {
   const [message, setMessage] = useState("");
@@ -93,8 +93,9 @@ function UserPage() {
   }
 
   const findProfile = async () => {
-    const accessToken = ConnectDB();
+
     try {
+      const accessToken = await getAccessToken();
       const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
         collection: 'User',
         database: 'HealthCare',
@@ -111,9 +112,9 @@ function UserPage() {
       });
 
       const data = responseFind.data;
-      console.log(data);
+      console.log(accessToken);
 
-      if (data) {
+      if (data && data.document) {
         console.log(data);
       } else {
         InsertProfile();
