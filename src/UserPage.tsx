@@ -67,6 +67,7 @@ function UserPage() {
 
   const InsertProfile = async () => {
     try {
+      const accessToken = await getAccessToken();
       const responseInsert = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
         collection: 'User',
         database: 'HealthCare',
@@ -79,7 +80,7 @@ function UserPage() {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Request-Headers': '*',
-          'apiKey': '42Mj5aTcsC0gDjJtE818IKNasjZreviaQUuui8pPMEzcYauqAxmL3ohRnTrcIKge',
+          'Authorization': `Bearer ${accessToken}`,
         },
       });
 
