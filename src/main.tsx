@@ -4,6 +4,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 let root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -14,6 +15,7 @@ import MemberPage from "./MemberPage";
 import NotiManagePage from "./NotiManagePage";
 import HomePage from "./HomePage";
 import ExQueryData from "./ExQueryData";
+// import ConnectDB from "./connectDB";
 
 const router = createBrowserRouter([
   {
@@ -43,7 +45,11 @@ const router = createBrowserRouter([
   {
     path: "/testQuery",
     element: <ExQueryData />
-  }
+  },
+  // {
+  //   path: "/ConnectDB",
+  //   element: <ConnectDB />,
+  // },
 ])
 
 root.render(

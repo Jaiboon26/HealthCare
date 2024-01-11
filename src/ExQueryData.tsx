@@ -1,11 +1,51 @@
+// ConnectDB.tsx
 import { useEffect, useState } from "react";
 import axios from 'axios';
+import { ConnectDB } from "./connectDB";
 
+// export function ConnectDB() {
+//     const [accessToken, setAccessToken] = useState('');
+
+//     useEffect(() => {
+//         const fetchDataFromMongoDB = async () => {
+//             try {
+//                 const datakey = JSON.stringify({
+//                     "key": "42Mj5aTcsC0gDjJtE818IKNasjZreviaQUuui8pPMEzcYauqAxmL3ohRnTrcIKge"
+//                 });
+
+//                 const config = {
+//                     method: 'post',
+//                     url: 'https://realm.mongodb.com/api/client/v2.0/app/data-gcfjf/auth/providers/api-key/login',
+//                     headers: {
+//                         'Content-Type': 'application/json',
+//                         'Access-Control-Request-Headers': '*',
+//                     },
+//                     data: datakey,
+//                 };
+
+//                 const response = await axios(config);
+
+//                 console.log(JSON.stringify(response.data));
+
+//                 if (response.data) {
+//                     setAccessToken(response.data.access_token);
+//                 }
+//             } catch (error) {
+//                 console.error('Error fetching data from MongoDB:', error);
+//             }
+//         };
+
+//         fetchDataFromMongoDB();
+//     }, []);
+
+//     return accessToken;
+// }
 
 const ExQueryData = () => {
     const [queriedid, setQueriedId] = useState('');
     const [queriedstatus, setQueriedStatus] = useState('');
     const [queriedText, setQueriedText] = useState('');
+    const accessToken = ConnectDB();
 
     useEffect(() => {
         const fetchDataFromMongoDB = async () => {
@@ -21,14 +61,15 @@ const ExQueryData = () => {
                     headers: {
                         'Content-Type': 'application/json',
                         'Access-Control-Request-Headers': '*',
-                        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJiYWFzX2RldmljZV9pZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsImJhYXNfZG9tYWluX2lkIjoiNjU5NjE4ODhkNjA0ZjZkNjEwNTRiZGI5IiwiZXhwIjoxNzA0MzQ0MzA3LCJpYXQiOjE3MDQzNDI1MDcsImlzcyI6IjY1OTYzM2ViOGFlMTU4ZDUxZmEzYjM3OSIsInN0aXRjaF9kZXZJZCI6IjAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCIsInN0aXRjaF9kb21haW5JZCI6IjY1OTYxODg4ZDYwNGY2ZDYxMDU0YmRiOSIsInN1YiI6IjY1OTYxYjQwOGFlMTU4ZDUxZjkxYzExMiIsInR5cCI6ImFjY2VzcyJ9.MmgKRpSCQxMn9LCTF6BfHo7n3TW466_kxxq9i98TIDA',
+                        'Authorization': `Bearer ${accessToken}`,
                     },
                 });
 
                 const data = response.data;
+                console.log(accessToken);
 
                 if (data && data.document && data.document.text) {
-                    setQueriedId(`ID: ${data.document._id}`);
+                    setQueriedId(`ID: ${data.document.text}`);
                     setQueriedStatus(`Status: ${data.document.status}`);
                     setQueriedText(`Text: ${data.document.text}`);
                 } else {
@@ -41,7 +82,7 @@ const ExQueryData = () => {
         };
 
         fetchDataFromMongoDB();
-    }, []);
+    }, [accessToken]);
 
     return (
         <div>
