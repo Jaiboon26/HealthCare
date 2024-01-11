@@ -67,12 +67,13 @@ function UserPage() {
   const findProfile = async () => {
     const accessToken = ConnectDB();
     try {
-      const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
+      const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
         collection: 'User',
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
-        filter: {
+        documentc: {
           LineID: { userID },
+          Name: { displayName },
         },
       }, {
         headers: {
@@ -85,34 +86,6 @@ function UserPage() {
       const data = response.data;
       console.log(data);
 
-      if (data && data.document) {
-        console.log(data);
-      } else {
-        try {
-          const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
-            collection: 'User',
-            database: 'HealthCare',
-            dataSource: 'HealthCareDemo',
-            documentc: {
-              LineID: { userID },
-              Name: { displayName },
-            },
-          }, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Request-Headers': '*',
-              'Authorization': `Bearer ${accessToken}`,
-            },
-          });
-
-          const data = response.data;
-          console.log(data);
-
-        } catch (error) {
-          console.error('Error fetching data from MongoDB:', error);
-
-        }
-      }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
 
