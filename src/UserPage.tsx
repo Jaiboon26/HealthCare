@@ -83,12 +83,35 @@ function UserPage() {
       });
 
       const data = response.data;
-      console.log(accessToken);
+      console.log(data);
 
       if (data && data.document) {
-        console.log('Yes');
+        console.log(data);
       } else {
-        console.log('No');
+        try {
+          const response = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+            collection: 'User',
+            database: 'HealthCare',
+            dataSource: 'HealthCareDemo',
+            documentc: {
+              LineID: { userID },
+              Name: { displayName },
+            },
+          }, {
+            headers: {
+              'Content-Type': 'application/json',
+              'Access-Control-Request-Headers': '*',
+              'Authorization': `Bearer ${accessToken}`,
+            },
+          });
+
+          const data = response.data;
+          console.log(data);
+
+        } catch (error) {
+          console.error('Error fetching data from MongoDB:', error);
+
+        }
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
