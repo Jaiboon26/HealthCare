@@ -1,3 +1,4 @@
+//NotiManagePage.tsx
 import { useEffect, useState } from "react";
 import liff from "@line/liff";
 import React from "react";
@@ -99,6 +100,7 @@ function NotiManagePage() {
       // setDisplayName(userDisplayName);
       setUserID(userProfile);
       setPictureUrl(userPictureUrl ?? "");
+      findTime();
     } catch (err) {
       console.error(err);
     }
@@ -344,7 +346,7 @@ function NotiManagePage() {
         </Card>
       </div>
 
-      <CustomizedDialogs open={open} onClose={handleClose} time={selectedTime} LineID={userID} hoursprev={selectedHours} minsprev={selectedMins}/>
+      <CustomizedDialogs open={open} onClose={handleClose} time={selectedTime} LineID={userID} hoursprev={selectedHours} minsprev={selectedMins} refreshData={findTime}/>
 
     </div>
   );

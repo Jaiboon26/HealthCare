@@ -18,6 +18,7 @@ interface CustomizedDialogsProps {
     hoursprev: string;
     minsprev: string;
     LineID: string;
+    refreshData: () => void;
     //   onSave: (hours: string, mins: string) => void; // Callback function to send data to another file
 }
 
@@ -30,7 +31,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, time, hoursprev, minsprev, LineID }) => {
+const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, time, hoursprev, minsprev, LineID , refreshData }) => {
     const [hours, setHours] = useState(hoursprev);
     const [mins, setMins] = useState(minsprev);
     const [timeday, setTimeday] = useState('');
@@ -81,7 +82,9 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
             });
 
             const data = responseFind.data;
-            console.log(data)
+            console.log(data);
+            refreshData();
+            
         } catch (error) {
             console.error('Error fetching data from MongoDB:', error);
 
