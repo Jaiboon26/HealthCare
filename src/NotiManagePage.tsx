@@ -344,7 +344,7 @@ function NotiManagePage() {
         </Card>
       </div>
 
-      <CustomizedDialogs open={open} onClose={handleClose} time={selectedTime} LineID={userID} hours={selectedHours} mins={selectedMins}/>
+      <CustomizedDialogs open={open} onClose={handleClose} time={selectedTime} LineID={userID} hoursprev={selectedHours} minsprev={selectedMins}/>
 
     </div>
   );

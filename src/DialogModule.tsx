@@ -15,8 +15,8 @@ interface CustomizedDialogsProps {
     open: boolean;
     onClose: () => void;
     time: string;
-    hours: string;
-    mins: string;
+    hoursprev: string;
+    minsprev: string;
     LineID: string;
     //   onSave: (hours: string, mins: string) => void; // Callback function to send data to another file
 }
@@ -30,9 +30,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, time, LineID }) => {
-    const [hours, setHours] = useState('');
-    const [mins, setMins] = useState('');
+const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, time, hoursprev, minsprev, LineID }) => {
+    const [hours, setHours] = useState(hoursprev);
+    const [mins, setMins] = useState(minsprev);
     const [timeday, setTimeday] = useState('');
 
     const handleTime = () => {
