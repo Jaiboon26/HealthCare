@@ -24,7 +24,7 @@ function NotiManagePage() {
   const Noon = "กลางวัน";
   const Evening = "เย็น";
 
-  const handleClickOpen = (time: string , hours: string , mins: string) => {
+  const handleClickOpen = (time: string, hours: string, mins: string) => {
     setOpen(true);
     setSelectedTime(time);
     setSelectedHours(hours);
@@ -100,7 +100,7 @@ function NotiManagePage() {
       // setDisplayName(userDisplayName);
       setUserID(userProfile);
       setPictureUrl(userPictureUrl ?? "");
-      findTime();
+      // findTime();
     } catch (err) {
       console.error(err);
     }
@@ -183,10 +183,7 @@ function NotiManagePage() {
     []);
 
   useEffect(() => {
-    // Trigger findProfile when userID or displayName changes
-    if (userID) {
-      findTime();
-    }
+    findTime();
   }, [userID]);
 
   return (
@@ -249,7 +246,7 @@ function NotiManagePage() {
               {selectedHours1} : {selectedMins1}
             </Typography>
           </CardContent>
-          <SvgIcon onClick={() => handleClickOpen(Morning , selectedHours1 , selectedMins1)} sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%', position: 'absolute', right: '70px' }}>
+          <SvgIcon onClick={() => handleClickOpen(Morning, selectedHours1, selectedMins1)} sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%', position: 'absolute', right: '70px' }}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
             </svg>
@@ -293,7 +290,7 @@ function NotiManagePage() {
               {selectedHours2} : {selectedMins2}
             </Typography>
           </CardContent>
-          <SvgIcon onClick={() => handleClickOpen(Noon , selectedHours2 , selectedMins2)} sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%', position: 'absolute', right: '70px' }}>
+          <SvgIcon onClick={() => handleClickOpen(Noon, selectedHours2, selectedMins2)} sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%', position: 'absolute', right: '70px' }}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
             </svg>
@@ -338,7 +335,7 @@ function NotiManagePage() {
               {selectedHours3 ? selectedHours3 : ""} : {selectedMins3 ? selectedMins3 : ""}
             </Typography>
           </CardContent>
-          <SvgIcon onClick={() => handleClickOpen(Evening , selectedHours3 , selectedMins3)} sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%', position: 'absolute', right: '70px' }}>
+          <SvgIcon onClick={() => handleClickOpen(Evening, selectedHours3, selectedMins3)} sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%', position: 'absolute', right: '70px' }}>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
             </svg>
@@ -346,7 +343,7 @@ function NotiManagePage() {
         </Card>
       </div>
 
-      <CustomizedDialogs open={open} onClose={handleClose} time={selectedTime} LineID={userID} hoursprev={selectedHours} minsprev={selectedMins} refreshData={findTime}/>
+      <CustomizedDialogs open={open} onClose={handleClose} time={selectedTime} LineID={userID} hoursprev={selectedHours} minsprev={selectedMins} refreshData={findTime} />
 
     </div>
   );

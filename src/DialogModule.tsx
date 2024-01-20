@@ -124,8 +124,8 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                             }}
                         >
                             {Array.from({ length: 25 }, (_, index) => index.toString().padStart(2, '0')).map((valueHours) => (
-                                <MenuItem key={valueHours} value={valueHours ? valueHours : hoursprev}>
-                                    {valueHours ? valueHours : hoursprev}
+                                <MenuItem key={valueHours} value={valueHours}>
+                                    {valueHours}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -134,13 +134,14 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                         <InputLabel htmlFor="Mins">นาที</InputLabel>
                         <Select
                             label="Mins"
+                            value={mins}
                             onChange={(e) => {
                                 setMins(e.target.value as string);
                             }}
                         >
                             {Array.from({ length: 12 }, (_, index) => (index * 5).toString().padStart(2, '0')).map((valueMins) => (
-                                <MenuItem key={valueMins} value={valueMins ? valueMins : minsprev}>
-                                    {valueMins ? valueMins : minsprev}
+                                <MenuItem key={valueMins} value={valueMins}>
+                                    {valueMins}
                                 </MenuItem>
                             ))}
                         </Select>
