@@ -172,8 +172,11 @@ function NotiManagePage() {
         setSelectedHours3(data.document.Evening[0]);
         setSelectedMins3(data.document.Evening[1]);
 
-      } else {
+      } else if (data.document.LineID != userID) {
         insertTime();
+      }
+      else {
+        console.log("Error")
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
