@@ -41,7 +41,6 @@ function UserPage() {
 
       // Fetch user profile
       fetchUserProfile();
-      findProfile();
     } catch (e) {
       setMessage("LIFF init failed.");
       setError(`${e}`);
@@ -62,6 +61,34 @@ function UserPage() {
       setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const insertTime = async () => {
+    try {
+      const accessToken = await getAccessToken();
+      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+        collection: 'NotifyTime',
+        database: 'HealthCare',
+        dataSource: 'HealthCareDemo',
+        document: {
+          LineID: userID,
+          Morning: ["08", "30"],
+          Noon: ["12", "00"],
+          Evening: ["17", "15"],
+        },
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = responseFind.data;
+    } catch (error) {
+      console.error('Error fetching data from MongoDB:', error);
+
     }
   };
 
@@ -120,6 +147,7 @@ function UserPage() {
         console.log(data);
       } else {
         InsertProfile();
+        insertTime();
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
