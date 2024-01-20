@@ -69,7 +69,7 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                 },
                 update: {
                     $set: {
-                        timeday: [hours , mins]
+                        [timeday]: [hours, mins]
                     }
                 }
             }, {
@@ -81,6 +81,7 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
             });
 
             const data = responseFind.data;
+            console.log(data)
         } catch (error) {
             console.error('Error fetching data from MongoDB:', error);
 
@@ -118,7 +119,7 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                         >
                             {Array.from({ length: 25 }, (_, index) => index.toString().padStart(2, '0')).map((value) => (
                                 <MenuItem key={value} value={value}>
-                                    {value}
+                                    {hours}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -133,7 +134,7 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                         >
                             {Array.from({ length: 12 }, (_, index) => (index * 5).toString().padStart(2, '0')).map((value) => (
                                 <MenuItem key={value} value={value}>
-                                    {value}
+                                    {mins}
                                 </MenuItem>
                             ))}
                         </Select>
