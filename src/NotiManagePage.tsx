@@ -160,7 +160,7 @@ function NotiManagePage() {
       const data = responseFind.data;
       // console.log(accessToken);
 
-      if (data && data.document && data.document.LineID) {
+      if (data && data.document && data.document.LineID === userID) {
         console.log(data);
 
         setSelectedHours1(data.document.Morning[0]);
@@ -172,7 +172,7 @@ function NotiManagePage() {
         setSelectedHours3(data.document.Evening[0]);
         setSelectedMins3(data.document.Evening[1]);
 
-      } else if (data.document.LineID != userID) {
+      } else if (data && data.document && data.document.LineID !== userID) {
         insertTime();
       }
       else {
