@@ -15,6 +15,7 @@ import MemberPage from "./MemberPage";
 import NotiManagePage from "./NotiManagePage";
 import HomePage from "./HomePage";
 import ExQueryData from "./ExQueryData";
+import CustomizedDialogs from "./DialogModule";
 // import ConnectDB from "./connectDB";
 
 const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
     path: "/testQuery",
     element: <ExQueryData />
   },
+  // {
+  //   path: "/testModule",
+  //   element: <CustomizedDialogs open={true} time="กลางวัน" LineID="U41f63ff091fd49143878e89736e3f976"  />
+  // },
   // {
   //   path: "/ConnectDB",
   //   element: <ConnectDB />,
