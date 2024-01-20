@@ -31,7 +31,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, time, hoursprev, minsprev, LineID , refreshData }) => {
+const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, time, hoursprev, minsprev, LineID, refreshData }) => {
     const [hours, setHours] = useState(hoursprev);
     const [mins, setMins] = useState(minsprev);
     const [timeday, setTimeday] = useState('');
@@ -84,7 +84,7 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
             const data = responseFind.data;
             console.log(data);
             refreshData();
-            
+
         } catch (error) {
             console.error('Error fetching data from MongoDB:', error);
 
@@ -121,8 +121,8 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                             }}
                         >
                             {Array.from({ length: 25 }, (_, index) => index.toString().padStart(2, '0')).map((value) => (
-                                <MenuItem key={value} value={value}>
-                                    {value ? value : hours}
+                                <MenuItem key={value} value={value ? value : hoursprev}>
+                                    {value ? value : hoursprev}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -136,8 +136,8 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                             }}
                         >
                             {Array.from({ length: 12 }, (_, index) => (index * 5).toString().padStart(2, '0')).map((value) => (
-                                <MenuItem key={value} value={value}>
-                                    {value ? value : mins}
+                                <MenuItem key={value} value={value ? value : minsprev}>
+                                    {value ? value : minsprev}
                                 </MenuItem>
                             ))}
                         </Select>
