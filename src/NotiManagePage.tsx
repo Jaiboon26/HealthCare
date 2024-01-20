@@ -179,10 +179,14 @@ function NotiManagePage() {
 
   useEffect(() => {
     initializeLiff();
-    findTime();
   },
     []);
 
+  useEffect(() => {
+    findTime();
+  },
+    [userID]);
+    
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px', alignItems: 'center' }}>
       <Box sx={{ flexGrow: 1 }}>
