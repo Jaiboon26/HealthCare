@@ -15,6 +15,8 @@ interface CustomizedDialogsProps {
     open: boolean;
     onClose: () => void;
     time: string;
+    hours: string;
+    mins: string;
     LineID: string;
     //   onSave: (hours: string, mins: string) => void; // Callback function to send data to another file
 }
@@ -87,7 +89,6 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
 
     useEffect(() => {
         handleTime();
-        console.log(timeday);
     })
 
     return (
