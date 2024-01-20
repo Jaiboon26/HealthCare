@@ -173,12 +173,7 @@ function NotiManagePage() {
         setSelectedMins3(data.document.Evening[1]);
 
       } else {
-        // Check if data.document exists before comparing LineID
-        if (data && data.document && data.document.LineID !== userID) {
-          insertTime();
-        } else {
-          console.log("Error");
-        }
+        insertTime();
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
