@@ -93,7 +93,10 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
 
     useEffect(() => {
         handleTime();
-    })
+        // Set initial state when the dialog opens
+        setHours(hoursprev);
+        setMins(minsprev);
+    }, [time, hoursprev, minsprev]);
 
     return (
         <React.Fragment>
