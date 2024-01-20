@@ -70,7 +70,7 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                 },
                 update: {
                     $set: {
-                        [timeday]: [hours, mins]
+                        [timeday]: [hours ? hours : hoursprev, mins ? mins : minsprev]
                     }
                 }
             }, {
@@ -120,9 +120,9 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                                 setHours(e.target.value as string);
                             }}
                         >
-                            {Array.from({ length: 25 }, (_, index) => index.toString().padStart(2, '0')).map((value) => (
-                                <MenuItem key={value} value={value ? value : hoursprev}>
-                                    {value ? value : hoursprev}
+                            {Array.from({ length: 25 }, (_, index) => index.toString().padStart(2, '0')).map((valueHours) => (
+                                <MenuItem key={valueHours} value={valueHours ? valueHours : hoursprev}>
+                                    {valueHours ? valueHours : hoursprev}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -135,9 +135,9 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                                 setMins(e.target.value as string);
                             }}
                         >
-                            {Array.from({ length: 12 }, (_, index) => (index * 5).toString().padStart(2, '0')).map((value) => (
-                                <MenuItem key={value} value={value ? value : minsprev}>
-                                    {value ? value : minsprev}
+                            {Array.from({ length: 12 }, (_, index) => (index * 5).toString().padStart(2, '0')).map((valueMins) => (
+                                <MenuItem key={valueMins} value={valueMins ? valueMins : minsprev}>
+                                    {valueMins ? valueMins : minsprev}
                                 </MenuItem>
                             ))}
                         </Select>
