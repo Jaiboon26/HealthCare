@@ -11,6 +11,8 @@ function NotiManagePage() {
 
   const [open, setOpen] = React.useState(false);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const [selectedTime, setSelectedTime] = React.useState<string>("");
   const [selectedHours, setSelectedHours] = useState<string>("");
   const [selectedMins, setSelectedMins] = useState<string>("");
@@ -70,10 +72,12 @@ function NotiManagePage() {
       if (!liff.isLoggedIn()) {
         try {
           await liff.login();
+          setIsLoggedIn(true);
         } catch (error) {
           console.error(error);
         }
       } else {
+        setIsLoggedIn(true);
         const accessToken = liff.getIDToken();
         console.log(accessToken);
       }
@@ -183,10 +187,11 @@ function NotiManagePage() {
     []);
 
   useEffect(() => {
-    findTime();
-  },
-    [userID]);
-    
+    if (isLoggedIn) {
+      findTime();
+    }
+  }, [isLoggedIn, userID]);
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px', alignItems: 'center' }}>
       <Box sx={{ flexGrow: 1 }}>
