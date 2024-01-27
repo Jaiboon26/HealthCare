@@ -111,8 +111,11 @@ function AddMedicPage() {
 
 
       // setDisplayName(userDisplayName);
-      setUserID(userProfile);
+      setUserID(profile.userId);
       setUserPIC(profile.pictureUrl ?? "");
+
+      console.log(userID);
+      console.log(profile.userId);
       // setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
