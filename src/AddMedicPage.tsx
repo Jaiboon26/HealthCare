@@ -72,10 +72,6 @@ function AddMedicPage() {
     reader.readAsDataURL(file)
   }, [file])
 
-  const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
-  const [pictureUrl, setPictureUrl] = useState("");
-  const [displayName, setDisplayName] = useState("");
   const [userID, setUserID] = useState("");
 
 
@@ -95,16 +91,16 @@ function AddMedicPage() {
           console.error(error);
         }
       } else {
-        const accessToken = liff.getIDToken();
-        console.log(accessToken);
+        // const accessToken = liff.getIDToken();
+        // console.log(accessToken);
       }
 
 
       // Fetch user profile
       fetchUserProfile();
     } catch (e) {
-      setMessage("LIFF init failed.");
-      setError(`${e}`);
+      // setMessage("LIFF init failed.");
+      // setError(`${e}`);
     }
   };
 
@@ -117,9 +113,9 @@ function AddMedicPage() {
       const userPictureUrl = profile.pictureUrl;
 
 
-      setDisplayName(userDisplayName);
+      // setDisplayName(userDisplayName);
       setUserID(userProfile);
-      setPictureUrl(userPictureUrl ?? "");
+      setUserPIC(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
     }
@@ -436,10 +432,11 @@ function AddMedicPage() {
     getUser();
   }, [])
 
-  // useEffect(() => {
-  //   findUser();
-  //   listUser();
-  // }, [userID])
+  useEffect(() => {
+    findUser();
+    listUser();
+    getUser();
+  }, [userID])
 
   useEffect(() => {
     getUser();
