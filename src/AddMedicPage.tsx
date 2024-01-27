@@ -20,7 +20,7 @@ interface User {
 }
 
 function AddMedicPage() {
-  const [user, setUser] = useState("");
+  const [userID, setUserID] = useState("");
   const [medicName, setMedicName] = useState("");
 
   const [open, setOpen] = useState(true);
@@ -109,7 +109,7 @@ function AddMedicPage() {
 
 
       // setDisplayName(userDisplayName);
-      setUser(userProfile);
+      setUserID(userProfile);
       // setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
@@ -118,8 +118,8 @@ function AddMedicPage() {
 
 
   const handleUser = (e: SelectChangeEvent) => {
-    setUser(e.target.value as string);
-    console.log(user)
+    setUserID(e.target.value as string);
+    console.log(userID)
   }
 
   const EventMorning = () => {
@@ -150,7 +150,7 @@ function AddMedicPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: user,
+          LineID: userID,
         },
         update: {
           $push: {
@@ -237,7 +237,7 @@ function AddMedicPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         document: {
-          LineID: user,
+          LineID: userID,
         },
       }, {
         headers: {
@@ -266,7 +266,7 @@ function AddMedicPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: user,
+          LineID: userID,
         },
       }, {
         headers: {
@@ -304,7 +304,7 @@ function AddMedicPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: { $in: [user, ...userInList] }
+          LineID: { $in: [userID, ...userInList] }
         },
         // sort: { "LineID": 1 },
         // limit: 10
@@ -343,7 +343,7 @@ function AddMedicPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: user,
+          LineID: userID,
         },
       }, {
         headers: {
@@ -371,10 +371,13 @@ function AddMedicPage() {
 
   useEffect(() => {
     initializeLiff();
-    findUser();
-    listUser();
     // console.log(userInList);
   }, [])
+
+  useEffect(() => {
+    findUser();
+    listUser();
+  }, [userID])
 
   useEffect(() => {
     getUser();
@@ -384,7 +387,7 @@ function AddMedicPage() {
 
   function handleSubmit(): void {
     // throw new Error("Function not implemented.");
-    console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', previewUrl, '\n', user)
+    console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', previewUrl, '\n', userID)
 
     if (medicName != "") {
       insertMedic();
@@ -488,11 +491,11 @@ function AddMedicPage() {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              value={user}
+              value={userID}
               onChange={handleUser}
               label="selectUser"
               required
-              defaultValue={user}
+              defaultValue={userID}
             >
               {eachUser.map((users: User) => (
                 <MenuItem key={users.LineID} value={users.LineID}>
