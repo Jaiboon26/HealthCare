@@ -550,7 +550,7 @@ function AddMedicPage() {
             <Select
               labelId="demo-simple-select-standard-label"
               id="demo-simple-select-standard"
-              value={userID}
+              value={userIDChoose}
               onChange={handleUser}
               label="selectUser"
               required
