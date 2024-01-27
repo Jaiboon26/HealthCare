@@ -423,12 +423,14 @@ function AddMedicPage() {
   useEffect(() => {
     initializeLiff();
     // console.log(userInList);
-  }, [])
-
-  useEffect(() => {
     findUser();
     listUser();
-  }, [userID])
+  }, [])
+
+  // useEffect(() => {
+  //   findUser();
+  //   listUser();
+  // }, [userID])
 
   useEffect(() => {
     getUser();
