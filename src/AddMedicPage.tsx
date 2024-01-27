@@ -20,7 +20,6 @@ interface User {
 }
 
 function AddMedicPage() {
-  const [userID, setUserID] = useState("");
   const [userIDChoose, setUserIDChoose] = useState("");
   const [userIDManage, setUserIDManage] = useState("");
   const [userPIC, setUserPIC] = useState("");
@@ -73,10 +72,17 @@ function AddMedicPage() {
     reader.readAsDataURL(file)
   }, [file])
 
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [pictureUrl, setPictureUrl] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [userID, setUserID] = useState("");
+
+
   const initializeLiff = async () => {
     try {
       await liff.init({
-        liffId: "2003049267-V26KgWbE"
+        liffId: "https://liff.line.me/2003049267-V26KgWbE"
       });
 
       //setMessage("LIFF init succeeded.");
@@ -90,15 +96,15 @@ function AddMedicPage() {
         }
       } else {
         const accessToken = liff.getIDToken();
-        // console.log(accessToken);
+        console.log(accessToken);
       }
 
 
       // Fetch user profile
       fetchUserProfile();
     } catch (e) {
-      // setMessage("LIFF init failed.");
-      // setError(`${e}`);
+      setMessage("LIFF init failed.");
+      setError(`${e}`);
     }
   };
 
@@ -106,22 +112,18 @@ function AddMedicPage() {
     try {
       const profile = await liff.getProfile();
       const userProfile = profile.userId;
-      // const userDisplayName = profile.displayName;
-      // const statusMessage = profile.statusMessage;
-      // const userPictureUrl = profile.pictureUrl;
+      const userDisplayName = profile.displayName;
+      const statusMessage = profile.statusMessage;
+      const userPictureUrl = profile.pictureUrl;
 
 
-      // setDisplayName(userDisplayName);
-      setUserID(profile.userId);
-      setUserPIC(profile.pictureUrl ?? "");
-
-      console.log(userID);
-      console.log(profile.userId);
-      // setPictureUrl(userPictureUrl ?? "");
+      setDisplayName(userDisplayName);
+      setUserID(userProfile);
+      setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
     }
-  };
+  }
 
 
   const handleUser = (e: SelectChangeEvent) => {
@@ -427,7 +429,7 @@ function AddMedicPage() {
   };
 
   useEffect(() => {
-    initializeLiff();
+    // initializeLiff();
     // console.log(userInList);
     findUser();
     listUser();
