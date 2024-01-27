@@ -318,7 +318,7 @@ function AddMedicPage() {
       const data = responseFind.data;
       // console.log(accessToken);
 
-      if (data && data.document && data.document.User) {
+      if (data && data.document) {
         setUserInList(data.document.User);
         console.log(data.document.User);
         // updateMedic();
