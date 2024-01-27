@@ -21,6 +21,7 @@ interface User {
 
 function AddMedicPage() {
   const [userID, setUserID] = useState("");
+  const [userIDChoose, setUserIDChoose] = useState("");
   const [userIDManage, setUserIDManage] = useState("");
   const [userPIC, setUserPIC] = useState("");
   const [medicName, setMedicName] = useState("");
@@ -124,7 +125,7 @@ function AddMedicPage() {
 
 
   const handleUser = (e: SelectChangeEvent) => {
-    setUserID(e.target.value as string);
+    setUserIDChoose(e.target.value as string);
     // console.log(userID)
   }
 
@@ -443,7 +444,7 @@ function AddMedicPage() {
 
   function handleSubmit(): void {
     // throw new Error("Function not implemented.");
-    console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', previewUrl, '\n', userID)
+    console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', previewUrl, '\n', userIDChoose)
 
     if (medicName != "") {
       insertMedic();
