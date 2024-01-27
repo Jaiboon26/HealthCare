@@ -382,7 +382,7 @@ function AddMedicPage() {
 
       } else {
         console.log("Not found");
-        console.log(userInList);
+        console.log(userID);
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
