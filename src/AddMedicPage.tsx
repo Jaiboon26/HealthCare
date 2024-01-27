@@ -268,6 +268,35 @@ function AddMedicPage() {
     }
   }
 
+  const initialUser = async () => {
+    try {
+      const accessToken = await getAccessToken();
+      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+        collection: 'ManageUser',
+        database: 'HealthCare',
+        dataSource: 'HealthCareDemo',
+        document: {
+          LineID: userID,
+        },
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = responseFind.data;
+
+      console.log(data)
+
+
+    } catch (error) {
+      console.error('Error fetching data from MongoDB:', error);
+
+    }
+  }
+
   const listUser = async () => {
     try {
       const accessToken = await getAccessToken();
@@ -297,12 +326,15 @@ function AddMedicPage() {
       } else {
         console.log("Not found , Insert Will run");
         // insertMedic();
+        initialUser();
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
 
     }
   }
+
+
 
   const getUser = async () => {
     try {
