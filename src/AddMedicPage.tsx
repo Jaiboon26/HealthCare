@@ -21,6 +21,7 @@ interface User {
 
 function AddMedicPage() {
   const [userID, setUserID] = useState("");
+  const [userIDManage, setUserIDManage] = useState("");
   const [userPIC, setUserPIC] = useState("");
   const [medicName, setMedicName] = useState("");
 
@@ -318,8 +319,9 @@ function AddMedicPage() {
       const data = responseFind.data;
       // console.log(accessToken);
 
-      if (data && data.document) {
+      if (data && data.document && data.document.LineID) {
         setUserInList(data.document.User);
+        setUserIDManage(data.document.LineID);
         console.log(data.document.User);
         // updateMedic();
         // console.log(Object.keys(data.document.User).length);
@@ -346,7 +348,7 @@ function AddMedicPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: { $in: [userID, ...userInList] }
+          LineID: { $in: [userIDManage, ...userInList] }
         },
         // sort: { "LineID": 1 },
         // limit: 10
