@@ -296,7 +296,7 @@ function AddMedicPage() {
         // console.log(Object.keys(data.document.User).length);
       } else {
         console.log("Not found , Insert Will run");
-        insertMedic();
+        // insertMedic();
       }
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
