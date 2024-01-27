@@ -21,7 +21,7 @@ function UserPage() {
   const initializeLiff = async () => {
     try {
       await liff.init({
-        liffId: "2002106411-BlOzNXLw"
+        liffId: "2003049267-OXBX2z5o"
       });
 
       //setMessage("LIFF init succeeded.");
