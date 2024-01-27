@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Alert, Collapse, FormControl, FormControlLabel, IconButton, InputLabel, MenuItem, Select, Switch, TextField } from "@mui/material";
+import { Alert, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import Button from '@mui/material/Button';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { getAccessToken } from "./connectDB";
@@ -21,6 +21,7 @@ interface User {
 
 function AddMedicPage() {
   const [userID, setUserID] = useState("");
+  const [userPIC, setUserPIC] = useState("");
   const [medicName, setMedicName] = useState("");
 
   const [open, setOpen] = useState(true);
@@ -110,6 +111,7 @@ function AddMedicPage() {
 
       // setDisplayName(userDisplayName);
       setUserID(userProfile);
+      setUserPIC(profile.pictureUrl ?? "");
       // setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
@@ -143,51 +145,59 @@ function AddMedicPage() {
   };
 
   const insertMedic = async () => {
-    try {
-      const accessToken = await getAccessToken();
-      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
-        collection: 'MedicDetail',
-        database: 'HealthCare',
-        dataSource: 'HealthCareDemo',
-        filter: {
-          LineID: userID,
-        },
-        update: {
-          $push: {
-            'Medicine': {
-              MedicName: medicName,
-              Morning: morning,
-              Noon: noon,
-              Evening: evening,
-              afbf: afbf,
-              MedicPicture: previewUrl
+    if (!liff.isLoggedIn()) {
+      try {
+        await liff.login();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      try {
+        const accessToken = await getAccessToken();
+        const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
+          collection: 'MedicDetail',
+          database: 'HealthCare',
+          dataSource: 'HealthCareDemo',
+          filter: {
+            LineID: userID,
+          },
+          update: {
+            $push: {
+              'Medicine': {
+                MedicName: medicName,
+                Morning: morning,
+                Noon: noon,
+                Evening: evening,
+                afbf: afbf,
+                MedicPicture: previewUrl
+              }
             }
           }
-        }
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Request-Headers': '*',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
 
-      const data = responseFind.data;
-      console.log(data);
-      setMedicName("");
-      setAfbf("Before");
-      setMorning(false);
-      setNoon(false);
-      setEvening(false);
-      setPreviewUrl("https://placehold.co/600x400.png");
-      setChecked(true);
-      setTimeout(() => {
-        setChecked(false);
-      }, 3000);
+        const data = responseFind.data;
+        console.log(data);
+        setMedicName("");
+        setAfbf("Before");
+        setMorning(false);
+        setNoon(false);
+        setEvening(false);
+        setPreviewUrl("https://placehold.co/600x400.png");
+        setChecked(true);
+        setTimeout(() => {
+          setChecked(false);
+        }, 3000);
 
-    } catch (error) {
-      console.error('Error fetching data from MongoDB:', error);
+      } catch (error) {
+        console.error('Error fetching data from MongoDB:', error);
 
+      }
     }
   }
 
@@ -415,8 +425,8 @@ function AddMedicPage() {
             }}>
             <Toolbar sx={{ display: 'flex', gap: '50px', width: '100%', }}>
               <Avatar
-                alt="Remy Sharp"
-                src="/static/images/avatar/1.jpg"
+                alt={userID}
+                src={userPIC}
                 sx={{ width: '36px', height: '36px', marginLeft: '25px' }} />
               <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
                 เพิ่มข้อมูลยา
