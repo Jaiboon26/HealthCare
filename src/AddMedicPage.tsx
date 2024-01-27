@@ -299,43 +299,50 @@ function AddMedicPage() {
   }
 
   const listUser = async () => {
-    try {
-      const accessToken = await getAccessToken();
-      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
-        collection: 'ManageUser',
-        database: 'HealthCare',
-        dataSource: 'HealthCareDemo',
-        filter: {
-          LineID: userID,
-        },
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Request-Headers': '*',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
-
-      const data = responseFind.data;
-      // console.log(accessToken);
-
-      if (data && data.document && data.document.LineID) {
-        setUserInList(data.document.User);
-        setUserIDManage(data.document.LineID);
-        console.log(data.document.User);
-        // updateMedic();
-        // console.log(Object.keys(data.document.User).length);
-      } else {
-        console.log("Not found , Insert Will run");
-        // insertMedic();
-        initialUser();
+    if (!liff.isLoggedIn()) {
+      try {
+        await liff.login();
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error('Error fetching data from MongoDB:', error);
+    } else {
+      try {
+        const accessToken = await getAccessToken();
+        const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
+          collection: 'ManageUser',
+          database: 'HealthCare',
+          dataSource: 'HealthCareDemo',
+          filter: {
+            LineID: userID,
+          },
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
 
+        const data = responseFind.data;
+        // console.log(accessToken);
+
+        if (data && data.document && data.document.LineID == userID) {
+          setUserInList(data.document.User);
+          setUserIDManage(data.document.LineID);
+          console.log(data.document.userID);
+          // updateMedic();
+          // console.log(Object.keys(data.document.User).length);
+        } else {
+          console.log("Not found , Insert Will run");
+          // insertMedic();
+          initialUser();
+        }
+      } catch (error) {
+        console.error('Error fetching data from MongoDB:', error);
+
+      }
     }
   }
-
 
 
   const getUser = async () => {
