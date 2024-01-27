@@ -359,7 +359,7 @@ function AddMedicPage() {
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: { $in: [userIDManage, ...userInList] }
+          LineID: { $in: [userID, ...userInList] }
         },
         // sort: { "LineID": 1 },
         // limit: 10
@@ -429,6 +429,7 @@ function AddMedicPage() {
     // console.log(userInList);
     findUser();
     listUser();
+    getUser();
   }, [])
 
   // useEffect(() => {
