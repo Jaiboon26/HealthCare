@@ -330,14 +330,14 @@ function AddMedicPage() {
         const data = responseFind.data;
         // console.log(accessToken);
 
-        if (data && data.document && data.document.LineID == userID) {
+        if (data && data.document) {
           setUserInList(data.document.User);
           setUserIDManage(data.document.LineID);
           console.log(data.document.userID);
           // updateMedic();
           // console.log(Object.keys(data.document.User).length);
         } else {
-          console.log("Not found , Insert Will run");
+          console.log("Not found");
           // insertMedic();
           initialUser();
         }
@@ -353,13 +353,15 @@ function AddMedicPage() {
     try {
       // const userIds = userInList.map((userlists) => userlists);
 
+      const filterLineIDs = [userID, ...userInList];
+
       const accessToken = await getAccessToken();
       const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/find', {
         collection: 'User',
         database: 'HealthCare',
         dataSource: 'HealthCareDemo',
         filter: {
-          LineID: { $in: [userID, ...userInList] }
+          LineID: { $in: filterLineIDs }
         },
         // sort: { "LineID": 1 },
         // limit: 10
