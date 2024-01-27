@@ -89,7 +89,7 @@ function AddMedicPage() {
         }
       } else {
         const accessToken = liff.getIDToken();
-        console.log(accessToken);
+        // console.log(accessToken);
       }
 
 
@@ -122,7 +122,7 @@ function AddMedicPage() {
 
   const handleUser = (e: SelectChangeEvent) => {
     setUserID(e.target.value as string);
-    console.log(userID)
+    // console.log(userID)
   }
 
   const EventMorning = () => {
@@ -183,7 +183,7 @@ function AddMedicPage() {
         });
 
         const data = responseFind.data;
-        console.log(data);
+        // console.log(data);
         setMedicName("");
         setAfbf("Before");
         setMorning(false);
@@ -260,7 +260,7 @@ function AddMedicPage() {
 
       const data = responseFind.data;
 
-      console.log(data)
+      // console.log(data)
 
 
     } catch (error) {
@@ -289,7 +289,7 @@ function AddMedicPage() {
 
       const data = responseFind.data;
 
-      console.log(data)
+      // console.log(data)
 
 
     } catch (error) {
@@ -408,10 +408,10 @@ function AddMedicPage() {
       // console.log(accessToken);
 
       if (data && data.document) {
-        console.log(data);
+        // console.log(data);
 
       } else {
-        console.log("Not found , Insert Will run");
+        // console.log("Not found , Insert Will run");
         insertData();
       }
     } catch (error) {
