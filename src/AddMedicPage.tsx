@@ -82,7 +82,7 @@ function AddMedicPage() {
   const initializeLiff = async () => {
     try {
       await liff.init({
-        liffId: "https://liff.line.me/2003049267-V26KgWbE"
+        liffId: "2003049267-V26KgWbE"
       });
 
       //setMessage("LIFF init succeeded.");
