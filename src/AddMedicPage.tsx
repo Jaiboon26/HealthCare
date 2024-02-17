@@ -39,22 +39,10 @@ function AddMedicPage() {
 
   const [eachUser, setEachUser] = useState([]);
 
-  // const [image, setImage] = useState<string | null>(null);
-  // const [imageURL, setImageURL] = useState<string | undefined>(undefined);
-  // const [imageURL, setImageURL] = useState("https://placehold.co/600x400.png");
-
   const [morning, setMorning] = useState(false);
   const [noon, setNoon] = useState(false);
   const [evening, setEvening] = useState(false);
   const [afbf, setAfbf] = useState("Before");
-
-  // console.log(afbf,morning,noon,evening)
-  // const [timeeat, setTimeeat] = useState([
-  //   { Morning: morning },
-  //   { Noon: noon },
-  //   { Evening: evening },
-  // ]);
-  // console.log(imageURL)
 
 
   const [file, setFile] = useState<File | null>(null);
@@ -207,44 +195,6 @@ function AddMedicPage() {
     }
   }
 
-  // const updateMedic = async () => {
-  //   try {
-  //     const accessToken = await getAccessToken();
-  //     const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
-  //       collection: 'MedicDetail',
-  //       database: 'HealthCare',
-  //       dataSource: 'HealthCareDemo',
-  //       filter: {
-  //         LineID: "U41f63ff091fd49143878e89736e3f976",
-  //         'Medicine.MedicName': medicName
-  //       },
-  //       update: {
-  //         $set: {
-  //           'Medicine.$.Morning': morning,
-  //           'Medicine.$.Noon': noon,
-  //           'Medicine.$.Evening': evening,
-  //           'Medicine.$.afbf': afbf,
-  //           'Medicine.$.MedicPicture': previewUrl,
-  //           // 'Medicine.$.Morning': false,
-  //         }
-  //       }
-  //     }, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Access-Control-Request-Headers': '*',
-  //         'Authorization': `Bearer ${accessToken}`,
-  //       },
-  //     });
-
-  //     const data = responseFind.data;
-  //     console.log(data);
-
-  //   } catch (error) {
-  //     console.error('Error fetching data from MongoDB:', error);
-
-  //   }
-  // }
-
   const insertData = async () => {
     try {
       const accessToken = await getAccessToken();
@@ -303,52 +253,6 @@ function AddMedicPage() {
     }
   }
 
-  // const listUser = async () => {
-  //   if (!liff.isLoggedIn()) {
-  //     try {
-  //       await liff.login();
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   } else {
-  //     try {
-  //       const accessToken = await getAccessToken();
-  //       const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
-  //         collection: 'ManageUser',
-  //         database: 'HealthCare',
-  //         dataSource: 'HealthCareDemo',
-  //         filter: {
-  //           LineID: userID,
-  //         },
-  //       }, {
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           'Access-Control-Request-Headers': '*',
-  //           'Authorization': `Bearer ${accessToken}`,
-  //         },
-  //       });
-
-  //       const data = responseFind.data;
-  //       // console.log(accessToken);
-
-  //       if (data && data.document) {
-  //         setUserInList(data.document.User);
-  //         setUserIDManage(data.document.LineID);
-  //         console.log(data.document.userID);
-  //         // updateMedic();
-  //         // console.log(Object.keys(data.document.User).length);
-  //       } else {
-  //         console.log("Not found");
-  //         // insertMedic();
-  //         initialUser();
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching data from MongoDB:', error);
-
-  //     }
-  //   }
-  // }
-
   const listUser = async () => {
     try {
       const response = await FindModule({
@@ -381,48 +285,6 @@ function AddMedicPage() {
     }
   }
 
-
-  // const getUser = async () => {
-  //   try {
-  //     // const userIds = userInList.map((userlists) => userlists);
-
-  //     const filterLineIDs = [userID, ...userInList];
-
-  //     const accessToken = await getAccessToken();
-  //     const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/find', {
-  //       collection: 'User',
-  //       database: 'HealthCare',
-  //       dataSource: 'HealthCareDemo',
-  //       filter: {
-  //         LineID: { $in: filterLineIDs }
-  //       },
-  //       // sort: { "LineID": 1 },
-  //       // limit: 10
-  //     }, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Access-Control-Request-Headers': '*',
-  //         'Authorization': `Bearer ${accessToken}`,
-  //       },
-  //     });
-
-  //     const data = responseFind.data;
-  //     // console.log(accessToken);
-
-  //     if (data && data.documents) {
-  //       console.log(data.documents);
-  //       setEachUser(data.documents);
-
-  //     } else {
-  //       console.log("Not found");
-  //       console.log(userID);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching data from MongoDB:', error);
-
-  //   }
-  // }
-
   const getUser = async () => {
     try {
       const filterLineIDs = [userID, ...userInList];
@@ -452,42 +314,6 @@ function AddMedicPage() {
       console.error('Error in findProfile:', error);
     }
   }
-
-
-  // const findUser = async () => {
-
-  //   try {
-  //     const accessToken = await getAccessToken();
-  //     const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
-  //       collection: 'MedicDetail',
-  //       database: 'HealthCare',
-  //       dataSource: 'HealthCareDemo',
-  //       filter: {
-  //         LineID: userID,
-  //       },
-  //     }, {
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Access-Control-Request-Headers': '*',
-  //         'Authorization': `Bearer ${accessToken}`,
-  //       },
-  //     });
-
-  //     const data = responseFind.data;
-  //     // console.log(accessToken);
-
-  //     if (data && data.document) {
-  //       // console.log(data);
-
-  //     } else {
-  //       // console.log("Not found , Insert Will run");
-  //       insertData();
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching data from MongoDB:', error);
-
-  //   }
-  // };
 
   const findUser = async () => {
     try {
@@ -651,7 +477,7 @@ function AddMedicPage() {
               {eachUser.map((users: User) => (
                 <MenuItem key={users.LineID} value={users.LineID}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Avatar alt="User Avatar" src={users.Picture} sx={{ width: '25px', height: '25px', marginRight: '10px' }} />
+                    <Avatar alt={users.Name} src={users.Picture} sx={{ width: '25px', height: '25px', marginRight: '10px' }} />
                     {users.Name}
                   </div>
                 </MenuItem>
@@ -716,16 +542,6 @@ function AddMedicPage() {
               กรุณากรอกข้อมูลให้ครบ
             </Alert>
           </Slide>
-
-          {/* <Button
-            disabled={open}
-            variant="outlined"
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            Re-open
-          </Button> */}
         </Box>
       </div>
     </>
