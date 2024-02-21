@@ -79,7 +79,7 @@ const QrReader = () => {
       <video ref={videoEl}></video>
       <div ref={qrBoxEl} className="qr-box">
         <img
-          // src={QrFrame}
+          src={QrFrame}
           alt="Qr Frame"
           width={256}
           height={256}
