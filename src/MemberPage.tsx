@@ -14,6 +14,8 @@ import { FindModule } from "./FindModule";
 import { FindModuleMultiple } from "./FindModuleMultiple";
 //import { SxProps } from '@mui/system';
 
+
+
 const fabStyle = {
   position: 'absolute',
   bottom: 16,
@@ -29,8 +31,8 @@ interface User {
 
 
 function MemberPage() {
-
-  const [userIDManage, setUserIDManage] = useState([])
+  // const [userIDManage, setUserIDManage] = useState([])
+  const [userIDManage, setUserIDManage] = useState<string[]>([]); // Explicitly specify string[] type
   const [eachUser, setEachUser] = useState([])
 
   const findProfile = async () => {
@@ -38,7 +40,7 @@ function MemberPage() {
       const response = await FindModule({
         collection: "ManageUser",
         database: "HealthCare",
-        filter: { LineID: 'Uc1e97d3b9701a31fba1f9911852eeb8f' },
+        filter: { LineID: 'Uc1e97d3b9701a31fba1f9911852eeb8f' }, //Change to liff
       });
 
       // Access the data property from the response

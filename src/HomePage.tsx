@@ -12,6 +12,7 @@ function HomePage() {
       <a href="/testQuery">TestAPI_Query</a><br />
       <a href="/ConnectDB">ConnectDB</a><br />
       <a href="/TestModule">TestModule</a><br />
+      <a href="/testQR">testQR</a><br />
     </div>
   );
 }
