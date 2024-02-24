@@ -13,7 +13,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import { FindModule } from "./Database_Module/FindModule";
 import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
 import { useNavigate } from "react-router-dom";
-import { UpdateModule } from "./Database_Module/UpdateModule";
+import { UpdateModulePull } from "./Database_Module/UpdateModulePull";
 
 
 
@@ -130,11 +130,11 @@ function MemberPage() {
 
   const DeleteUser = async ({DataDelete}: DeleteParam) => {
     try {
-      const response = await UpdateModule({
+      const response = await UpdateModulePull({
         collection: "ManageUser",
         database: "HealthCare",
         filter: { LineID: userID },
-        data: { $pull: { 'User': DataDelete } },
+        data: DataDelete,
       });
 
     // Access the data property from the response

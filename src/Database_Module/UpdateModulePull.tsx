@@ -12,7 +12,7 @@ interface UpdateModuleRespond {
     data: any; // Adjust the type according to your response structure
 }
 
-export async function UpdateModule({
+export async function UpdateModulePull({
     collection,
     database,
     filter,
@@ -30,7 +30,7 @@ export async function UpdateModule({
                 dataSource: 'HealthCareDemo',
                 filter,
                 update: {
-                    $push: {
+                    $pull: {
                         'User': data
                     }
                   },
