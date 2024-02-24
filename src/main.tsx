@@ -49,7 +49,7 @@ const router = createBrowserRouter([
     element: <ExQueryData />
   },
   {
-    path: "/testQR",
+    path: "/MemberPage/AddMember",
     element: <QrReader />
   },
   // {

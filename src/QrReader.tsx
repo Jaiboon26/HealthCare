@@ -5,7 +5,6 @@ import "./components/QrStyles.css";
 
 // Qr Scanner
 import QrScanner from "qr-scanner";
-import QrFrame from "./assets/qr-frame.svg";
 
 const QrReader = () => {
   // QR States
@@ -74,33 +73,45 @@ const QrReader = () => {
   }, [qrOn]);
 
   return (
-    <div className="qr-reader">
-      {/* QR */}
-      <video ref={videoEl}></video>
-      <div ref={qrBoxEl} className="qr-box">
-        <img
-          src={QrFrame}
+    <div style={{height: '100vh', backgroundColor: 'rgb(63, 61, 61)'}}>
+
+      <div className="qr-reader">
+        {/* QR */}
+        <video ref={videoEl}></video>
+        <div ref={qrBoxEl} className="qr-box">
+          {/* <img
+          // src={QrFrame}
           alt="Qr Frame"
           width={256}
           height={256}
           className="qr-frame"
-        />
-      </div>
+        /> */}
+        </div>
 
-      {/* Show Data Result if scan is success */}
-      {scannedResult && (
-        <p
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 99999,
-            color: "white",
-          }}
-        >
-          Scanned Result: {scannedResult}
-        </p>
-      )}
+        {/* Show Data Result if scan is success */}
+        {scannedResult && (
+          <p
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              zIndex: 99999,
+              color: "white",
+            }}
+          >
+            Scanned Result: {scannedResult}
+          </p>
+        )}
+
+        <h1 style={{
+          position: 'relative',
+          color: 'black',
+          backgroundColor: 'white',
+          borderRadius: '20px',
+          padding: '20px',
+          fontSize: '20px',
+        }}>กรุณาวางกล้องให้ตรงกับ QR Code</h1>
+      </div>
     </div>
   );
 };

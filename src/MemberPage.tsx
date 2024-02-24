@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import liff from "@line/liff";
 import React from "react";
 import Avatar from '@mui/material/Avatar';
@@ -12,7 +12,7 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import SvgIcon from '@mui/material/SvgIcon';
 import { FindModule } from "./FindModule";
 import { FindModuleMultiple } from "./FindModuleMultiple";
-//import { SxProps } from '@mui/system';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -34,6 +34,12 @@ function MemberPage() {
   // const [userIDManage, setUserIDManage] = useState([])
   const [userIDManage, setUserIDManage] = useState<string[]>([]); // Explicitly specify string[] type
   const [eachUser, setEachUser] = useState([])
+
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `/MemberPage/AddMember`; 
+    navigate(path);
+  }
 
   const findProfile = async () => {
     try {
@@ -198,7 +204,7 @@ function MemberPage() {
         left: 'auto',
         position: 'fixed',
       }}>
-        <Fab color="primary" aria-label="add">
+        <Fab color="primary" aria-label="add" onClick={routeChange}>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
