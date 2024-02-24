@@ -10,8 +10,8 @@ import { Card, CardContent, Divider, Fab, IconButton } from "@mui/material";
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import SvgIcon from '@mui/material/SvgIcon';
-import { FindModule } from "./FindModule";
-import { FindModuleMultiple } from "./FindModuleMultiple";
+import { FindModule } from "./Database_Module/FindModule";
+import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
 import { useNavigate } from "react-router-dom";
 
 

@@ -11,8 +11,8 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { getAccessToken } from "./connectDB";
 import axios from "axios";
 import Slide from '@mui/material/Slide'
-import { FindModule } from "./FindModule";
-import { FindModuleMultiple } from "./FindModuleMultiple";
+import { FindModule } from "./Database_Module/FindModule";
+import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
 
 interface User {
   LineID: string;

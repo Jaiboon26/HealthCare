@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getAccessToken } from "./connectDB";
+import { getAccessToken } from "../connectDB";
 
 interface FindModuleParams {
   collection: string;

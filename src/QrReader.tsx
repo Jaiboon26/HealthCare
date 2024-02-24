@@ -5,9 +5,12 @@ import "./components/QrStyles.css";
 
 // Qr Scanner
 import QrScanner from "qr-scanner";
-import { Slide, Button, Dialog, AppBar, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, Divider } from "@mui/material";
+import { Slide, Button, Dialog, AppBar, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, Divider, Box } from "@mui/material";
 import { TransitionProps } from "@mui/material/transitions";
 import React from "react";
+import { FindModule } from "./Database_Module/FindModule";
+import { InsertModule } from "./Database_Module/InsertModule";
+import { UpdateModule } from "./Database_Module/UpdateModule";
 
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
@@ -21,6 +24,7 @@ const Transition = React.forwardRef(function Transition(
 interface FullScreenDialogProps {
   isOpen: boolean;
   handleClose: () => void;
+  DataResult: any;
 }
 
 const QrReader = () => {
@@ -30,7 +34,7 @@ const QrReader = () => {
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
 
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpen] = React.useState<boolean>(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -143,14 +147,78 @@ const QrReader = () => {
       {/* <Button variant="outlined" onClick={handleClickOpen}>
         Open full-screen dialog
       </Button> */}
-      <FullScreenDialog isOpen={open} handleClose={handleClose} />
+      <FullScreenDialog isOpen={open} handleClose={handleClose} DataResult={scannedResult} />
     </div>
 
 
   );
 };
 
-function FullScreenDialog({ isOpen, handleClose }: FullScreenDialogProps) {
+function FullScreenDialog({ isOpen, handleClose , DataResult }: FullScreenDialogProps) {
+
+  const [displayName, setDisplayName] = useState("")
+  const [pictureUrl, setPictureUrl] = useState("")
+
+  const findManageUser = async () => {
+    try {
+      const response = await FindModule({
+        collection: "User",
+        database: "HealthCare",
+        filter: { LineID: DataResult },
+      });
+
+      // Access the data property from the response
+      const responseData = response.data;
+      console.log(responseData);
+
+      if (responseData && responseData.document) {
+        console.log(responseData.document);
+        setDisplayName(responseData.document.Name)
+        setPictureUrl(responseData.document.Picture)
+
+      } else {
+        console.log("Not found");
+        // console.log(userID);
+      }
+      // Continue with your logic here
+    } catch (error) {
+      // Handle errors
+      console.error('Error in findProfile:', error);
+    }
+  }  
+
+  const UpdateUser = async () => {
+    try {
+      const response = await UpdateModule({
+        collection: "ManageUser",
+        database: "HealthCare",
+        filter: { LineID: "Uc1e97d3b9701a31fba1f9911852eeb8f" },
+        data: DataResult
+      });
+
+      // Access the data property from the response
+      const responseData = response.data;
+      console.log(responseData);
+
+      if (responseData && responseData.documents) {
+        console.log(responseData.documents);
+        // setEachUser(responseData.documents);
+
+      } else {
+        console.log("Not found");
+        // console.log(userID);
+      }
+      // Continue with your logic here
+    } catch (error) {
+      // Handle errors
+      console.error('Error in findProfile:', error);
+    }
+  }
+
+  useEffect(() => {
+    findManageUser();
+  }, [])
+
   return (
     <React.Fragment>
       <Dialog
@@ -170,25 +238,31 @@ function FullScreenDialog({ isOpen, handleClose }: FullScreenDialogProps) {
               {/* <CloseIcon /> */}X
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              Sound
+              ข้อมูลสมาชิกที่แสกน
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
+            {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
-            </Button>
+            </Button> */}
           </Toolbar>
         </AppBar>
-        <List>
-          <ListItemButton>
-            <ListItemText primary="Phone ringtone" secondary="Titania" />
-          </ListItemButton>
-          <Divider />
-          <ListItemButton>
-            <ListItemText
-              primary="Default notification ringtone"
-              secondary="Tethys"
-            />
-          </ListItemButton>
-        </List>
+        <Box
+          height={200}
+          width={200}
+          my={4}
+          display="flex"
+          alignItems="center"
+          alignSelf="center"
+          flexDirection="column"
+          gap={4}
+          // p={2}
+          sx={{ border: '2px solid grey' }}
+        >
+
+          <img src={pictureUrl} alt={displayName} width={"100%"} height={"100%"} />
+          <h1>{displayName}</h1>
+
+          <Button variant="contained" style={{ position: 'absolute' , bottom: '15%'}} onClick={UpdateUser}>เพิ่มสมาชิก</Button>
+        </Box>
       </Dialog>
     </React.Fragment>
   );
