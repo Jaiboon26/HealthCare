@@ -5,7 +5,7 @@ interface UpdateModuleParams {
     collection: string;
     database: string;
     filter: any;
-    data: string;
+    data: any;
 }
 
 interface UpdateModuleRespond {
@@ -30,9 +30,10 @@ export async function UpdateModule({
                 dataSource: 'HealthCareDemo',
                 filter,
                 update: {
-                    $push: {
-                      'User': data
-                    }
+                    data
+                    // $push: {
+                    //   'User': data
+                    // }
                   },
             },
             {

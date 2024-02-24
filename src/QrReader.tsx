@@ -157,7 +157,7 @@ const QrReader = () => {
   );
 };
 
-function FullScreenDialog({ isOpen, handleClose , DataResult }: FullScreenDialogProps) {
+function FullScreenDialog({ isOpen, handleClose, DataResult }: FullScreenDialogProps) {
 
   const [displayName, setDisplayName] = useState("")
   const [pictureUrl, setPictureUrl] = useState("")
@@ -195,7 +195,7 @@ function FullScreenDialog({ isOpen, handleClose , DataResult }: FullScreenDialog
       // Handle errors
       console.error('Error in findProfile:', error);
     }
-  }  
+  }
 
   const UpdateUser = async () => {
     try {
@@ -203,81 +203,81 @@ function FullScreenDialog({ isOpen, handleClose , DataResult }: FullScreenDialog
         collection: "ManageUser",
         database: "HealthCare",
         filter: { LineID: "Uc1e97d3b9701a31fba1f9911852eeb8f" },
-        data: DataResult
+        data: { $push: { 'User': DataResult } },
       });
 
-      // Access the data property from the response
-      const responseData = response.data;
-      console.log(responseData);
+    // Access the data property from the response
+    const responseData = response.data;
+    console.log(responseData);
 
-      if (responseData && responseData.documents) {
-        console.log(responseData.documents);
-        // setEachUser(responseData.documents);
+    if (responseData && responseData.documents) {
+      console.log(responseData.documents);
+      // setEachUser(responseData.documents);
 
-      } else {
-        console.log("Not found");
-        // console.log(userID);
-      }
-      // Continue with your logic here
-
-      routeChange();
-    } catch (error) {
-      // Handle errors
-      console.error('Error in findProfile:', error);
+    } else {
+      console.log("Not found");
+      // console.log(userID);
     }
+    // Continue with your logic here
+
+    routeChange();
+  } catch (error) {
+    // Handle errors
+    console.error('Error in findProfile:', error);
   }
+}
 
-  useEffect(() => {
-    findManageUser();
-  }, [isOpen])
+useEffect(() => {
+  findManageUser();
+}, [isOpen])
 
-  return (
-    <React.Fragment>
-      <Dialog
-        fullScreen
-        open={isOpen}
-        onClose={handleClose}
-        TransitionComponent={Transition}
-      >
-        <AppBar sx={{ position: 'relative' }}>
-          <Toolbar>
-            <IconButton
-              edge="start"
-              color="inherit"
-              onClick={handleClose}
-              aria-label="close"
-            >
-              {/* <CloseIcon /> */}X
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-              ข้อมูลสมาชิกที่แสกน
-            </Typography>
-            {/* <Button autoFocus color="inherit" onClick={handleClose}>
+return (
+  <React.Fragment>
+    <Dialog
+      fullScreen
+      open={isOpen}
+      onClose={handleClose}
+      TransitionComponent={Transition}
+    >
+      <AppBar sx={{ position: 'relative' }}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+          >
+            {/* <CloseIcon /> */}X
+          </IconButton>
+          <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+            ข้อมูลสมาชิกที่แสกน
+          </Typography>
+          {/* <Button autoFocus color="inherit" onClick={handleClose}>
               save
             </Button> */}
-          </Toolbar>
-        </AppBar>
-        <Box
-          height={200}
-          width={200}
-          my={4}
-          display="flex"
-          alignItems="center"
-          alignSelf="center"
-          flexDirection="column"
-          gap={4}
-          // p={2}
-          sx={{ border: '2px solid grey' }}
-        >
+        </Toolbar>
+      </AppBar>
+      <Box
+        height={200}
+        width={200}
+        my={4}
+        display="flex"
+        alignItems="center"
+        alignSelf="center"
+        flexDirection="column"
+        gap={4}
+        // p={2}
+        sx={{ border: '2px solid grey' }}
+      >
 
-          <img src={pictureUrl} alt={displayName} width={"100%"} height={"100%"} />
-          <h1>{displayName}</h1>
+        <img src={pictureUrl} alt={displayName} width={"100%"} height={"100%"} />
+        <h1>{displayName}</h1>
 
-          <Button variant="contained" style={{ position: 'absolute' , bottom: '15%'}} onClick={UpdateUser}>เพิ่มสมาชิก</Button>
-        </Box>
-      </Dialog>
-    </React.Fragment>
-  );
+        <Button variant="contained" style={{ position: 'absolute', bottom: '15%' }} onClick={UpdateUser}>เพิ่มสมาชิก</Button>
+      </Box>
+    </Dialog>
+  </React.Fragment>
+);
 }
 
 export default QrReader;

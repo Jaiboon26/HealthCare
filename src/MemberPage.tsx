@@ -13,6 +13,7 @@ import SvgIcon from '@mui/material/SvgIcon';
 import { FindModule } from "./Database_Module/FindModule";
 import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
 import { useNavigate } from "react-router-dom";
+import { UpdateModule } from "./Database_Module/UpdateModule";
 
 
 
@@ -27,6 +28,10 @@ interface User {
   Picture: string;
   Name: string;
   // Add other properties as needed
+}
+
+interface DeleteParam {
+  DataDelete: string;
 }
 
 
@@ -122,6 +127,35 @@ function MemberPage() {
       console.error('Error in findProfile:', error);
     }
   }
+
+  const DeleteUser = async ({DataDelete}: DeleteParam) => {
+    try {
+      const response = await UpdateModule({
+        collection: "ManageUser",
+        database: "HealthCare",
+        filter: { LineID: userID },
+        data: { $pull: { 'User': DataDelete } },
+      });
+
+    // Access the data property from the response
+    const responseData = response.data;
+    console.log(responseData);
+
+    if (responseData && responseData.documents) {
+      console.log(responseData.documents);
+      // setEachUser(responseData.documents);
+
+    } else {
+      console.log("Not found");
+      // console.log(userID);
+    }
+    // Continue with your logic here
+  } catch (error) {
+    // Handle errors
+    console.error('Error in findProfile:', error);
+  }
+}
+
 
   const findManageUser = async () => {
     try {
@@ -227,7 +261,7 @@ function MemberPage() {
                 </IconButton>
 
 
-                <IconButton aria-label="delete">
+                <IconButton aria-label="delete" onClick={() => DeleteUser({DataDelete: users.LineID})}>
                   <SvgIcon sx={{ color: 'red' }}>
                     {/* credit: plus icon from https://heroicons.com/ */}
                     <svg
