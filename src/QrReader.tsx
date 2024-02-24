@@ -12,6 +12,9 @@ import { FindModule } from "./Database_Module/FindModule";
 import { InsertModule } from "./Database_Module/InsertModule";
 import { UpdateModule } from "./Database_Module/UpdateModule";
 
+import { useNavigate } from "react-router-dom";
+
+
 const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement;
@@ -159,6 +162,13 @@ function FullScreenDialog({ isOpen, handleClose , DataResult }: FullScreenDialog
   const [displayName, setDisplayName] = useState("")
   const [pictureUrl, setPictureUrl] = useState("")
 
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/MemberPage`;
+    navigate(path);
+  }
+
+
   const findManageUser = async () => {
     try {
       const response = await FindModule({
@@ -209,6 +219,8 @@ function FullScreenDialog({ isOpen, handleClose , DataResult }: FullScreenDialog
         // console.log(userID);
       }
       // Continue with your logic here
+
+      routeChange();
     } catch (error) {
       // Handle errors
       console.error('Error in findProfile:', error);
