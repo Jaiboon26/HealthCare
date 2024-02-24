@@ -35,9 +35,61 @@ function MemberPage() {
   const [userIDManage, setUserIDManage] = useState<string[]>([]); // Explicitly specify string[] type
   const [eachUser, setEachUser] = useState([])
 
-  let navigate = useNavigate(); 
-  const routeChange = () =>{ 
-    let path = `/MemberPage/AddMember`; 
+  const [pictureUrl, setPictureUrl] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [userID, setUserID] = useState("");
+
+
+  const initializeLiff = async () => {
+    try {
+      await liff.init({
+        liffId: "2003049267-Ory1R5Kd"
+      });
+
+      //setMessage("LIFF init succeeded.");
+
+      // login
+      if (!liff.isLoggedIn()) {
+        try {
+          await liff.login();
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        const accessToken = liff.getIDToken();
+        console.log(accessToken);
+      }
+
+
+      // Fetch user profile
+      fetchUserProfile();
+    } catch (e) {
+      // setMessage("LIFF init failed.");
+      // setError(`${e}`);
+    }
+  };
+
+  const fetchUserProfile = async () => {
+    try {
+      const profile = await liff.getProfile();
+      const userProfile = profile.userId;
+      const userDisplayName = profile.displayName;
+      const statusMessage = profile.statusMessage;
+      const userPictureUrl = profile.pictureUrl;
+
+
+      setDisplayName(userDisplayName);
+      setUserID(userProfile);
+      setPictureUrl(userPictureUrl ?? "");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+
+  let navigate = useNavigate();
+  const routeChange = () => {
+    let path = `/MemberPage/AddMember`;
     navigate(path);
   }
 
@@ -46,7 +98,7 @@ function MemberPage() {
       const response = await FindModule({
         collection: "ManageUser",
         database: "HealthCare",
-        filter: { LineID: 'Uc1e97d3b9701a31fba1f9911852eeb8f' }, //Change to liff
+        filter: { LineID: userID }, //Change to liff
       });
 
       // Access the data property from the response
@@ -98,10 +150,13 @@ function MemberPage() {
     }
   }
 
+  useEffect(() => {
+    initializeLiff();
+  }, []);
 
   useEffect(() => {
     findProfile();
-  }, [])
+  }, [userID])
 
   useEffect(() => {
     findManageUser();
@@ -122,8 +177,8 @@ function MemberPage() {
             }}>
             <Toolbar sx={{ display: 'flex', gap: '50px' }}>
               <Avatar
-                alt="Remy Sharp"
-                src="/static/images/avatar/1.jpg"
+                alt={displayName}
+                src={pictureUrl}
                 sx={{ width: '36px', height: '36px' }} />
               <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold' }}>
                 ดูข้อมูลสมาชิกที่ดูแล
