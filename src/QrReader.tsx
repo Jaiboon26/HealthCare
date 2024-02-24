@@ -5,6 +5,23 @@ import "./components/QrStyles.css";
 
 // Qr Scanner
 import QrScanner from "qr-scanner";
+import { Slide, Button, Dialog, AppBar, Toolbar, IconButton, Typography, List, ListItemButton, ListItemText, Divider } from "@mui/material";
+import { TransitionProps } from "@mui/material/transitions";
+import React from "react";
+
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>,
+) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+interface FullScreenDialogProps {
+  isOpen: boolean;
+  handleClose: () => void;
+}
 
 const QrReader = () => {
   // QR States
@@ -12,6 +29,16 @@ const QrReader = () => {
   const videoEl = useRef<HTMLVideoElement>(null);
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
+
+  const [open, setOpen] = React.useState<boolean>(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   // Result
   const [scannedResult, setScannedResult] = useState<string | undefined>("");
@@ -23,6 +50,7 @@ const QrReader = () => {
     // ✅ Handle success.
     // 😎 You can do whatever you want with the scanned result.
     setScannedResult(result?.data);
+    setOpen(true)
   };
 
   // Fail
@@ -73,7 +101,7 @@ const QrReader = () => {
   }, [qrOn]);
 
   return (
-    <div style={{height: '100vh', backgroundColor: 'rgb(63, 61, 61)'}}>
+    <div style={{ height: '100vh', backgroundColor: 'rgb(63, 61, 61)' }}>
 
       <div className="qr-reader">
         {/* QR */}
@@ -112,8 +140,58 @@ const QrReader = () => {
           fontSize: '20px',
         }}>กรุณาวางกล้องให้ตรงกับ QR Code</h1>
       </div>
+      {/* <Button variant="outlined" onClick={handleClickOpen}>
+        Open full-screen dialog
+      </Button> */}
+      <FullScreenDialog isOpen={open} handleClose={handleClose} />
     </div>
+
+
   );
 };
+
+function FullScreenDialog({ isOpen, handleClose }: FullScreenDialogProps) {
+  return (
+    <React.Fragment>
+      <Dialog
+        fullScreen
+        open={isOpen}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <AppBar sx={{ position: 'relative' }}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
+              {/* <CloseIcon /> */}X
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+              Sound
+            </Typography>
+            <Button autoFocus color="inherit" onClick={handleClose}>
+              save
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <List>
+          <ListItemButton>
+            <ListItemText primary="Phone ringtone" secondary="Titania" />
+          </ListItemButton>
+          <Divider />
+          <ListItemButton>
+            <ListItemText
+              primary="Default notification ringtone"
+              secondary="Tethys"
+            />
+          </ListItemButton>
+        </List>
+      </Dialog>
+    </React.Fragment>
+  );
+}
 
 export default QrReader;
