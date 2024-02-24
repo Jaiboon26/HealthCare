@@ -37,7 +37,7 @@ const QrReader = () => {
   const qrBoxEl = useRef<HTMLDivElement>(null);
   const [qrOn, setQrOn] = useState<boolean>(true);
 
-  const [open, setOpen] = React.useState<boolean>(true);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);

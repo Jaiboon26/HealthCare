@@ -128,7 +128,7 @@ function MemberPage() {
     }
   }
 
-  const DeleteUser = async ({DataDelete}: DeleteParam) => {
+  const DeleteUser = async ({ DataDelete }: DeleteParam) => {
     try {
       const response = await UpdateModulePull({
         collection: "ManageUser",
@@ -137,24 +137,25 @@ function MemberPage() {
         data: DataDelete,
       });
 
-    // Access the data property from the response
-    const responseData = response.data;
-    console.log(responseData);
+      // Access the data property from the response
+      const responseData = response.data;
+      console.log(responseData);
 
-    if (responseData && responseData.documents) {
-      console.log(responseData.documents);
-      // setEachUser(responseData.documents);
+      if (responseData && responseData.documents) {
+        console.log(responseData.documents);
+        // setEachUser(responseData.documents);
 
-    } else {
-      console.log("Not found");
-      // console.log(userID);
+      } else {
+        console.log("Not found");
+        // console.log(userID);
+      }
+      // Continue with your logic here
+      findProfile();
+    } catch (error) {
+      // Handle errors
+      console.error('Error in findProfile:', error);
     }
-    // Continue with your logic here
-  } catch (error) {
-    // Handle errors
-    console.error('Error in findProfile:', error);
   }
-}
 
 
   const findManageUser = async () => {
@@ -191,6 +192,7 @@ function MemberPage() {
   useEffect(() => {
     findProfile();
   }, [userID])
+
 
   useEffect(() => {
     findManageUser();
@@ -261,7 +263,7 @@ function MemberPage() {
                 </IconButton>
 
 
-                <IconButton aria-label="delete" onClick={() => DeleteUser({DataDelete: users.LineID})}>
+                <IconButton aria-label="delete" onClick={() => DeleteUser({ DataDelete: users.LineID })}>
                   <SvgIcon sx={{ color: 'red' }}>
                     {/* credit: plus icon from https://heroicons.com/ */}
                     <svg
