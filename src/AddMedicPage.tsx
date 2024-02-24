@@ -163,7 +163,8 @@ function AddMedicPage() {
                 Noon: noon,
                 Evening: evening,
                 afbf: afbf,
-                MedicPicture: previewUrl
+                MedicPicture: previewUrl,
+                Status: "Enable"
               }
             }
           }
