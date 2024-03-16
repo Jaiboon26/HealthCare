@@ -181,7 +181,7 @@ function AddMedicPage() {
         });
 
         const data = responseFind.data;
-        // console.log(data);
+        console.log(data);
         setMedicName("");
         setAfbf("Before");
         setMorning(false);
