@@ -45,7 +45,9 @@ function AddMedicPage() {
   const [afbf, setAfbf] = useState("Before");
 
 
-  const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<Blob | null>(null);
+  // const [test, setTest] = useState(Blob)
+
   const [previewUrl, setPreviewUrl] = useState("https://placehold.co/600x400.png");
 
   useEffect(() => {
@@ -59,7 +61,7 @@ function AddMedicPage() {
       setPreviewUrl(reader.result as string);
     }
 
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file as Blob)
   }, [file])
 
   const [userID, setUserID] = useState("");
@@ -148,6 +150,8 @@ function AddMedicPage() {
     } else {
       try {
         const accessToken = await getAccessToken();
+
+        const base64Image = await convertImageToBase64();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
           collection: 'MedicDetail',
           database: 'HealthCare',
@@ -195,6 +199,53 @@ function AddMedicPage() {
       }
     }
   }
+
+
+  const convertImageToBase64 = (): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!file) {
+        reject(new Error('No file selected.'));
+      }
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        resolve(reader.result as string);
+      };
+
+
+
+      reader.onerror = (error) => {
+        reject(error);
+      };
+
+      if (file) {
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+          if (reader.result) {
+            setPreviewUrl(reader.result.toString());
+          }
+        };
+
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  useEffect(() => {
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onloadend = () => {
+        setPreviewUrl(reader.result as string);
+      };
+
+      reader.readAsDataURL(file); // Ensure file is not null before calling readAsDataURL
+    }
+  }, [file]);
+
+
 
   const insertData = async () => {
     try {
@@ -549,3 +600,4 @@ function AddMedicPage() {
   );
 }
 export default AddMedicPage;
+
