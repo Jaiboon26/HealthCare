@@ -150,8 +150,6 @@ function AddMedicPage() {
     } else {
       try {
         const accessToken = await getAccessToken();
-
-        const base64Image = await convertImageToBase64();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
           collection: 'MedicDetail',
           database: 'HealthCare',
@@ -167,7 +165,7 @@ function AddMedicPage() {
                 Noon: noon,
                 Evening: evening,
                 afbf: afbf,
-                MedicPicture: base64Image,
+                MedicPicture: previewUrl,
                 Status: "Enable"
               }
             }
@@ -181,7 +179,6 @@ function AddMedicPage() {
         });
 
         const data = responseFind.data;
-        console.log(base64Image);
         setMedicName("");
         setAfbf("Before");
         setMorning(false);
@@ -199,52 +196,6 @@ function AddMedicPage() {
       }
     }
   }
-
-
-  const convertImageToBase64 = (): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (!file) {
-        reject(new Error('No file selected.'));
-      }
-
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        resolve(reader.result as string);
-      };
-
-
-
-      reader.onerror = (error) => {
-        reject(error);
-      };
-
-      if (file) {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          if (reader.result) {
-            setPreviewUrl(reader.result.toString());
-          }
-        };
-
-        reader.readAsDataURL(file);
-      }
-    });
-  }
-
-  useEffect(() => {
-    if (file) {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        setPreviewUrl(reader.result as string);
-      };
-
-      reader.readAsDataURL(file); // Ensure file is not null before calling readAsDataURL
-    }
-  }, [file]);
-
 
 
   const insertData = async () => {
