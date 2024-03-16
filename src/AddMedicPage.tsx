@@ -45,7 +45,7 @@ function AddMedicPage() {
   const [afbf, setAfbf] = useState("Before");
 
 
-  const [file, setFile] = useState<Blob | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   // const [test, setTest] = useState(Blob)
 
   const [previewUrl, setPreviewUrl] = useState("https://placehold.co/600x400.png");
@@ -61,7 +61,7 @@ function AddMedicPage() {
       setPreviewUrl(reader.result as string);
     }
 
-    reader.readAsDataURL(file as Blob)
+    reader.readAsDataURL(file)
   }, [file])
 
   const [userID, setUserID] = useState("");
