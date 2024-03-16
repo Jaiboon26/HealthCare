@@ -52,6 +52,10 @@ const router = createBrowserRouter([
     path: "/MemberPage/AddMember",
     element: <QrReader />
   },
+  {
+    path: "/firebase",
+    element: <QrReader />
+  },
   // {
   //   path: "/ConnectDB",
   //   element: <ConnectDB />,
