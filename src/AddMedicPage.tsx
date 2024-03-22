@@ -92,6 +92,7 @@ function AddMedicPage() {
       .catch((error) => {
         console.error("Error uploading image:", error);
       });
+      insertMedic();
   };
 
 
@@ -186,7 +187,7 @@ function AddMedicPage() {
     } else {
       try {
         const accessToken = await getAccessToken();
-        uploadFile();
+        // uploadFile();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
           collection: 'MedicDetail',
           database: 'HealthCare',
@@ -406,8 +407,8 @@ function AddMedicPage() {
     // throw new Error("Function not implemented.");
 
     if (medicName != "") {
-      insertMedic();
-      // uploadFile();
+      // insertMedic();
+      uploadFile();
       console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', imageUrls, '\n', userIDChoose)
     }
     else {
