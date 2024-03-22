@@ -186,6 +186,7 @@ function AddMedicPage() {
     } else {
       try {
         const accessToken = await getAccessToken();
+        uploadFile();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
           collection: 'MedicDetail',
           database: 'HealthCare',
@@ -213,8 +214,6 @@ function AddMedicPage() {
             'Authorization': `Bearer ${accessToken}`,
           },
         });
-
-        // uploadFile();
 
         const data = responseFind.data;
         setMedicName("");
