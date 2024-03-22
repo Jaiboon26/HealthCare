@@ -34,10 +34,10 @@ const router = createBrowserRouter([
     path: "/AddMedicPage",
     element: <AddMedicPage />
   },
-  {
-    path: "/MedicDetailPage",
-    element: <MedicDetailPage />
-  },
+  // {
+  //   path: "/MedicDetailPage",
+  //   // element: <MedicDetailPage />
+  // },
   {
     path: "/MemberPage",
     element: <MemberPage />
