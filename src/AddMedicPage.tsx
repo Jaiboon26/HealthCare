@@ -88,11 +88,12 @@ function AddMedicPage() {
         console.log("Success");
         console.log(url);
         setUrlImage(url);
+        insertMedic();
       })
       .catch((error) => {
         console.error("Error uploading image:", error);
       });
-      insertMedic();
+      
   };
 
 
