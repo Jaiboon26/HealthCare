@@ -115,26 +115,14 @@ function AddMedicPage() {
         liffId: "2003049267-V26KgWbE"
       });
 
-      //setMessage("LIFF init succeeded.");
-
-      // login
       if (!liff.isLoggedIn()) {
-        try {
-          await liff.login();
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        // const accessToken = liff.getIDToken();
-        // console.log(accessToken);
+        await liff.login();
       }
 
-
-      // Fetch user profile
       fetchUserProfile();
-    } catch (e) {
-      setMessage("LIFF init failed.");
-      setError(`${e}`);
+    } catch (error) {
+      console.error("LIFF initialization failed:", error);
+      // You can set an error state here or display an error message
     }
   };
 
