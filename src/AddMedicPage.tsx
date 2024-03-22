@@ -71,11 +71,11 @@ function AddMedicPage() {
     reader.readAsDataURL(file)
   }, [file])
 
-  const [userID, setUserID] = useState("");
+  const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
 
   const uploadFile = () => {
-    if (imageUpload == null || !userIDManage) return;
-    const imageRef = ref(storage, `${userIDManage}/${imageUpload.name + v4()}`);
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `${userIDChoose}/${imageUpload.name + v4()}`);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         setImageUrls((prev) => [...prev, url]);
@@ -217,6 +217,8 @@ function AddMedicPage() {
             'Authorization': `Bearer ${accessToken}`,
           },
         });
+
+        uploadFile();
 
         const data = responseFind.data;
         setMedicName("");
@@ -407,11 +409,11 @@ function AddMedicPage() {
 
   function handleSubmit(): void {
     // throw new Error("Function not implemented.");
-    console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', imageUrls, '\n', userIDChoose)
 
     if (medicName != "") {
       insertMedic();
-      uploadFile();
+      // uploadFile();
+      console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', imageUrls, '\n', userIDChoose)
     }
     else {
       setCheckedFail(true);
@@ -494,9 +496,9 @@ function AddMedicPage() {
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             )}
-            {imageUrls.map((url, index) => (
+            {/* {imageUrls.map((url, index) => (
               <img key={index} src={url} alt={`Image ${index}`} />
-            ))}
+            ))} */}
             <input
               type="file"
               ref={fileInputRef}
