@@ -17,13 +17,15 @@ interface Medic {
 
 function MedicDetailPage() {
   const [mediclist, setMediclist] = useState([]);
+  const [userID, setUserID] = useState("");
+  const [userPIC, setUserPIC] = useState("");
 
   const findMedicine = async () => {
     try {
       const response = await FindModule({
         collection: "MedicDetail",
         database: "HealthCare",
-        filter: { LineID: "Uc1e97d3b9701a31fba1f9911852eeb8f" }, //Change to liff
+        filter: { LineID: userID }, //Change to liff
       });
 
       // Access the data property from the response
@@ -48,8 +50,43 @@ function MedicDetailPage() {
     }
   }
 
+  const initializeLiff = async () => {
+    try {
+      await liff.init({
+        liffId: "2003049267-WEBrp8Z1"
+      });
+
+      if (!liff.isLoggedIn()) {
+        await liff.login();
+      }
+
+      fetchUserProfile();
+    } catch (error) {
+      console.error("LIFF initialization failed:", error);
+      // You can set an error state here or display an error message
+    }
+  };
+
+  const fetchUserProfile = async () => {
+    try {
+      const profile = await liff.getProfile();
+      const userProfile = profile.userId;
+      const userDisplayName = profile.displayName;
+      const statusMessage = profile.statusMessage;
+      const userPictureUrl = profile.pictureUrl;
+
+
+      // setDisplayName(userDisplayName);
+      setUserID(userProfile);
+      setUserPIC(userPictureUrl ?? "");
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
     findMedicine();
+    initializeLiff();
   }, [])
 
 
