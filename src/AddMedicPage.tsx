@@ -85,7 +85,7 @@ function AddMedicPage() {
       .then((url) => {
         setImageUrls((prev) => [...prev, url]);
         console.log("Success");
-        console.log(imageUrls);
+        console.log(url);
         return url; // Return the URL for further processing
       })
       .catch((error) => {
