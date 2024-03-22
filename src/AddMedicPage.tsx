@@ -35,6 +35,7 @@ function AddMedicPage() {
 
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
+  const [urlImage, setUrlImage] = useState("");
 
   const [open, setOpen] = useState(true);
 
@@ -86,7 +87,7 @@ function AddMedicPage() {
         setImageUrls((prev) => [...prev, url]);
         console.log("Success");
         console.log(url);
-        return url; // Return the URL for further processing
+        setUrlImage(url);
       })
       .catch((error) => {
         console.error("Error uploading image:", error);
@@ -185,7 +186,6 @@ function AddMedicPage() {
     } else {
       try {
         const accessToken = await getAccessToken();
-        const imageUrl = await uploadFile();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
           collection: 'MedicDetail',
           database: 'HealthCare',
@@ -201,7 +201,7 @@ function AddMedicPage() {
                 Noon: noon,
                 Evening: evening,
                 afbf: afbf,
-                MedicPicture: imageUrl,
+                MedicPicture: urlImage,
                 Status: "Enable"
               }
             }
