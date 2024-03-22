@@ -78,14 +78,19 @@ function AddMedicPage() {
   const uploadFile = () => {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `${userIDChoose}/${imageUpload.name + v4()}`);
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
+    uploadBytes(imageRef, imageUpload)
+      .then((snapshot) => {
+        return getDownloadURL(snapshot.ref);
+      })
+      .then((url) => {
         setImageUrls((prev) => [...prev, url]);
-        // setPreviewUrl(url)
-        console.log("Success")
-        console.log(imageUrls)
+        console.log("Success");
+        console.log(imageUrls);
+        return url; // Return the URL for further processing
+      })
+      .catch((error) => {
+        console.error("Error uploading image:", error);
       });
-    });
   };
 
 
@@ -180,6 +185,7 @@ function AddMedicPage() {
     } else {
       try {
         const accessToken = await getAccessToken();
+        const imageUrl = await uploadFile();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
           collection: 'MedicDetail',
           database: 'HealthCare',
@@ -195,7 +201,7 @@ function AddMedicPage() {
                 Noon: noon,
                 Evening: evening,
                 afbf: afbf,
-                MedicPicture: imageUrls,
+                MedicPicture: imageUrl,
                 Status: "Enable"
               }
             }
@@ -208,7 +214,7 @@ function AddMedicPage() {
           },
         });
 
-        uploadFile();
+        // uploadFile();
 
         const data = responseFind.data;
         setMedicName("");
