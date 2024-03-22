@@ -32,14 +32,10 @@ function MedicDetailPage() {
       // console.log(responseData);
 
       if (responseData && responseData.document) {
-        setMediclist(responseData.document.Medicine);
-        console.log(mediclist);
-        // updateMedic();
-        // console.log(Object.keys(data.document.User).length);
+        const medicineList = responseData.document.Medicine || []; // Use empty array if Medicine is undefined
+        setMediclist(medicineList);
       } else {
         console.log("Not found");
-        // insertMedic();
-        // initialUser();
       }
 
       // Continue with your logic here
