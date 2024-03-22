@@ -13,6 +13,7 @@ import axios from "axios";
 import Slide from '@mui/material/Slide'
 import { FindModule } from "./Database_Module/FindModule";
 import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
+import { FirebaseApp } from "./Database_Module/FirebaseApp";
 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./Database_Module/firebase";
@@ -25,11 +26,12 @@ interface User {
   // Add other properties as needed
 }
 
-function AddMedicPage() {
+function AddMedicPageCopy() {
   const [userIDChoose, setUserIDChoose] = useState("");
   const [userIDManage, setUserIDManage] = useState("");
   const [userPIC, setUserPIC] = useState("");
   const [medicName, setMedicName] = useState("");
+
 
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -71,7 +73,6 @@ function AddMedicPage() {
     reader.readAsDataURL(file)
   }, [file])
 
-  const [userID, setUserID] = useState("");
 
   const uploadFile = () => {
     if (imageUpload == null || !userIDManage) return;
@@ -107,52 +108,55 @@ function AddMedicPage() {
   };
 
 
-  const initializeLiff = async () => {
-    try {
-      await liff.init({
-        liffId: "2003049267-V26KgWbE"
-      });
-
-      //setMessage("LIFF init succeeded.");
-
-      // login
-      if (!liff.isLoggedIn()) {
-        try {
-          await liff.login();
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        // const accessToken = liff.getIDToken();
-        // console.log(accessToken);
-      }
+  const [userID, setUserID] = useState("");
 
 
-      // Fetch user profile
-      fetchUserProfile();
-    } catch (e) {
-      // setMessage("LIFF init failed.");
-      // setError(`${e}`);
-    }
-  };
+  // const initializeLiff = async () => {
+  //   try {
+  //     await liff.init({
+  //       liffId: "2003049267-V26KgWbE"
+  //     });
 
-  const fetchUserProfile = async () => {
-    try {
-      const profile = await liff.getProfile();
-      const userProfile = profile.userId;
-      const userDisplayName = profile.displayName;
-      const statusMessage = profile.statusMessage;
-      const userPictureUrl = profile.pictureUrl;
+  //     //setMessage("LIFF init succeeded.");
+
+  //     // login
+  //     if (!liff.isLoggedIn()) {
+  //       try {
+  //         await liff.login();
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     } else {
+  //       // const accessToken = liff.getIDToken();
+  //       // console.log(accessToken);
+  //     }
 
 
-      // setDisplayName(userDisplayName);
-      setUserID(userProfile);
-      setUserIDChoose(userProfile);
-      setUserPIC(userPictureUrl ?? "");
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  //     // Fetch user profile
+  //     fetchUserProfile();
+  //   } catch (e) {
+  //     // setMessage("LIFF init failed.");
+  //     // setError(`${e}`);
+  //   }
+  // };
+
+  // const fetchUserProfile = async () => {
+  //   try {
+  //     const profile = await liff.getProfile();
+  //     const userProfile = profile.userId;
+  //     const userDisplayName = profile.displayName;
+  //     const statusMessage = profile.statusMessage;
+  //     const userPictureUrl = profile.pictureUrl;
+
+
+  //     // setDisplayName(userDisplayName);
+  //     setUserID(userProfile);
+  //     setUserIDChoose(userProfile);
+  //     setUserPIC(userPictureUrl ?? "");
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 
 
   const handleUser = (e: SelectChangeEvent) => {
@@ -195,7 +199,7 @@ function AddMedicPage() {
           database: 'HealthCare',
           dataSource: 'HealthCareDemo',
           filter: {
-            LineID: userID,
+            LineID: "Uc1e97d3b9701a31fba1f9911852eeb8f",
           },
           update: {
             $push: {
@@ -386,7 +390,7 @@ function AddMedicPage() {
   }
 
   useEffect(() => {
-    initializeLiff();
+    // initializeLiff();
     // console.log(userInList);
     findUser();
     listUser();
@@ -407,11 +411,11 @@ function AddMedicPage() {
 
   function handleSubmit(): void {
     // throw new Error("Function not implemented.");
-    console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', imageUrls, '\n', userIDChoose)
 
     if (medicName != "") {
-      insertMedic();
       uploadFile();
+      insertMedic();
+      console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', previewUrl, '\n', userIDChoose)
     }
     else {
       setCheckedFail(true);
@@ -486,7 +490,7 @@ function AddMedicPage() {
             เพิ่มรูปภาพยา
           </Typography>
           <div className="MedPicBorder" style={{ width: '200px', height: '120px' }}>
-            {/* <img src={imageURL} alt="MedPic" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> */}
+            {/* <img src={imageUpload} alt="MedPic" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> */}
             {previewUrl && (
               <img
                 src={previewUrl}
@@ -497,6 +501,18 @@ function AddMedicPage() {
             {imageUrls.map((url, index) => (
               <img key={index} src={url} alt={`Image ${index}`} />
             ))}
+            {/* <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const selectedFile = e.target.files?.[0];
+
+                if (selectedFile) {
+                  setFile(selectedFile);
+                }
+              }} /> */}
             <input
               type="file"
               ref={fileInputRef}
@@ -506,6 +522,8 @@ function AddMedicPage() {
             <Button variant="contained" onClick={handleButtonClick}>
               อัพโหลดรูปภาพ
             </Button>
+
+            {/* <FirebaseApp /> */}
           </div>
         </div>
 
@@ -594,5 +612,5 @@ function AddMedicPage() {
     </>
   );
 }
-export default AddMedicPage;
+export default AddMedicPageCopy;
 

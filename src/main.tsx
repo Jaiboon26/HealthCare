@@ -17,6 +17,9 @@ import HomePage from "./HomePage";
 import ExQueryData from "./ExQueryData";
 import CustomizedDialogs from "./DialogModule";
 import QrReader from "./QrReader";
+import TestR2 from "./Database_Module/TestAWSModule";
+import { FirebaseApp } from "./Database_Module/FirebaseApp";
+import AddMedicPageCopy from "./AddMedicPage copy";
 // import ConnectDB from "./connectDB";
 
 const router = createBrowserRouter([
@@ -56,10 +59,18 @@ const router = createBrowserRouter([
     path: "/firebase",
     element: <QrReader />
   },
-  // {
-  //   path: "/ConnectDB",
-  //   element: <ConnectDB />,
-  // },
+  {
+    path: "/TestR2",
+    element: <TestR2 />,
+  },
+  {
+    path: "/TestFirebase",
+    element: <FirebaseApp />,
+  },
+  {
+    path: "/TestAddmedic",
+    element: <AddMedicPageCopy />,
+  },
 ])
 
 root.render(
