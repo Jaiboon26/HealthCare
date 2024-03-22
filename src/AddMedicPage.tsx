@@ -53,6 +53,7 @@ function AddMedicPage() {
   const [noon, setNoon] = useState(false);
   const [evening, setEvening] = useState(false);
   const [afbf, setAfbf] = useState("Before");
+  const [stock, setStock] = useState(0);
 
 
   const [file, setFile] = useState<File | null>(null);
@@ -203,6 +204,7 @@ function AddMedicPage() {
                 Noon: noon,
                 Evening: evening,
                 afbf: afbf,
+                stock: stock,
                 MedicPicture: urlImage,
                 Status: "Enable"
               }
@@ -477,6 +479,30 @@ function AddMedicPage() {
             <Button variant={afbf === 'After' ? 'contained' : 'outlined'} onClick={handleAfterClick}>
               หลังอาหาร
             </Button>
+          </div>
+        </div>
+
+        <div className="stock" style={{}}>
+          <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
+            จำนวนยา
+          </Typography>
+          <div style={{ display: 'flex' }}>
+
+            <TextField
+              type="number"
+              // label=""
+              value={stock}
+              onChange={(e) => setStock(parseInt(e.target.value))}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                hideStepper: true, // Hide the step buttons
+              }}
+            />
+            <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%', marginLeft: '5px', display: 'flex', alignItems: 'center' }}>
+              เม็ด
+            </Typography>
           </div>
         </div>
 

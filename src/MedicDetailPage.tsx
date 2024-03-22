@@ -60,7 +60,7 @@ function MedicDetailPage() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px' }}>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static"
+        {/* <AppBar position="static"
           sx={{
             display: 'flex',
             alignItems: 'center',
@@ -75,6 +75,17 @@ function MedicDetailPage() {
               src="https://placehold.co/600x400"
               sx={{ width: '36px', height: '36px', marginLeft: '25px' }} />
             <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
+              ข้อมูลรายการยา
+            </Typography>
+          </Toolbar>
+        </AppBar> */}
+        <AppBar position="static" sx={{ bgcolor: '#A8E3F0', borderRadius: '15px', marginBottom: '25px' }}>
+          <Toolbar sx={{ justifyContent: 'center' }}> {/* Center content horizontally */}
+            <Avatar
+              alt="Test"
+              src="https://placehold.co/600x400"
+              sx={{ width: '36px', height: '36px', marginRight: '10px' }} /> {/* Adjust margin if necessary */}
+            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold' }}>
               ข้อมูลรายการยา
             </Typography>
           </Toolbar>
