@@ -226,6 +226,7 @@ function AddMedicPage() {
         setEvening(false);
         setPreviewUrl("https://placehold.co/600x400.png");
         setChecked(true);
+        setStock(0);
         setTimeout(() => {
           setChecked(false);
         }, 3000);
