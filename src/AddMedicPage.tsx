@@ -85,8 +85,8 @@ function AddMedicPage() {
       setImageUrls((prev) => [...prev, url]);
       console.log("Success");
       console.log(url);
-      setUrlImage(url);
-      insertMedic();
+      await setUrlImage(url);
+      await insertMedic();
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -400,13 +400,13 @@ function AddMedicPage() {
 
 
 
-  function handleSubmit(): void {
+  async function handleSubmit(): Promise<void> {
     // throw new Error("Function not implemented.");
 
     if (medicName != "") {
       // insertMedic();
       uploadFile();
-      console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', imageUrls, '\n', userIDChoose)
+      await console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', imageUrls, '\n', userIDChoose)
     }
     else {
       setCheckedFail(true);
