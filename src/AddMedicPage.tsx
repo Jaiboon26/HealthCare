@@ -30,6 +30,8 @@ function AddMedicPage() {
   const [userIDManage, setUserIDManage] = useState("");
   const [userPIC, setUserPIC] = useState("");
   const [medicName, setMedicName] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
@@ -131,8 +133,8 @@ function AddMedicPage() {
       // Fetch user profile
       fetchUserProfile();
     } catch (e) {
-      // setMessage("LIFF init failed.");
-      // setError(`${e}`);
+      setMessage("LIFF init failed.");
+      setError(`${e}`);
     }
   };
 
@@ -425,6 +427,7 @@ function AddMedicPage() {
 
   return (
     <>
+      {message + error}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px' }}>
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static"
