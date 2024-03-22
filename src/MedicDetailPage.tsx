@@ -31,7 +31,7 @@ function MedicDetailPage() {
       const responseData = response.data;
       // console.log(responseData);
 
-      if (responseData && responseData.document) {
+      if (responseData) {
         const medicineList = responseData.document.Medicine || []; // Use empty array if Medicine is undefined
         setMediclist(medicineList);
       } else {
@@ -80,9 +80,12 @@ function MedicDetailPage() {
   }
 
   useEffect(() => {
-    findMedicine();
     initializeLiff();
   }, [])
+
+  useEffect(() => {
+    findMedicine();
+  }, [userID])
 
 
 
