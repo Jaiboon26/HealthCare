@@ -85,12 +85,15 @@ function AddMedicPage() {
       setImageUrls((prev) => [...prev, url]);
       console.log("Success");
       console.log(url);
-      await setUrlImage(url);
-      await insertMedic();
+      setUrlImage(url);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
+
+  useEffect(() => {
+    insertMedic();
+  }, [urlImage])
 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
