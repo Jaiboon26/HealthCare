@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 let root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 

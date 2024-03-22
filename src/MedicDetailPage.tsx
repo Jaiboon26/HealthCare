@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import liff from "@line/liff";
-import React from "react";
 import { Box, AppBar, Toolbar, Avatar, Typography, ButtonGroup, Card, CardContent, IconButton, SvgIcon, Checkbox, FormControlLabel, FormGroup } from "@mui/material";
 import { FindModule } from "./Database_Module/FindModule";
 
@@ -16,7 +15,7 @@ interface Medic {
 }
 
 function MedicDetailPage() {
-  const [mediclist, setMediclist] = useState([]);
+  const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
   const [userID, setUserID] = useState("");
   const [userPIC, setUserPIC] = useState("");
 
