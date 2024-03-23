@@ -79,11 +79,14 @@ function EditMedicPage() {
       const url = await getDownloadURL(snapshot.ref);
       setImageUrls((prev) => [...prev, url]);
       console.log("Success");
-      console.log(url);
       setUrlImage(url);
-      setTimeout(() => {
+      console.log(urlImage);
+      if (urlImage != null) {
         UpdateMedic();
-      }, 10000);
+      }
+      else {
+        console.log("Error image not defind");
+      }
     } catch (error) {
       console.error("Error uploading image:", error);
     }
