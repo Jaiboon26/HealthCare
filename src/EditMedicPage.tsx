@@ -72,22 +72,27 @@ function EditMedicPage() {
   }, [userID])
 
   const uploadFile = async () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `${userID}/${imageUpload.name + v4()}`);
-    try {
-      const snapshot = await uploadBytes(imageRef, imageUpload);
-      const url = await getDownloadURL(snapshot.ref);
-      setImageUrls((prev) => [...prev, url]);
-      console.log("Success");
-      setUrlImage(url);
-      console.log(url); // This will log the updated URL
-      if (url != null) {
-        UpdateMedic(url); // Pass the URL directly to the UpdateMedic function
-      } else {
-        console.log("Error: Image URL not defined");
+    if (imageUpload == null) {
+      UpdateMedic(previewUrl)
+    }
+    else {
+
+      const imageRef = ref(storage, `${userID}/${imageUpload.name + v4()}`);
+      try {
+        const snapshot = await uploadBytes(imageRef, imageUpload);
+        const url = await getDownloadURL(snapshot.ref);
+        setImageUrls((prev) => [...prev, url]);
+        console.log("Success");
+        setUrlImage(url);
+        console.log(url); // This will log the updated URL
+        if (url != null) {
+          UpdateMedic(url); // Pass the URL directly to the UpdateMedic function
+        } else {
+          console.log("Error: Image URL not defined");
+        }
+      } catch (error) {
+        console.error("Error uploading image:", error);
       }
-    } catch (error) {
-      console.error("Error uploading image:", error);
     }
   };
 
