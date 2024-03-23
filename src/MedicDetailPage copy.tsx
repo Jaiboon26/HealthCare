@@ -2,7 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
 import { Box, AppBar, Toolbar, Avatar, Typography, ButtonGroup, Card, CardContent, IconButton, SvgIcon, Checkbox, FormControlLabel, FormGroup, Modal } from "@mui/material";
 import { FindModule } from "./Database_Module/FindModule";
+import EditMedicPage from "./EditMedicPage";
 import { useNavigate } from "react-router-dom";
+
+// Inside your componen
 
 interface Medic {
   MedicName: string;
@@ -16,7 +19,7 @@ interface Medic {
   // Add other properties as needed
 }
 
-function MedicDetailPage() {
+function MedicDetailPageCopy() {
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
   const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
   const [userPIC, setUserPIC] = useState("");
@@ -50,27 +53,26 @@ function MedicDetailPage() {
     }
   }
 
+  // const initializeLiff = async () => {
+  //   try {
+  //     await liff.init({
+  //       liffId: "2003049267-WEBrp8Z1"
+  //     });
+
+  //     if (!liff.isLoggedIn()) {
+  //       await liff.login();
+  //     }
+
+  //     fetchUserProfile();
+  //   } catch (error) {
+  //     console.error("LIFF initialization failed:", error);
+  //     // You can set an error state here or display an error message
+  //   }
+  // };
   const navigate = useNavigate();
 
   const handleEdit = (userID: string, medicName: string) => {
     navigate(`/EditMedicPage/${userID}/${medicName}`);
-  };
-
-  const initializeLiff = async () => {
-    try {
-      await liff.init({
-        liffId: "2003049267-WEBrp8Z1"
-      });
-
-      if (!liff.isLoggedIn()) {
-        await liff.login();
-      }
-
-      fetchUserProfile();
-    } catch (error) {
-      console.error("LIFF initialization failed:", error);
-      // You can set an error state here or display an error message
-    }
   };
 
   const fetchUserProfile = async () => {
@@ -91,7 +93,7 @@ function MedicDetailPage() {
   }
 
   useEffect(() => {
-    initializeLiff();
+    // initializeLiff();
     // findMedicine();
   }, [])
 
@@ -198,9 +200,9 @@ function MedicDetailPage() {
                   {medic.MedicName}
                 </Typography>
                 {medic.afbf === "After" ? (
-                  <Typography variant="subtitle2">กินหลังอาหาร</Typography>
-                ) : (
                   <Typography variant="subtitle2">กินก่อนอาหาร</Typography>
+                ) : (
+                  <Typography variant="subtitle2">กินหลังอาหาร</Typography>
                 )}
 
                 <Typography variant="subtitle2">คงเหลือ {medic.stock} เม็ด</Typography>
@@ -249,4 +251,4 @@ function MedicDetailPage() {
   );
 }
 
-export default MedicDetailPage;
+export default MedicDetailPageCopy;

@@ -229,6 +229,7 @@ function AddMedicPage() {
         setStock(0);
         setTimeout(() => {
           setChecked(false);
+          
         }, 3000);
 
       } catch (error) {
