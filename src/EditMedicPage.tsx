@@ -327,7 +327,7 @@ function EditMedicPage() {
           </div>
         </div>
         <div className="submitButton" style={{ marginBottom: '100px' }}>
-          <Button variant="contained" fullWidth onClick={UpdateMedic}>
+          <Button variant="contained" fullWidth onClick={uploadFile}>
             ยืนยัน
           </Button>
         </div>
