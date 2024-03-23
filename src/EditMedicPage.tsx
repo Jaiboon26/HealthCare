@@ -66,10 +66,29 @@ function EditMedicPage() {
   useEffect(() => {
     console.log("Received medicName:", medicName);
   }, [medicName]);
-  
+
   useEffect(() => {
     findMedic();
   }, [userID])
+
+  useEffect(() => {
+    UpdateMedic();
+  }, [urlImage])
+
+  const uploadFile = async () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `${userID}/${imageUpload.name + v4()}`);
+    try {
+      const snapshot = await uploadBytes(imageRef, imageUpload);
+      const url = await getDownloadURL(snapshot.ref);
+      setImageUrls((prev) => [...prev, url]);
+      console.log("Success");
+      console.log(url);
+      setUrlImage(url);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+    }
+  };
 
 
 
@@ -84,7 +103,7 @@ function EditMedicPage() {
         Evening: evening,
         afbf: afbf,
         stock: stock,
-        MedicPicture: previewUrl,
+        MedicPicture: urlImage,
         Status: "Enable"
       };
 

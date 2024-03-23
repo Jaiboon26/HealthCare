@@ -17,7 +17,6 @@ import ExQueryData from "./ExQueryData";
 import CustomizedDialogs from "./DialogModule";
 import QrReader from "./QrReader";
 import EditMedicPage from "./EditMedicPage";
-import MedicDetailPageCopy from "./MedicDetailPage copy";
 // import TestR2 from "./Database_Module/TestAWSModule";
 // import { FirebaseApp } from "./Database_Module/FirebaseApp";
 // import AddMedicPageCopy from "./AddMedicPage copy";
