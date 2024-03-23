@@ -80,12 +80,11 @@ function EditMedicPage() {
       setImageUrls((prev) => [...prev, url]);
       console.log("Success");
       setUrlImage(url);
-      console.log(urlImage);
-      if (urlImage != null) {
-        UpdateMedic();
-      }
-      else {
-        console.log("Error image not defind");
+      console.log(url); // This will log the updated URL
+      if (url != null) {
+        UpdateMedic(url); // Pass the URL directly to the UpdateMedic function
+      } else {
+        console.log("Error: Image URL not defined");
       }
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -94,7 +93,8 @@ function EditMedicPage() {
 
 
 
-  const UpdateMedic = async () => {
+
+  const UpdateMedic = async (url: string) => {
     try {
       const accessToken = await getAccessToken();
 
@@ -105,7 +105,7 @@ function EditMedicPage() {
         Evening: evening,
         afbf: afbf,
         stock: stock,
-        MedicPicture: urlImage,
+        MedicPicture: url,
         Status: "Enable"
       };
 
@@ -145,7 +145,8 @@ function EditMedicPage() {
       console.error('Error fetching data from MongoDB:', error);
       throw error;
     }
-  }
+  };
+
 
   const findMedic = async () => {
     try {
