@@ -41,7 +41,10 @@ function MedicDetailPage() {
           collection: "MedicDetail",
           database: "HealthCare",
           dataSource: 'HealthCareDemo',
-          filter: '',
+          filter: {
+            "Medicine.MedicName": medicName,
+            "LineID": userID
+          },
           update: {
             $pull: {
               'Medicine': medicName

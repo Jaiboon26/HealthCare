@@ -71,10 +71,6 @@ function EditMedicPage() {
     findMedic();
   }, [userID])
 
-  useEffect(() => {
-    UpdateMedic();
-  }, [urlImage])
-
   const uploadFile = async () => {
     if (imageUpload == null) return;
     const imageRef = ref(storage, `${userID}/${imageUpload.name + v4()}`);
@@ -85,6 +81,9 @@ function EditMedicPage() {
       console.log("Success");
       console.log(url);
       setUrlImage(url);
+      setTimeout(() => {
+        UpdateMedic();
+      }, 3000);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
