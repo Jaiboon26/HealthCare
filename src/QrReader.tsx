@@ -12,7 +12,7 @@ import { FindModule } from "./Database_Module/FindModule";
 import { InsertModule } from "./Database_Module/InsertModule";
 import { UpdateModule } from "./Database_Module/UpdateModule";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 const Transition = React.forwardRef(function Transition(
@@ -31,6 +31,7 @@ interface FullScreenDialogProps {
 }
 
 const QrReader = () => {
+
   // QR States
   const scanner = useRef<QrScanner>();
   const videoEl = useRef<HTMLVideoElement>(null);
@@ -159,6 +160,8 @@ const QrReader = () => {
 
 function FullScreenDialog({ isOpen, handleClose, DataResult }: FullScreenDialogProps) {
 
+  const { userID } = useParams<{ userID: string }>();
+
   const [displayName, setDisplayName] = useState("")
   const [pictureUrl, setPictureUrl] = useState("")
 
@@ -202,7 +205,7 @@ function FullScreenDialog({ isOpen, handleClose, DataResult }: FullScreenDialogP
       const response = await UpdateModule({
         collection: "ManageUser",
         database: "HealthCare",
-        filter: { LineID: "Uc1e97d3b9701a31fba1f9911852eeb8f" },
+        filter: { LineID: userID },
         data: DataResult,
       });
 
