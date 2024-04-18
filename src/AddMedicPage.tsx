@@ -77,7 +77,7 @@ function AddMedicPage() {
     reader.readAsDataURL(file)
   }, [file])
 
-  const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
+  const [userID, setUserID] = useState("");
 
   const uploadFile = async () => {
     if (imageUpload == null) {
@@ -362,6 +362,7 @@ function AddMedicPage() {
         dataSource: 'HealthCareDemo',
         document: {
           LineID: userID,
+          Medicine: [],
         },
       }, {
         headers: {
