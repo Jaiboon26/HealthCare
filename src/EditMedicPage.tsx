@@ -23,11 +23,10 @@ import { UpdateModule } from "./Database_Module/UpdateModule";
 
 
 function EditMedicPage() {
-  const { medicName } = useParams<{ medicName: string }>();
+  const { medicID } = useParams<{ medicID: string }>();
   const { userID } = useParams<{ userID: string }>();
 
-
-  const [medicNameNew, setMedicNameNew] = useState(medicName);
+  const [medicName, setMedicName] = useState(medicID);
   const [userPIC, setUserPIC] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -104,7 +103,7 @@ function EditMedicPage() {
       const accessToken = await getAccessToken();
 
       const newData = {
-        MedicName: medicNameNew,
+        MedicName: medicName,
         Morning: morning,
         Noon: noon,
         Evening: evening,
@@ -117,16 +116,22 @@ function EditMedicPage() {
       const responseFind = await axios.post(
         'https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne',
         {
-          collection: 'MedicDetail',
+          collection: 'MedicineList',
           database: "HealthCare",
           dataSource: 'HealthCareDemo',
           filter: {
-            "Medicine.MedicName": medicName,
-            "LineID": userID
+            "MedicID": medicID,
           },
           update: {
             $set: {
-              'Medicine.$': newData
+              MedicName: medicName,
+              Morning: morning,
+              Noon: noon,
+              Evening: evening,
+              afbf: afbf,
+              stock: stock,
+              MedicPicture: url,
+              Status: "Enable"
             }
           },
         },
@@ -156,9 +161,9 @@ function EditMedicPage() {
   const findMedic = async () => {
     try {
       const response = await FindModule({
-        collection: "MedicDetail",
+        collection: "MedicineList",
         database: "HealthCare",
-        filter: { "Medicine.MedicName": medicName, "LineID": userID }, //Change to liff
+        filter: { "MedicID": medicID }, //Change to liff
       });
 
       // Access the data property from the response
@@ -168,12 +173,13 @@ function EditMedicPage() {
       if (responseData && responseData.document) {
         // setUserIDManage(responseData.document);
         console.log(responseData.document);
-        setPreviewUrl(responseData.document.Medicine[0].MedicPicture);
-        setMorning(responseData.document.Medicine[0].Morning);
-        setNoon(responseData.document.Medicine[0].Noon);
-        setEvening(responseData.document.Medicine[0].Evening);
-        setAfbf(responseData.document.Medicine[0].afbf);
-        setStock(responseData.document.Medicine[0].stock);
+        setMedicName(responseData.document.MedicName)
+        setPreviewUrl(responseData.document.MedicPicture);
+        setMorning(responseData.document.Morning);
+        setNoon(responseData.document.Noon);
+        setEvening(responseData.document.Evening);
+        setAfbf(responseData.document.afbf);
+        setStock(responseData.document.stock);
       } else {
         console.log("Not found");
       }
@@ -254,9 +260,9 @@ function EditMedicPage() {
           label="ชื่อยา"
           variant="outlined"
           placeholder="กรุณากรอกชื่อยา"
-          value={medicNameNew}
+          value={medicName}
           required
-          onChange={(e) => { setMedicNameNew(e.target.value) }} />
+          onChange={(e) => { setMedicName(e.target.value) }} />
         <div className="eventgroup" style={{ marginBottom: '20px' }}>
           <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
             ช่วงเวลาที่กิน

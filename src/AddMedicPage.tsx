@@ -33,6 +33,8 @@ function AddMedicPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  const inputId = generateUniqueId();
+
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [urlImage, setUrlImage] = useState("");
@@ -93,6 +95,7 @@ function AddMedicPage() {
   };
 
   useEffect(() => {
+    updateMedic();
     insertMedic();
   }, [urlImage])
 
@@ -178,7 +181,84 @@ function AddMedicPage() {
     setAfbf('After');
   };
 
-  const insertMedic = async () => {
+  function generateUniqueId() {
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2); // Extract the last two digits of the year
+    const month = ('0' + (date.getMonth() + 1)).slice(-2); // Ensure month is two digits
+    const day = ('0' + date.getDate()).slice(-2); // Ensure day is two digits
+    const hours = ('0' + date.getHours()).slice(-2); // Ensure hours is two digits
+    const minutes = ('0' + date.getMinutes()).slice(-2); // Ensure minutes is two digits
+    const seconds = ('0' + date.getSeconds()).slice(-2); // Ensure seconds is two digits
+    const milliseconds = ('00' + date.getMilliseconds()).slice(-3); // Ensure milliseconds is three digits
+
+    const randomNumber = Math.floor(1000000 + Math.random() * 9000000); // Generates a random number between 1000000 and 9999999
+    const uniqueId = `M-${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}-${randomNumber}`; // Concatenate the parts
+
+    return uniqueId;
+  }
+
+  // const insertMedic = async () => {
+  //   if (!liff.isLoggedIn()) {
+  //     try {
+  //       await liff.login();
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   } else {
+  //     try {
+  //       const accessToken = await getAccessToken();
+  //       // uploadFile();
+  //       const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/updateOne', {
+  //         collection: 'MedicDetail',
+  //         database: 'HealthCare',
+  //         dataSource: 'HealthCareDemo',
+  //         filter: {
+  //           LineID: userID,
+  //         },
+  //         update: {
+  //           $push: {
+  //             'Medicine': {
+  //               MedicName: medicName,
+  //               Morning: morning,
+  //               Noon: noon,
+  //               Evening: evening,
+  //               afbf: afbf,
+  //               stock: stock,
+  //               MedicPicture: urlImage,
+  //               Status: "Enable"
+  //             }
+  //           }
+  //         }
+  //       }, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Access-Control-Request-Headers': '*',
+  //           'Authorization': `Bearer ${accessToken}`,
+  //         },
+  //       });
+
+  //       const data = responseFind.data;
+  //       setMedicName("");
+  //       setAfbf("Before");
+  //       setMorning(false);
+  //       setNoon(false);
+  //       setEvening(false);
+  //       setPreviewUrl("https://placehold.co/600x400.png");
+  //       setChecked(true);
+  //       setStock(0);
+  //       setTimeout(() => {
+  //         setChecked(false);
+
+  //       }, 3000);
+
+  //     } catch (error) {
+  //       console.error('Error fetching data from MongoDB:', error);
+
+  //     }
+  //   }
+  // }
+
+  const updateMedic = async () => {
     if (!liff.isLoggedIn()) {
       try {
         await liff.login();
@@ -198,16 +278,7 @@ function AddMedicPage() {
           },
           update: {
             $push: {
-              'Medicine': {
-                MedicName: medicName,
-                Morning: morning,
-                Noon: noon,
-                Evening: evening,
-                afbf: afbf,
-                stock: stock,
-                MedicPicture: urlImage,
-                Status: "Enable"
-              }
+              'Medicine': inputId
             }
           }
         }, {
@@ -229,13 +300,50 @@ function AddMedicPage() {
         setStock(0);
         setTimeout(() => {
           setChecked(false);
-          
+
         }, 3000);
 
       } catch (error) {
         console.error('Error fetching data from MongoDB:', error);
 
       }
+    }
+  }
+
+  const insertMedic = async () => {
+    try {
+      const accessToken = await getAccessToken();
+      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+        collection: 'MedicineList',
+        database: 'HealthCare',
+        dataSource: 'HealthCareDemo',
+        document: {
+          MedicID: inputId,
+          MedicName: medicName,
+          Morning: morning,
+          Noon: noon,
+          Evening: evening,
+          afbf: afbf,
+          stock: stock,
+          MedicPicture: urlImage,
+          Status: "Enable"
+        },
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = responseFind.data;
+
+      // console.log(data)
+
+
+    } catch (error) {
+      console.error('Error fetching data from MongoDB:', error);
+
     }
   }
 

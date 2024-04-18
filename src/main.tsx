@@ -60,7 +60,7 @@ const router = createBrowserRouter([
     element: <QrReader />
   },
   {
-    path: "/EditMedicPage/:userID/:medicName",
+    path: "/EditMedicPage/:medicID",
     element: <EditMedicPage />
   },
   // {
