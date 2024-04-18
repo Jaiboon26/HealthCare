@@ -167,8 +167,6 @@ function MedicDetailPage() {
       setUserPIC(userPictureUrl ?? "");
 
 
-      findMedicine();
-      medicinelist();
     } catch (err) {
       console.error(err);
     }
@@ -180,11 +178,14 @@ function MedicDetailPage() {
     // medicinelist();
   }, [])
 
-  // useEffect(() => {
-  //   findMedicine();
-  //   medicinelist();
-  //   console.log(userID);
-  // }, [userID])
+  useEffect(() => {
+    findMedicine();
+    console.log(userID);
+  }, [userID])
+
+  useEffect(() => {
+    medicinelist();
+  }, [getMedic])
 
 
   const handleClickOutside = (event: MouseEvent) => {
