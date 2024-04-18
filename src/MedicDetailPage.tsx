@@ -36,6 +36,8 @@ function MedicDetailPage() {
   const modalRef = useRef<HTMLDivElement>(null);
   const [getMedic, setGetMedic] = useState([]);
 
+  // setUserID("Uc1e97d3b9701a31fba1f9911852eeb8f");
+
   const DeleteMedic = async (medicName: string) => {
     try {
       const accessToken = await getAccessToken();
@@ -111,7 +113,7 @@ function MedicDetailPage() {
 
       // Access the data property from the response
       const responseData = response.data;
-      console.log(responseData);
+      // console.log(responseData);
 
       if (responseData && responseData.documents) {
         console.log(responseData.documents);
@@ -163,6 +165,10 @@ function MedicDetailPage() {
       // setDisplayName(userDisplayName);
       setUserID(userProfile);
       setUserPIC(userPictureUrl ?? "");
+
+
+      findMedicine();
+      medicinelist();
     } catch (err) {
       console.error(err);
     }
@@ -170,14 +176,15 @@ function MedicDetailPage() {
 
   useEffect(() => {
     initializeLiff();
-    findMedicine();
-    medicinelist();
+    // findMedicine();
+    // medicinelist();
   }, [])
 
-  useEffect(() => {
-    findMedicine();
-    medicinelist();
-  }, [userID])
+  // useEffect(() => {
+  //   findMedicine();
+  //   medicinelist();
+  //   console.log(userID);
+  // }, [userID])
 
 
   const handleClickOutside = (event: MouseEvent) => {
@@ -239,7 +246,7 @@ function MedicDetailPage() {
       </Box>
 
       {mediclist.map((medic: Medic) => (
-        <div style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
+        <div key={medic.MedicID} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
 
           <Card sx={{
             display: 'grid',
