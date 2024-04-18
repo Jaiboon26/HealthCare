@@ -170,7 +170,8 @@ function MedicDetailPage() {
 
   useEffect(() => {
     initializeLiff();
-    // findMedicine();
+    findMedicine();
+    medicinelist();
   }, [])
 
   useEffect(() => {
