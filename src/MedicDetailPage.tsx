@@ -29,7 +29,7 @@ interface DeleteParam {
 function MedicDetailPage() {
 
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
-  const [userID, setUserID] = useState("U33cd6913cb1d26a21f1f83b1a3bd7638_New");
+  const [userID, setUserID] = useState("");
   const [userPIC, setUserPIC] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -134,44 +134,44 @@ function MedicDetailPage() {
     navigate(`/EditMedicPage/${medicName}`);
   };
 
-  // const initializeLiff = async () => {
-  //   try {
-  //     await liff.init({
-  //       liffId: "2003049267-WEBrp8Z1"
-  //     });
+  const initializeLiff = async () => {
+    try {
+      await liff.init({
+        liffId: "2003049267-WEBrp8Z1"
+      });
 
-  //     if (!liff.isLoggedIn()) {
-  //       await liff.login();
-  //     }
+      if (!liff.isLoggedIn()) {
+        await liff.login();
+      }
 
-  //     fetchUserProfile();
-  //   } catch (error) {
-  //     console.error("LIFF initialization failed:", error);
-  //     // You can set an error state here or display an error message
-  //   }
-  // };
+      fetchUserProfile();
+    } catch (error) {
+      console.error("LIFF initialization failed:", error);
+      // You can set an error state here or display an error message
+    }
+  };
 
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const profile = await liff.getProfile();
-  //     const userProfile = profile.userId;
-  //     const userDisplayName = profile.displayName;
-  //     const statusMessage = profile.statusMessage;
-  //     const userPictureUrl = profile.pictureUrl;
+  const fetchUserProfile = async () => {
+    try {
+      const profile = await liff.getProfile();
+      const userProfile = profile.userId;
+      const userDisplayName = profile.displayName;
+      const statusMessage = profile.statusMessage;
+      const userPictureUrl = profile.pictureUrl;
 
 
-  //     // setDisplayName(userDisplayName);
-  //     setUserID(userProfile);
-  //     setUserPIC(userPictureUrl ?? "");
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
+      // setDisplayName(userDisplayName);
+      setUserID(userProfile);
+      setUserPIC(userPictureUrl ?? "");
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
-  // useEffect(() => {
-  //   initializeLiff();
-  //   // findMedicine();
-  // }, [])
+  useEffect(() => {
+    initializeLiff();
+    // findMedicine();
+  }, [])
 
   useEffect(() => {
     findMedicine();
