@@ -80,17 +80,22 @@ function AddMedicPage() {
   const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
 
   const uploadFile = async () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `${userIDChoose}/${imageUpload.name + v4()}`);
-    try {
-      const snapshot = await uploadBytes(imageRef, imageUpload);
-      const url = await getDownloadURL(snapshot.ref);
-      setImageUrls((prev) => [...prev, url]);
-      console.log("Success");
-      console.log(url);
-      setUrlImage(url);
-    } catch (error) {
-      console.error("Error uploading image:", error);
+    if (imageUpload == null) {
+      updateMedic();
+      insertMedic();
+    }
+    else {
+      const imageRef = ref(storage, `${userIDChoose}/${imageUpload.name + v4()}`);
+      try {
+        const snapshot = await uploadBytes(imageRef, imageUpload);
+        const url = await getDownloadURL(snapshot.ref);
+        setImageUrls((prev) => [...prev, url]);
+        console.log("Success");
+        console.log(url);
+        setUrlImage(url);
+      } catch (error) {
+        console.error("Error uploading image:", error);
+      }
     }
   };
 
