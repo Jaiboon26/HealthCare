@@ -6,9 +6,13 @@ import { AppBar, Avatar, Box, Button, ButtonGroup, Card, CardContent, IconButton
 import CustomizedDialogs from "./DialogModule";
 import axios from "axios";
 import { getAccessToken } from "./connectDB";
+import { useParams } from "react-router-dom";
 
-function NotiManagePage() {
-
+function NotiManagePage_client() {
+  const { client_id } = useParams<{ client_id: any }>();
+  const { client_pic } = useParams<{ client_pic: any }>();
+  const { client_name } = useParams<{ client_name: any }>();
+  const decodedPic = decodeURIComponent(client_pic);
   const [open, setOpen] = React.useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -55,60 +59,9 @@ function NotiManagePage() {
 
   // const [message, setMessage] = useState("");
   // const [error, setError] = useState("");
-  const [pictureUrl, setPictureUrl] = useState("");
+  const [pictureUrl, setPictureUrl] = useState(decodedPic);
   // const [displayName, setDisplayName] = useState("");
-  const [userID, setUserID] = useState("");
-
-
-  const initializeLiff = async () => {
-    try {
-      await liff.init({
-        liffId: "2003049267-YNGg4bx3"
-      });
-
-      //setMessage("LIFF init succeeded.");
-
-      // login
-      if (!liff.isLoggedIn()) {
-        try {
-          await liff.login();
-          setIsLoggedIn(true);
-        } catch (error) {
-          console.error(error);
-        }
-      } else {
-        setIsLoggedIn(true);
-        const accessToken = liff.getIDToken();
-        console.log(accessToken);
-      }
-
-
-      // Fetch user profile
-      fetchUserProfile();
-    } catch (e) {
-      // setMessage("LIFF init failed.");
-      // setError(`${e}`);
-    }
-  };
-
-
-  const fetchUserProfile = async () => {
-    try {
-      const profile = await liff.getProfile();
-      const userProfile = profile.userId;
-      const userDisplayName = profile.displayName;
-      const statusMessage = profile.statusMessage;
-      const userPictureUrl = profile.pictureUrl;
-
-
-      // setDisplayName(userDisplayName);
-      setUserID(userProfile);
-      setPictureUrl(userPictureUrl ?? "");
-      // findTime();
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const [userID, setUserID] = useState(client_id);
 
   const insertTime = async () => {
     try {
@@ -182,15 +135,8 @@ function NotiManagePage() {
   };
 
   useEffect(() => {
-    initializeLiff();
-  },
-    []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      findTime();
-    }
-  }, [isLoggedIn, userID]);
+    findTime();
+  }, [userID]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px', alignItems: 'center' }}>
@@ -204,13 +150,13 @@ function NotiManagePage() {
             borderRadius: '15px',
             marginBottom: '25px'
           }}>
-          <Toolbar sx={{ display: 'flex', gap: '50px', width: '100%', marginLeft: '10px', position: 'relative', }}>
+          <Toolbar sx={{ display: 'flex', gap: '10px', width: '100%', marginLeft: '10px', position: 'relative', }}>
             <Avatar
               alt="Remy Sharp"
               src={pictureUrl}
               sx={{ width: '36px', height: '36px', marginLeft: '5px' }} />
             <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
-              ตั้งค่าการแจ้งเตือน
+              ตั้งค่าการแจ้งเตือนของ {client_name}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -355,4 +301,4 @@ function NotiManagePage() {
   );
 }
 
-export default NotiManagePage;
+export default NotiManagePage_client;
