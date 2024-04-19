@@ -5,7 +5,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Alert, FormControl, IconButton, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Alert, Checkbox, FormControl, FormControlLabel, IconButton, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import Button from '@mui/material/Button';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { getAccessToken } from "./connectDB";
@@ -21,6 +21,27 @@ import { storage } from "./Database_Module/firebase";
 import { v4 } from "uuid";
 import { UpdateModule } from "./Database_Module/UpdateModule";
 
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const daysOfWeek = [
+  ['Sunday', 'วันอาทิตย์ (Sunday)', 'อา'],
+  ['Monday', 'วันจันทร์ (Monday)', 'จ'],
+  ['Tuesday', 'วันอังคาร (Tuesday)', 'อ'],
+  ['Wednesday', 'วันพุธ (Wednesday)', 'พ'],
+  ['Thursday', 'วันพฤหัสบดี (Thursday)', 'พฤ'],
+  ['Friday', 'วันศุกร์ (Friday)', 'ศ'],
+  ['Saturday', 'วันเสาร์ (Saturday)', 'ส'],
+];
+
 
 function EditMedicPage() {
   const { medicID } = useParams<{ medicID: string }>();
@@ -31,6 +52,8 @@ function EditMedicPage() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
+  const [medicDate, setMedicDate] = useState([]);
+
   const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [urlImage, setUrlImage] = useState("");
@@ -39,6 +62,11 @@ function EditMedicPage() {
 
   const [checked, setChecked] = useState(false);
   const [checkedFail, setCheckedFail] = useState(false);
+
+  const [personName, setPersonName] = useState<string[]>([]);
+  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [allday, setAllday] = useState(false);
+  const [checkDay, setCheckDay] = useState<{ [key: string]: boolean }>({});
 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,7 +91,7 @@ function EditMedicPage() {
 
 
   useEffect(() => {
-    console.log("Received medicName:", medicName);
+    // console.log("Received medicName:", medicName);
   }, [medicName]);
 
   useEffect(() => {
@@ -125,6 +153,7 @@ function EditMedicPage() {
           update: {
             $set: {
               MedicName: medicName,
+              MedicDate: checkDay,
               Morning: morning,
               Noon: noon,
               Evening: evening,
@@ -144,7 +173,7 @@ function EditMedicPage() {
         }
       );
 
-      console.log("Response from MongoDB update:", responseFind.data);
+      // console.log("Response from MongoDB update:", responseFind.data);
       setChecked(true);
       setTimeout(() => {
         setChecked(false);
@@ -163,7 +192,7 @@ function EditMedicPage() {
       const response = await FindModule({
         collection: "MedicineList",
         database: "HealthCare",
-        filter: { "MedicID": medicID }, //Change to liff
+        filter: { "MedicID": medicID }, //Change to liff M-240419212944024-7426856
       });
 
       // Access the data property from the response
@@ -172,14 +201,22 @@ function EditMedicPage() {
 
       if (responseData && responseData.document) {
         // setUserIDManage(responseData.document);
-        console.log(responseData.document);
-        setMedicName(responseData.document.MedicName)
+        setMedicName(responseData.document.MedicName);
+        setCheckDay(responseData.document.MedicDate);
         setPreviewUrl(responseData.document.MedicPicture);
         setMorning(responseData.document.Morning);
         setNoon(responseData.document.Noon);
         setEvening(responseData.document.Evening);
         setAfbf(responseData.document.afbf);
         setStock(responseData.document.stock);
+        // console.log(responseData.checkDay);
+
+        const initialSelectedDays = Object.entries(responseData.document.MedicDate)
+          .filter(([selected]) => selected)
+          .map(([day, _]) => day);
+        setSelectedDays(initialSelectedDays);
+
+        // console.log(selectedDays);
       } else {
         console.log("Not found");
       }
@@ -230,6 +267,78 @@ function EditMedicPage() {
     }
   };
 
+  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
+    const {
+      target: { value },
+    } = event;
+    setSelectedDays(value as string[]);
+
+    // Update the checkDay state based on the selected days
+    const updatedCheckDay: { [key: string]: boolean } = {};
+    daysOfWeek.forEach((day) => {
+      updatedCheckDay[day[0]] = (value as string[]).includes(day[0]);
+    });
+    setCheckDay(updatedCheckDay);
+  };
+
+
+  const handleToggleAllDays = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setAllday(event.target.checked);
+  };
+
+  // useEffect(() => {
+  //   console.log(selectedDays);
+  //   console.log(checkDay);
+  // }, [selectedDays])
+
+  useEffect(() => {
+    if (allday === false) {
+      // setSelectedDays([]);
+      if (selectedDays.length === 7) {
+        setSelectedDays([]);
+        setCheckDay({
+          Monday: false,
+          Tuesday: false,
+          Wednesday: false,
+          Thursday: false,
+          Friday: false,
+          Saturday: false,
+          Sunday: false
+        });
+      }
+      else { return }
+    } else {
+      setSelectedDays([
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ]);
+      setCheckDay({
+        Monday: true,
+        Tuesday: true,
+        Wednesday: true,
+        Thursday: true,
+        Friday: true,
+        Saturday: true,
+        Sunday: true
+      });
+    }
+  }, [allday]);
+
+  useEffect(() => {
+    if (selectedDays.length !== 7) {
+      setAllday(false);
+    }
+    else if (selectedDays.length === 7) {
+      setAllday(true);
+    }
+    // console.log(checkDay)
+  }, [selectedDays]);
+
   return (
     <>
       {message + error}
@@ -263,6 +372,39 @@ function EditMedicPage() {
           value={medicName}
           required
           onChange={(e) => { setMedicName(e.target.value) }} />
+
+        <div className="dateInput" style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
+          <Typography variant="h6" sx={{ color: 'black', fontWeight: 'bold' }}>วันที่รับประทานยา</Typography>
+          <Select
+            labelId="demo-multiple-checkbox-label"
+            id="demo-multiple-checkbox"
+            multiple
+            value={selectedDays}
+            onChange={handleChange}
+            input={<OutlinedInput label="Tag" />}
+            renderValue={(selected) =>
+              (selected as string[]).map((day) => {
+                const dayTranslation = daysOfWeek.find((d) => d[0] === day);
+                return dayTranslation ? dayTranslation[2] : '';
+              }).join(', ')
+            }
+            MenuProps={MenuProps}
+
+          >
+            {daysOfWeek.map((day) => (
+              <MenuItem key={day[0]} value={day[0]}>
+                <Checkbox checked={selectedDays.indexOf(day[0]) > -1} />
+                <ListItemText primary={day[1]} />
+              </MenuItem>
+            ))}
+          </Select>
+          <FormControlLabel
+            control={<Checkbox checked={allday} onChange={handleToggleAllDays} />}
+            label="กินทุกวัน"
+            labelPlacement="end"
+          />
+        </div>
+
         <div className="eventgroup" style={{ marginBottom: '20px' }}>
           <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
             ช่วงเวลาที่กิน

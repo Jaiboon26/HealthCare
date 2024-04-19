@@ -12,6 +12,7 @@ import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
 interface Medic {
   MedicID: string;
   MedicName: string;
+  MedicDate: { [key: string]: boolean }[];
   Morning: boolean;
   Noon: boolean;
   Evening: boolean;
@@ -26,6 +27,16 @@ interface DeleteParam {
   DataDelete: string;
 }
 
+const shortDayNames: { [key: string]: string } = {
+  Monday: 'จ',
+  Tuesday: 'อ',
+  Wednesday: 'พ',
+  Thursday: 'พฤ',
+  Friday: 'ศ',
+  Saturday: 'ส',
+  Sunday: 'อา'
+};
+
 function MedicDetailPage() {
 
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
@@ -35,6 +46,8 @@ function MedicDetailPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [getMedic, setGetMedic] = useState([]);
+
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   // setUserID("Uc1e97d3b9701a31fba1f9911852eeb8f");
 
@@ -206,6 +219,8 @@ function MedicDetailPage() {
     };
   }, [modalOpen]);
 
+
+
   //Uc1e97d3b9701a31fba1f9911852eeb8f
 
 
@@ -295,6 +310,16 @@ function MedicDetailPage() {
                 <Typography variant="subtitle2">คงเหลือ {medic.stock} เม็ด</Typography>
               </CardContent>
             </Box>
+            <div style={{ gridRow: 'span 2', gridColumn: '1 / span 2', margin: '2px' }}> {/* Merge second column to 1 row */}
+              <p style={{ margin: '2px' }}>วันที่รับประทานยา : {' '}
+                {Object.entries(medic.MedicDate)
+                  .filter(entry => entry[1]) // Filter out the entries where the value is true
+                  .map(([day, _]) => shortDayNames[day]) // Map to the short day names
+                  .join(', ') // Join the short day names with comma
+                }
+              </p>
+            </div>
+
             <FormGroup style={{ display: "flex", flexDirection: "row", gridColumn: '1 / span 2', justifyContent: 'center' }}>
               <FormControlLabel control={<Checkbox checked={medic.Morning} />} label="เช้า" />
               <FormControlLabel control={<Checkbox checked={medic.Noon} />} label="กลางวัน" />
