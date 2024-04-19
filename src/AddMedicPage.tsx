@@ -569,7 +569,7 @@ function AddMedicPage() {
   }
 
   useEffect(() => {
-    // initializeLiff();
+    initializeLiff();
     // console.log(userInList);
     findUser();
     listUser();
