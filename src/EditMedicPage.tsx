@@ -177,7 +177,8 @@ function EditMedicPage() {
       setChecked(true);
       setTimeout(() => {
         setChecked(false);
-        navigate('/MedicDetailPage');
+        // navigate('/MedicDetailPage');
+        navigate(-1);
       }, 3000);
 
     } catch (error) {
@@ -210,7 +211,7 @@ function EditMedicPage() {
         setAfbf(responseData.document.afbf);
         setStock(responseData.document.stock);
         // console.log(responseData.checkDay);
-        
+
         const initialSelectedDays = Object.entries(responseData.document.MedicDate)
           .filter(entry => entry[1]) // Filter out the entries where the value is true
           .map(([day, _]) => day); // Map to the day names

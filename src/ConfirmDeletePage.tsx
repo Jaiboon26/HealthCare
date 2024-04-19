@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Button, Typography } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams  } from "react-router-dom";
 import { getAccessToken } from "./connectDB";
 import { DeleteOne } from "./Database_Module/DeleteModule";
 import axios from "axios";
@@ -49,7 +49,8 @@ function DeleteConfirmPage() {
             // Both deletions were successful
             console.log("Deleted:", medicID);
             // Redirect or navigate to another page after deletion
-            navigate("/MedicDetailPage"); // Redirect to the home page, change the path as needed
+            // navigate("/MedicDetailPage"); // Redirect to the home page, change the path as needed
+            navigate(-1);
 
         } catch (error) {
             // Handle deletion failure
