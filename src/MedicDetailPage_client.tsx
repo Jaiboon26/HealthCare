@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
 import { Box, AppBar, Toolbar, Avatar, Typography, ButtonGroup, Card, CardContent, IconButton, SvgIcon, Checkbox, FormControlLabel, FormGroup, Modal } from "@mui/material";
 import { FindModule } from "./Database_Module/FindModule";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UpdateModulePull } from "./Database_Module/UpdateModulePull";
 import { getAccessToken } from "./connectDB";
 import axios from "axios";
@@ -25,10 +25,6 @@ interface Medic {
   // Add other properties as needed
 }
 
-interface DeleteParam {
-  DataDelete: string;
-}
-
 const shortDayNames: { [key: string]: string } = {
   Monday: 'จ',
   Tuesday: 'อ',
@@ -39,11 +35,16 @@ const shortDayNames: { [key: string]: string } = {
   Sunday: 'อา'
 };
 
-function MedicDetailPage() {
+function MedicDetailPage_client() {
+
+  const { client_id } = useParams<{ client_id: any }>();
+  const { client_pic } = useParams<{ client_pic: any }>();
+  const { client_name } = useParams<{ client_name: any }>();
+  const decodedPic = decodeURIComponent(client_pic);
 
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
-  const [userID, setUserID] = useState("");
-  const [userPIC, setUserPIC] = useState("");
+  const [userID, setUserID] = useState(client_id);
+  const [userPIC, setUserPIC] = useState(decodedPic);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -120,44 +121,8 @@ function MedicDetailPage() {
     navigate(`/DeleteMedicPage/${medicID}/${medicName}/${lineID}`)
   };
 
-  const initializeLiff = async () => {
-    try {
-      await liff.init({
-        liffId: "2003049267-WEBrp8Z1"
-      });
-
-      if (!liff.isLoggedIn()) {
-        await liff.login();
-      }
-
-      fetchUserProfile();
-    } catch (error) {
-      console.error("LIFF initialization failed:", error);
-      // You can set an error state here or display an error message
-    }
-  };
-
-  const fetchUserProfile = async () => {
-    try {
-      const profile = await liff.getProfile();
-      const userProfile = profile.userId;
-      const userDisplayName = profile.displayName;
-      const statusMessage = profile.statusMessage;
-      const userPictureUrl = profile.pictureUrl;
-
-
-      // setDisplayName(userDisplayName);
-      setUserID(userProfile);
-      setUserPIC(userPictureUrl ?? "");
-
-
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
   useEffect(() => {
-    initializeLiff();
     // findMedicine();
     // medicinelist();
   }, [])
@@ -226,7 +191,7 @@ function MedicDetailPage() {
               src={userPIC}
               sx={{ width: '36px', height: '36px', marginRight: '10px' }} /> {/* Adjust margin if necessary */}
             <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold' }}>
-              ข้อมูลรายการยา
+              ข้อมูลรายการยาของ {client_name}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -333,4 +298,4 @@ function MedicDetailPage() {
   );
 }
 
-export default MedicDetailPage;
+export default MedicDetailPage_client;

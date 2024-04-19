@@ -18,6 +18,7 @@ import CustomizedDialogs from "./DialogModule";
 import QrReader from "./QrReader";
 import EditMedicPage from "./EditMedicPage";
 import DeleteConfirmPage from "./ConfirmDeletePage";
+import MedicDetailPage_client from "./MedicDetailPage_client";
 // import TestR2 from "./Database_Module/TestAWSModule";
 // import { FirebaseApp } from "./Database_Module/FirebaseApp";
 // import AddMedicPageCopy from "./AddMedicPage copy";
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
   {
     path: "/DeleteMedicPage/:medicID/:medicName/:lineID",
     element: <DeleteConfirmPage />
+  },
+  {
+    path: "/MemberPage/MedicDetailPage/:client_id/:client_pic/:client_name",
+    element: <MedicDetailPage_client />
   },
 
   // {
