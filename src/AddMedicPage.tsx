@@ -335,7 +335,7 @@ function AddMedicPage() {
           database: 'HealthCare',
           dataSource: 'HealthCareDemo',
           filter: {
-            LineID: userID,
+            LineID: userIDChoose,
           },
           update: {
             $push: {
