@@ -273,7 +273,18 @@ function AddMedicPage() {
   useEffect(() => {
     if (allday === false) {
       // setSelectedDays([]);
-      if (selectedDays.length === 7) { setSelectedDays([]); }
+      if (selectedDays.length === 7) {
+        setSelectedDays([]);
+        setCheckDay({
+          Monday: false,
+          Tuesday: false,
+          Wednesday: false,
+          Thursday: false,
+          Friday: false,
+          Saturday: false,
+          Sunday: false
+        });
+      }
       else { return }
     } else {
       setSelectedDays([
@@ -285,6 +296,15 @@ function AddMedicPage() {
         "Friday",
         "Saturday"
       ]);
+      setCheckDay({
+        Monday: true,
+        Tuesday: true,
+        Wednesday: true,
+        Thursday: true,
+        Friday: true,
+        Saturday: true,
+        Sunday: true
+      });
     }
   }, [allday]);
 
@@ -549,7 +569,7 @@ function AddMedicPage() {
   }
 
   useEffect(() => {
-    initializeLiff();
+    // initializeLiff();
     // console.log(userInList);
     findUser();
     listUser();
