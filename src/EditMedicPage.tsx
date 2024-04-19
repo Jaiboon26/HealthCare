@@ -210,11 +210,12 @@ function EditMedicPage() {
         setAfbf(responseData.document.afbf);
         setStock(responseData.document.stock);
         // console.log(responseData.checkDay);
-
+        
         const initialSelectedDays = Object.entries(responseData.document.MedicDate)
-          .filter(([selected]) => selected)
-          .map(([day, _]) => day);
+          .filter(entry => entry[1]) // Filter out the entries where the value is true
+          .map(([day, _]) => day); // Map to the day names
         setSelectedDays(initialSelectedDays);
+
 
         // console.log(selectedDays);
       } else {
