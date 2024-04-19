@@ -17,6 +17,7 @@ import ExQueryData from "./ExQueryData";
 import CustomizedDialogs from "./DialogModule";
 import QrReader from "./QrReader";
 import EditMedicPage from "./EditMedicPage";
+import DeleteConfirmPage from "./ConfirmDeletePage";
 // import TestR2 from "./Database_Module/TestAWSModule";
 // import { FirebaseApp } from "./Database_Module/FirebaseApp";
 // import AddMedicPageCopy from "./AddMedicPage copy";
@@ -63,6 +64,11 @@ const router = createBrowserRouter([
     path: "/EditMedicPage/:medicID",
     element: <EditMedicPage />
   },
+  {
+    path: "/DeleteMedicPage/:medicID/:medicName/:lineID",
+    element: <DeleteConfirmPage />
+  },
+
   // {
   //   path: "/MedicDetailPageCopy",
   //   element: <MedicDetailPageCopy />
