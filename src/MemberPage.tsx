@@ -107,13 +107,15 @@ function MemberPage() {
   // }
 
   const routeChange = (userID: string) => {
-    if (!liff.isLoggedIn()) {
-      return
-    }
-    else {
-      navigate(`/MemberPage/AddMember/${userID}`);
-    }
+    // if (userID === null) {
+    //   return
+    // }
+    // else {
+    //   navigate(`/MemberPage/AddMember/${userID}`);
+    // }
+    navigate(`/MemberPage/AddMember/${userID}`);
   };
+
 
   const handleEdit = (client_id: string, client_pic: string, client_name: string) => {
     const encodedPic = encodeURIComponent(client_pic);
@@ -299,9 +301,11 @@ function MemberPage() {
         left: 'auto',
         position: 'fixed',
       }}>
-        <Fab color="primary" sx={{ padding: '20px' }} aria-label="add" onClick={() => { routeChange(userID) }}>
-          <AddCircleIcon sx={{ fontSize: '50px' }} />
-        </Fab>
+        {userID !== "" && (
+          <Fab color="primary" sx={{ padding: '20px' }} aria-label="add" onClick={() => { routeChange(userID) }}>
+            <AddCircleIcon sx={{ fontSize: '50px' }} />
+          </Fab>
+        )}
       </Box>
     </>
   );
