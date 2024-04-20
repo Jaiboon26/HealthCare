@@ -17,6 +17,7 @@ import { UpdateModulePull } from "./Database_Module/UpdateModulePull";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 
@@ -106,7 +107,12 @@ function MemberPage() {
   // }
 
   const routeChange = (userID: string) => {
-    navigate(`/MemberPage/AddMember/${userID}`);
+    if (!liff.isLoggedIn()) {
+      return
+    }
+    else {
+      navigate(`/MemberPage/AddMember/${userID}`);
+    }
   };
 
   const handleEdit = (client_id: string, client_pic: string, client_name: string) => {
@@ -293,10 +299,8 @@ function MemberPage() {
         left: 'auto',
         position: 'fixed',
       }}>
-        <Fab color="primary" aria-label="add" onClick={() => { routeChange(userID) }}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+        <Fab color="primary" sx={{ padding: '20px' }} aria-label="add" onClick={() => { routeChange(userID) }}>
+          <AddCircleIcon sx={{ fontSize: '50px' }} />
         </Fab>
       </Box>
     </>
