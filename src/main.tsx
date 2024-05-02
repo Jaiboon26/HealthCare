@@ -20,6 +20,8 @@ import EditMedicPage from "./EditMedicPage";
 import DeleteConfirmPage from "./ConfirmDeletePage";
 import MedicDetailPage_client from "./MedicDetailPage_client";
 import NotiManagePage_client from "./NotiManagePage_client";
+import MedicineLogs from "./MedicineLogs";
+import MedicineLogsByDate from "./MedicineLogsByDate";
 // import TestR2 from "./Database_Module/TestAWSModule";
 // import { FirebaseApp } from "./Database_Module/FirebaseApp";
 // import AddMedicPageCopy from "./AddMedicPage copy";
@@ -77,6 +79,14 @@ const router = createBrowserRouter([
   {
     path: "/MemberPage/NotiManagePage/:client_id/:client_pic/:client_name",
     element: <NotiManagePage_client />
+  },
+  {
+    path: "/MedicineLogs",
+    element: <MedicineLogs />
+  },
+  {
+    path: "/MedicineLogs/:userID/:date",
+    element: <MedicineLogsByDate />
   },
 
   // {

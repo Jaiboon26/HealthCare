@@ -14,6 +14,7 @@ function HomePage() {
       <a href="/TestModule">TestModule</a><br />
       <a href="/MemberPage/AddMember">testQR</a><br />
       <a href="/EditMedicPage">EditMedicPage</a><br />
+      <a href="/MedicineLogs">Medicine Log</a><br />
       {/* <a href="/TestR2">testR2</a><br />
       <a href="/TestFirebase">TestFirebase</a><br />
       <a href="/TestAddmedic">TestAddmedic</a><br /> */}
