@@ -145,7 +145,7 @@ const MedicineLogs: React.FC = () => {
 
     useEffect(() => {
         getMedic();
-    }, [])
+    }, [userID])
 
     return (
         <div>
