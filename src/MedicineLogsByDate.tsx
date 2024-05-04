@@ -164,7 +164,44 @@ const MedicineLogsByDate: React.FC = () => {
                 {medicinesByMonth['Morning']?.length ? (
                     medicinesByMonth['Morning']?.map((medicine: Medicine) => (
                         <CustomTabPanel key={medicine._id} value={value} index={0}>
-                            {medicine.MedicName}
+                            <div key={medicine.MedicID} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
+
+                                <Card sx={{
+                                    display: 'grid',
+                                    gridTemplateRows: 'auto auto', // Two rows of auto height
+                                    gridTemplateColumns: 'auto auto',
+                                    height: "auto",
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    // bgcolor: '#A8E3F0',
+                                    boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
+                                    minWidth: '310px',
+                                    position: 'relative',
+                                }}>
+                                    <button
+                                        onClick={() => {
+                                            // setModalOpen(true); // Open the modal
+                                            // setSelectedImage(medicine.MedicPicture); // Set the selected image URL
+                                        }}
+                                        style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
+                                    >
+                                        <Avatar
+                                            alt={medicine.MedicName}
+                                            src={medicine.MedicPicture}
+                                            sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '10px', borderRadius: '0px' }}
+                                        />
+                                    </button>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                        <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                            <Typography component="div" variant="h5">
+                                                {medicine.MedicName}
+                                            </Typography>
+                                            <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                        </CardContent>
+                                    </Box>
+                                </Card>
+
+                            </div>
                         </CustomTabPanel>
                     ))
                 ) : (
@@ -172,53 +209,104 @@ const MedicineLogsByDate: React.FC = () => {
                         <h1 style={{ textAlign: 'center' }}>ไม่มีประวัติการกินยา</h1>
                     </CustomTabPanel>
                 )}
-                {medicinesByMonth['Noon']?.map((medicine: Medicine) => (
-                    <CustomTabPanel key={medicine._id} value={value} index={1}>
-                        <div key={medicine.MedicID} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
 
-                            <Card sx={{
-                                display: 'grid',
-                                gridTemplateRows: 'auto auto', // Two rows of auto height
-                                gridTemplateColumns: 'auto auto',
-                                height: "auto",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                // bgcolor: '#A8E3F0',
-                                boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
-                                minWidth: '310px',
-                                position: 'relative',
-                            }}>
-                                <button
-                                    onClick={() => {
-                                        // setModalOpen(true); // Open the modal
-                                        // setSelectedImage(medicine.MedicPicture); // Set the selected image URL
-                                    }}
-                                    style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
-                                >
-                                    <Avatar
-                                        alt={medicine.MedicName}
-                                        src={medicine.MedicPicture}
-                                        sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '10px', borderRadius: '0px' }}
-                                    />
-                                </button>
-                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                                    <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                                        <Typography component="div" variant="h5">
-                                            {medicine.MedicName}
-                                        </Typography>
-                                        <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
-                                    </CardContent>
-                                </Box>
-                            </Card>
+                {medicinesByMonth['Noon']?.length ? (
+                    medicinesByMonth['Noon']?.map((medicine: Medicine) => (
+                        <CustomTabPanel key={medicine._id} value={value} index={1}>
+                            <div key={medicine.MedicID} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
 
-                        </div>
+                                <Card sx={{
+                                    display: 'grid',
+                                    gridTemplateRows: 'auto auto', // Two rows of auto height
+                                    gridTemplateColumns: 'auto auto',
+                                    height: "auto",
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    // bgcolor: '#A8E3F0',
+                                    boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
+                                    minWidth: '310px',
+                                    position: 'relative',
+                                }}>
+                                    <button
+                                        onClick={() => {
+                                            // setModalOpen(true); // Open the modal
+                                            // setSelectedImage(medicine.MedicPicture); // Set the selected image URL
+                                        }}
+                                        style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
+                                    >
+                                        <Avatar
+                                            alt={medicine.MedicName}
+                                            src={medicine.MedicPicture}
+                                            sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '10px', borderRadius: '0px' }}
+                                        />
+                                    </button>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                        <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                            <Typography component="div" variant="h5">
+                                                {medicine.MedicName}
+                                            </Typography>
+                                            <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                        </CardContent>
+                                    </Box>
+                                </Card>
+
+                            </div>
+                        </CustomTabPanel>
+                    ))
+                ) : (
+                    <CustomTabPanel value={value} index={1}>
+                        <h1 style={{ textAlign: 'center' }}>ไม่มีประวัติการกินยา</h1>
                     </CustomTabPanel>
-                ))}
-                {medicinesByMonth['Evening']?.map((medicine: Medicine) => (
-                    <CustomTabPanel key={medicine._id} value={value} index={2}>
-                        {medicine.MedicName}
+                )}
+
+                {medicinesByMonth['Evening']?.length ? (
+                    medicinesByMonth['Evening']?.map((medicine: Medicine) => (
+                        <CustomTabPanel key={medicine._id} value={value} index={2}>
+                            <div key={medicine.MedicID} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
+
+                                <Card sx={{
+                                    display: 'grid',
+                                    gridTemplateRows: 'auto auto', // Two rows of auto height
+                                    gridTemplateColumns: 'auto auto',
+                                    height: "auto",
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    // bgcolor: '#A8E3F0',
+                                    boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
+                                    minWidth: '310px',
+                                    position: 'relative',
+                                }}>
+                                    <button
+                                        onClick={() => {
+                                            // setModalOpen(true); // Open the modal
+                                            // setSelectedImage(medicine.MedicPicture); // Set the selected image URL
+                                        }}
+                                        style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
+                                    >
+                                        <Avatar
+                                            alt={medicine.MedicName}
+                                            src={medicine.MedicPicture}
+                                            sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '10px', borderRadius: '0px' }}
+                                        />
+                                    </button>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                        <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                            <Typography component="div" variant="h5">
+                                                {medicine.MedicName}
+                                            </Typography>
+                                            <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                        </CardContent>
+                                    </Box>
+                                </Card>
+
+                            </div>
+                        </CustomTabPanel>
+                    ))
+                ) : (
+                    <CustomTabPanel value={value} index={2}>
+                        <h1 style={{ textAlign: 'center' }}>ไม่มีประวัติการกินยา</h1>
                     </CustomTabPanel>
-                ))}
+                )}
             </Box>
         </div >
     );
