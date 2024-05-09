@@ -6,6 +6,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FindModule } from './Database_Module/FindModule';
 
 interface Medicine {
     MatchedTime: string;
@@ -63,6 +64,17 @@ const MedicineLogsByDate: React.FC = () => {
     const { userID } = useParams<{ userID: any }>();
     const { date } = useParams<{ date: any }>();
 
+    const [pictureUrl, setPictureUrl] = useState("");
+    const [displayName, setDisplayName] = useState("");
+
+    const dateObj = new Date(date);
+
+    const day = dateObj.getDate().toString().padStart(2, '0');
+    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+    const year = dateObj.getFullYear();
+
+    const formattedDate = `${day} / ${month} / ${year}`;
+
     const [value, setValue] = React.useState(0);
 
     const [medicinesByMonth, setMedicinesByMonth] = useState<{
@@ -93,6 +105,38 @@ const MedicineLogsByDate: React.FC = () => {
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
+
+    const findProfile = async () => {
+        try {
+            const response = await FindModule({
+                collection: "User",
+                database: "HealthCare",
+                filter: { LineID: userID }, //Change to liff
+            });
+
+            // Access the data property from the response
+            const responseData = response.data;
+            // console.log(responseData);
+
+            if (responseData && responseData.document) {
+                setPictureUrl(responseData.document.Picture);
+                setDisplayName(responseData.document.Name);
+                console.log(responseData.document.Picture);
+                // updateMedic();
+                // console.log(Object.keys(data.document.User).length);
+            } else {
+                console.log("Not found");
+                // insertMedic();
+                // initialUser();
+            }
+
+            // Continue with your logic here
+        } catch (error) {
+            // Handle errors
+            console.error('Error in findProfile:', error);
+        }
+    }
+
 
     const getMedic = async () => {
         try {
@@ -133,6 +177,7 @@ const MedicineLogsByDate: React.FC = () => {
 
     useEffect(() => {
         getMedic();
+        findProfile();
     }, [])
 
 
@@ -144,15 +189,19 @@ const MedicineLogsByDate: React.FC = () => {
                 }}>
                     <Toolbar sx={{ justifyContent: 'center' }}> {/* Center content horizontally */}
                         <Avatar
-                            // alt={userID}
-                            // src={userPIC}
+                            alt={userID}
+                            src={pictureUrl}
                             sx={{ width: '36px', height: '36px', marginRight: '10px' }} /> {/* Adjust margin if necessary */}
-                        <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold' }}>
-                            ประวัติการกินยา
+                        <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold', textAlign: 'center' }}>
+                            ประวัติการกินยาของ <br /> {displayName}
                         </Typography>
                     </Toolbar>
                 </AppBar>
             </Box>
+
+            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold', textAlign: 'center' }}>
+                วันที่ {formattedDate}
+            </Typography>
 
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center', width: '100%' }}>
