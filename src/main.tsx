@@ -22,6 +22,7 @@ import MedicDetailPage_client from "./MedicDetailPage_client";
 import NotiManagePage_client from "./NotiManagePage_client";
 import MedicineLogs from "./MedicineLogs";
 import MedicineLogsByDate from "./MedicineLogsByDate";
+import MedicineLogs_client from "./MedicineLogs_client";
 // import TestR2 from "./Database_Module/TestAWSModule";
 // import { FirebaseApp } from "./Database_Module/FirebaseApp";
 // import AddMedicPageCopy from "./AddMedicPage copy";
@@ -87,6 +88,10 @@ const router = createBrowserRouter([
   {
     path: "/MedicineLogs/:userID/:date",
     element: <MedicineLogsByDate />
+  },
+  {
+    path: "/MedicineLogs/member/:userID/",
+    element: <MedicineLogs_client />
   },
 
   // {

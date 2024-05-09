@@ -18,6 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import HistoryIcon from '@mui/icons-material/History';
 
 
 
@@ -46,7 +47,7 @@ function MemberPage() {
 
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [userID, setUserID] = useState("");
+  const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
 
 
   const initializeLiff = async () => {
@@ -125,6 +126,10 @@ function MemberPage() {
   const NotiEdit = (client_id: string, client_pic: string, client_name: string) => {
     const encodedPic = encodeURIComponent(client_pic);
     navigate(`/MemberPage/NotiManagePage/${client_id}/${encodedPic}/${client_name}`);
+  };
+
+  const handleLogs = (userID: string) => {
+    navigate(`/MedicineLogs/member/${userID}`);
   };
 
 
@@ -280,6 +285,10 @@ function MemberPage() {
 
                 <IconButton aria-label="delete" onClick={() => NotiEdit(users.LineID, users.Picture, users.Name)}>
                   <NotificationsIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
+                </IconButton>
+
+                <IconButton aria-label="delete" onClick={() => handleLogs(users.LineID)}>
+                  <HistoryIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
                 </IconButton>
 
 

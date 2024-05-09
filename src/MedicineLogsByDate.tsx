@@ -21,7 +21,8 @@ interface Medicine {
     status: string;
     datestamp: string;
     timestamp: string;
-    stock: Int32Array
+    stock: Int32Array;
+    AcceptType: string;
 }
 
 interface TabPanelProps {
@@ -197,6 +198,11 @@ const MedicineLogsByDate: React.FC = () => {
                                                 {medicine.MedicName}
                                             </Typography>
                                             <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            {medicine.AcceptType === null ? (
+                                                <Typography variant="subtitle2" style={{ color: 'red' }}>ไม่ได้กิน</Typography>
+                                            ) : (
+                                                <Typography variant="subtitle2" style={{ color: 'green' }}>กินแล้ว</Typography>
+                                            )}
                                         </CardContent>
                                     </Box>
                                 </Card>
@@ -246,6 +252,11 @@ const MedicineLogsByDate: React.FC = () => {
                                                 {medicine.MedicName}
                                             </Typography>
                                             <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            {medicine.AcceptType === null ? (
+                                                <Typography variant="subtitle2" style={{ color: 'red' }}>ไม่ได้กิน</Typography>
+                                            ) : (
+                                                <Typography variant="subtitle2" style={{ color: 'green' }}>กินแล้ว</Typography>
+                                            )}
                                         </CardContent>
                                     </Box>
                                 </Card>
@@ -295,6 +306,11 @@ const MedicineLogsByDate: React.FC = () => {
                                                 {medicine.MedicName}
                                             </Typography>
                                             <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            {medicine.AcceptType === null ? (
+                                                <Typography variant="subtitle2" style={{ color: 'red' }}>ไม่ได้กิน</Typography>
+                                            ) : (
+                                                <Typography variant="subtitle2" style={{ color: 'green' }}>กินแล้ว</Typography>
+                                            )}
                                         </CardContent>
                                     </Box>
                                 </Card>
