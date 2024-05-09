@@ -6,6 +6,7 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
+import { FindModule } from './Database_Module/FindModule';
 
 interface Medicine {
     _id: string;
@@ -92,8 +93,40 @@ const MedicineLogs_client: React.FC = () => {
         }
     }
 
+    const findProfile = async () => {
+        try {
+            const response = await FindModule({
+                collection: "User",
+                database: "HealthCare",
+                filter: { LineID: userID }, //Change to liff
+            });
+
+            // Access the data property from the response
+            const responseData = response.data;
+            // console.log(responseData);
+
+            if (responseData && responseData.document) {
+                setPictureUrl(responseData.document.Picture);
+                setDisplayName(responseData.document.Name);
+                console.log(responseData.document.Picture);
+                // updateMedic();
+                // console.log(Object.keys(data.document.User).length);
+            } else {
+                console.log("Not found");
+                // insertMedic();
+                // initialUser();
+            }
+
+            // Continue with your logic here
+        } catch (error) {
+            // Handle errors
+            console.error('Error in findProfile:', error);
+        }
+    }
+
     useEffect(() => {
         getMedic();
+        findProfile();
     }, [userID])
 
     return (
@@ -104,13 +137,13 @@ const MedicineLogs_client: React.FC = () => {
                     <AppBar position="static" sx={{
                         bgcolor: '#A8E3F0', borderRadius: '15px', marginBottom: '15px'
                     }}>
-                        <Toolbar sx={{ justifyContent: 'center' }}> {/* Center content horizontally */}
+                        <Toolbar sx={{ justifyContent: 'center' , gap: '10px'}}> {/* Center content horizontally */}
                             <Avatar
                                 alt={userID}
                                 src={pictureUrl}
                                 sx={{ width: '36px', height: '36px', marginRight: '10px' }} /> {/* Adjust margin if necessary */}
-                            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold' }}>
-                                ประวัติการกินยา
+                            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold', textAlign: 'center' }}>
+                                ประวัติการกินยาของ <br /> {displayName}
                             </Typography>
                         </Toolbar>
                     </AppBar>

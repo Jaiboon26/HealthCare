@@ -47,7 +47,7 @@ function MemberPage() {
 
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
-  const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
+  const [userID, setUserID] = useState("");
 
 
   const initializeLiff = async () => {
