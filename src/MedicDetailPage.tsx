@@ -123,7 +123,7 @@ function MedicDetailPage() {
   const initializeLiff = async () => {
     try {
       await liff.init({
-        liffId: "2003049267-WEBrp8Z1"
+        liffId: "2004903683-4e5OEOWn"
       });
 
       if (!liff.isLoggedIn()) {

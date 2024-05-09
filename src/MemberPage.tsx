@@ -52,7 +52,7 @@ function MemberPage() {
   const initializeLiff = async () => {
     try {
       await liff.init({
-        liffId: "2003049267-Ory1R5Kd"
+        liffId: "2004903683-WnaAjA86"
       });
 
       //setMessage("LIFF init succeeded.");

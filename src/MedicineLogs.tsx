@@ -42,7 +42,7 @@ const MedicineLogs: React.FC = () => {
     const initializeLiff = async () => {
         try {
             await liff.init({
-                liffId: "2003049267-NEXLpBkK"
+                liffId: "2004903683-9qWnKnlZ"
             });
 
             //setMessage("LIFF init succeeded.");

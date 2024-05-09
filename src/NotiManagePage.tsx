@@ -63,7 +63,7 @@ function NotiManagePage() {
   const initializeLiff = async () => {
     try {
       await liff.init({
-        liffId: "2003049267-YNGg4bx3"
+        liffId: "2004903683-YjLEAEmQ"
       });
 
       //setMessage("LIFF init succeeded.");
