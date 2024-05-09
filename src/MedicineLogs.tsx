@@ -160,8 +160,8 @@ const MedicineLogs: React.FC = () => {
                                 alt={userID}
                                 src={pictureUrl}
                                 sx={{ width: '36px', height: '36px', marginRight: '10px' }} /> {/* Adjust margin if necessary */}
-                            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold' }}>
-                                ประวัติการกินยา
+                            <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold', textAlign: 'center' }}>
+                                ประวัติการกินยาของ <br /> {displayName}
                             </Typography>
                         </Toolbar>
                     </AppBar>

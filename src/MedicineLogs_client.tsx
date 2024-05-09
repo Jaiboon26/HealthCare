@@ -8,6 +8,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FindModule } from './Database_Module/FindModule';
 
+
 interface Medicine {
     _id: string;
     LineID: string;
