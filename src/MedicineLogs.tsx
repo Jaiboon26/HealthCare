@@ -162,6 +162,10 @@ const MedicineLogs: React.FC = () => {
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
 
+    const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+        setValue(newValue);
+      };
+
 
     let navigate = useNavigate();
 
@@ -473,7 +477,7 @@ const MedicineLogs: React.FC = () => {
                 <AppBar position="static">
                     <Tabs
                         value={value}
-                        // onChange={handleChange}
+                        onChange={handleChange}
                         indicatorColor="secondary"
                         textColor="inherit"
                         variant="fullWidth"
