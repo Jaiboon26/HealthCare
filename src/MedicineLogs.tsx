@@ -12,14 +12,36 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Accordion from '@mui/material/Accordion';
-import Divider from '@mui/material/Divider';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs, { Dayjs } from 'dayjs';
+
+interface Column {
+    id: 'name' | 'code' | 'population' | 'size' | 'density';
+    label: string;
+    minWidth?: number;
+    align?: 'right';
+    format?: (value: number) => string;
+}
+
+const columns: { id: keyof MedicineReport; label: string; minWidth?: number; align?: 'center'; format?: (value: any) => string; }[] = [
+    { id: 'MedicPicture', label: 'รูปยา', minWidth: 100, align: 'center' },
+    { id: 'MedicName', label: 'ชื่อยา', minWidth: 100, align: 'center' },
+    { id: 'stock', label: 'ได้รับ', minWidth: 40, align: 'center' },
+    // Add more columns as needed
+];
+
+
 
 interface Medicine {
     _id: string;
@@ -34,6 +56,41 @@ interface Medicine {
     status: string;
     datestamp: string;
     timestamp: string;
+}
+
+interface MedicineReport {
+    MatchedTime: string;
+    _id: string;
+    LineID: string;
+    MedicID: string;
+    MedicName: string;
+    Morning: boolean;
+    Noon: boolean;
+    Evening: boolean;
+    afbf: string;
+    MedicPicture: string;
+    status: string;
+    datestamp: string;
+    timestamp: string;
+    stock: Int32Array;
+    AcceptType: string;
+}
+
+interface MedicLeft {
+    MatchedTime: string;
+    _id: string;
+    LineID: string;
+    MedicID: string;
+    MedicName: string;
+    Morning: boolean;
+    Noon: boolean;
+    Evening: boolean;
+    afbf: string;
+    MedicPicture: string;
+    status: string;
+    datestamp: string;
+    timestamp: string;
+    stock: Int32Array;
 }
 
 interface TabPanelProps {
@@ -88,15 +145,22 @@ const MedicineLogs: React.FC = () => {
 
     const [pictureUrl, setPictureUrl] = useState("");
     const [displayName, setDisplayName] = useState("");
-    const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
+    const [userID, setUserID] = useState("");
 
     const theme = useTheme();
     const [value, setValue] = React.useState(0);
     const [open, setOpen] = React.useState(false);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
-    };
+    const [startDate, setStartDate] = useState<Dayjs | null>(null);
+    const [endDate, setEndDate] = useState<Dayjs | null>(null);
+
+    const [medicList, setMedicList] = useState<MedicineReport[]>([]);
+    const [medicLeft, setMedicLeft] = useState<MedicLeft[]>([]);
+    const [medicIDList, setMedicIDList] = useState<[]>([]);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
 
 
     let navigate = useNavigate();
@@ -105,55 +169,128 @@ const MedicineLogs: React.FC = () => {
         navigate(`/MedicineLogs/${userID}/${date}`);
     };
 
-    // const initializeLiff = async () => {
-    //     try {
-    //         await liff.init({
-    //             liffId: "2004903683-9qWnKnlZ"
-    //         });
+    const getStartDate = async () => {
 
-    //         //setMessage("LIFF init succeeded.");
+        try {
 
-    //         // login
-    //         if (!liff.isLoggedIn()) {
-    //             try {
-    //                 await liff.login();
-    //             } catch (error) {
-    //                 console.error(error);
-    //             }
-    //         } else {
-    //             const accessToken = liff.getIDToken();
-    //             console.log(accessToken);
-    //         }
+            if (!startDate) {
+                console.error("Start date is null");
+                return;
+            }
 
 
-    //         // Fetch user profile
-    //         fetchUserProfile();
-    //     } catch (e) {
-    //         // setMessage("LIFF init failed.");
-    //         // setError(`${e}`);
-    //     }
-    // };
+            const response = await FindModuleMultiple({
+                collection: "MedicineLogs",
+                database: "HealthCare",
+                filter: {
+                    LineID: userID,
+                    datestamp: startDate.format('YYYY-MM-DD'),
+                    MatchedTime: 'Morning'  // Matches documents where datestamp is equal to startDate or endDate
+                },
+            });
 
-    // const fetchUserProfile = async () => {
-    //     try {
-    //         const profile = await liff.getProfile();
-    //         const userProfile = profile.userId;
-    //         const userDisplayName = profile.displayName;
-    //         const statusMessage = profile.statusMessage;
-    //         const userPictureUrl = profile.pictureUrl;
+            // Access the data property from the response
+            const responseData = response.data;
+            setMedicList(responseData.documents);
+        } catch (error) {
+            // Handle errors
+            console.error('Error in findProfile:', error);
+        }
+    }
+
+    const getLastDate = async () => {
+
+        try {
+
+            if (!endDate) {
+                console.error("End date is null");
+                return;
+            }
+
+            const medicIDArray = medicList.map((medicine: MedicineReport) => medicine.MedicID);
+
+            const response = await FindModuleMultiple({
+                collection: "MedicineLogs",
+                database: "HealthCare",
+                filter: {
+                    LineID: userID,
+                    MedicID: { $in: medicIDArray },
+                    datestamp: endDate.format('YYYY-MM-DD'),
+                    MatchedTime: 'Evening'  // Matches documents where datestamp is equal to startDate or endDate
+                },
+            });
+
+            // Access the data property from the response
+            const responseData = response.data;
+
+            if (responseData && responseData.documents) {
+                setMedicLeft(responseData.documents)
+            } else {
+                console.log("Not found");
+            }
+        } catch (error) {
+            // Handle errors
+            console.error('Error in findProfile:', error);
+        }
+    }
+
+    useEffect(() => {
+        getLastDate();
+    }, [endDate])
+
+    useEffect(() => {
+        getStartDate();
+    }, [startDate])
+
+    const initializeLiff = async () => {
+        try {
+            await liff.init({
+                liffId: "2004903683-9qWnKnlZ"
+            });
+
+            //setMessage("LIFF init succeeded.");
+
+            // login
+            if (!liff.isLoggedIn()) {
+                try {
+                    await liff.login();
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                const accessToken = liff.getIDToken();
+                console.log(accessToken);
+            }
 
 
-    //         setDisplayName(userDisplayName);
-    //         setUserID(userProfile);
-    //         setPictureUrl(userPictureUrl ?? "");
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
+            // Fetch user profile
+            fetchUserProfile();
+        } catch (e) {
+            // setMessage("LIFF init failed.");
+            // setError(`${e}`);
+        }
+    };
 
-    // useEffect(() => {
-    //     initializeLiff();
-    // }, []);
+    const fetchUserProfile = async () => {
+        try {
+            const profile = await liff.getProfile();
+            const userProfile = profile.userId;
+            const userDisplayName = profile.displayName;
+            const statusMessage = profile.statusMessage;
+            const userPictureUrl = profile.pictureUrl;
+
+
+            setDisplayName(userDisplayName);
+            setUserID(userProfile);
+            setPictureUrl(userPictureUrl ?? "");
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
+        initializeLiff();
+    }, []);
 
 
     const handleClick = (month: string) => {
@@ -336,14 +473,14 @@ const MedicineLogs: React.FC = () => {
                 <AppBar position="static">
                     <Tabs
                         value={value}
-                        onChange={handleChange}
+                        // onChange={handleChange}
                         indicatorColor="secondary"
                         textColor="inherit"
                         variant="fullWidth"
                         aria-label="full width tabs example"
                     >
                         <Tab icon={<CalendarMonthIcon />} label="ดูรายละเอียดตามวันที่" {...a11yProps(0)} />
-                        <Tab icon={<SummarizeIcon />} label="ดูสรุปตามรอบที่หมอนัด" {...a11yProps(1)} />
+                        <Tab icon={<SummarizeIcon />} label="ดูสรุปโดยเลือกวันที่" {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
 
@@ -392,64 +529,69 @@ const MedicineLogs: React.FC = () => {
                 </TabPanel>
 
                 <TabPanel value={value} index={1} dir={theme.direction}>
-                    <div>
-                        <Accordion sx={{ bgcolor: '#A8E3F0' }}>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                รอบวันที่ 29/4/2024 - 25/5/2024
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ bgcolor: 'white', paddingLeft: '0', paddingRight: '0', paddingTop: '10px' }}>
+                    <div className="index2" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '25px' }}>
 
-                                <div className="StackList" style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-
-                                    <Stack
-                                        direction="row"
-                                        divider={<Divider orientation="vertical" flexItem />}
-                                        spacing={1}
-                                        width="100%" // Set width to 100%
-                                    >
-                                        <Item>
-                                            <img src="https://placehold.co/600x400" alt="" style={{ width: '100px' }} />
-                                        </Item>
-                                        <Item>พาราเซตตามอล</Item>
-                                        <Item>ได้รับ 30</Item>
-                                        <Item>คงเหลือ 5</Item>
-                                    </Stack>
-
-                                    <Stack
-                                        direction="row"
-                                        divider={<Divider orientation="vertical" flexItem />}
-                                        spacing={1}
-                                        width="100%" // Set width to 100%
-                                    >
-                                        <Item>
-                                            <img src="https://placehold.co/600x400" alt="" style={{ width: '100px' }} />
-                                        </Item>
-                                        <Item>พาราเซตตามอล</Item>
-                                        <Item>ได้รับ 30</Item>
-                                        <Item>คงเหลือ 5</Item>
-                                    </Stack>
-
-                                </div>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel2-content"
-                                id="panel2-header"
-                            >
-                                Accordion 2
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                malesuada lacus ex, sit amet blandit leo lobortis eget.
-                            </AccordionDetails>
-                        </Accordion>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="เริ่มวันที่"
+                                value={startDate}
+                                onChange={(newValue) => setStartDate(newValue)}
+                            />
+                        </LocalizationProvider>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                label="สิ้นสุดวันที่"
+                                value={endDate}
+                                onChange={(newValue) => setEndDate(newValue)}
+                            />
+                        </LocalizationProvider>
+                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                            <TableContainer sx={{ maxHeight: 440 }}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            {columns.map((column) => (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align={column.align || 'left'}
+                                                    style={{ minWidth: column.minWidth }}
+                                                >
+                                                    {column.label}
+                                                </TableCell>
+                                            ))}
+                                            <TableCell align="center" sx={{ minWidth: '50px' }}>คงเหลือ</TableCell> {/* Add the last column header */}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {medicList.map((medicine: MedicineReport) => {
+                                            // Find the corresponding MedicLeft object based on MedicID
+                                            const medicLeftItem = medicLeft.find((medicLeft: MedicLeft) => medicLeft.MedicID === medicine.MedicID);
+                                            return (
+                                                <TableRow hover role="checkbox" tabIndex={-1} key={medicine.MedicID}>
+                                                    {columns.map((column, columnIndex) => {
+                                                        const value = medicine[column.id];
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align || 'left'}>
+                                                                {/* Conditional rendering based on column */}
+                                                                {columnIndex === 0 ? (
+                                                                    <img src={medicine.MedicPicture} alt="Medicine" style={{ width: '100px' }} />
+                                                                ) : (
+                                                                    // Render text content for other columns
+                                                                    column.format ? column.format(value) : value
+                                                                )}
+                                                            </TableCell>
+                                                        );
+                                                    })}
+                                                    <TableCell align="center">{medicLeftItem ? medicLeftItem.stock : 'ยาถูกลบไปแล้ว'}</TableCell> {/* Render the stock value */}
+                                                </TableRow>
+                                            );
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Paper>
                     </div>
+
                 </TabPanel>
 
             </Box>

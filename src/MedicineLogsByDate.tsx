@@ -246,7 +246,10 @@ const MedicineLogsByDate: React.FC = () => {
                                             <Typography component="div" variant="h5">
                                                 {medicine.MedicName}
                                             </Typography>
-                                            <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            {medicine.timestamp && (
+                                                <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            )}
+
                                             {medicine.AcceptType === null ? (
                                                 <Typography variant="subtitle2" style={{ color: 'red' }}>ไม่ได้กิน</Typography>
                                             ) : (
@@ -300,7 +303,9 @@ const MedicineLogsByDate: React.FC = () => {
                                             <Typography component="div" variant="h5">
                                                 {medicine.MedicName}
                                             </Typography>
-                                            <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            {medicine.timestamp && (
+                                                <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            )}
                                             {medicine.AcceptType === null ? (
                                                 <Typography variant="subtitle2" style={{ color: 'red' }}>ไม่ได้กิน</Typography>
                                             ) : (
@@ -354,7 +359,9 @@ const MedicineLogsByDate: React.FC = () => {
                                             <Typography component="div" variant="h5">
                                                 {medicine.MedicName}
                                             </Typography>
-                                            <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            {medicine.timestamp && (
+                                                <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            )}
                                             {medicine.AcceptType === null ? (
                                                 <Typography variant="subtitle2" style={{ color: 'red' }}>ไม่ได้กิน</Typography>
                                             ) : (
