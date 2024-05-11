@@ -198,11 +198,6 @@ function UserPage() {
             <Typography component="div" variant="h5">
               {displayName}
             </Typography>
-            <Typography variant="subtitle1" color="text.secondary" component="div">
-              Thailand <br />
-              175 Cm <br />
-              80 Kg
-            </Typography>
           </CardContent>
         </Box>
       </Card>
