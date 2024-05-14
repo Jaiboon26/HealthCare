@@ -30,9 +30,10 @@ function Variants() {
         <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
         <div className="bodySkeleton" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
-          <Skeleton variant="rounded" width="100%" height={250} animation="wave" />
-          <Skeleton variant="rounded" width="100%" height={250} animation="wave" />
-          <Skeleton variant="rounded" width="100%" height={250} animation="wave" />
+          <Skeleton variant="rounded" width="100%" height={150} animation="wave" />
+          <Skeleton variant="rounded" width="100%" height={150} animation="wave" />
+          <Skeleton variant="rounded" width="100%" height={150} animation="wave" />
+          <Skeleton variant="rounded" width="100%" height={150} animation="wave" />
 
         </div>
       </div>
@@ -232,7 +233,7 @@ function MemberPage() {
         setEachUser(responseData.documents);
         setTimeout(() => {
           setLoading(false)
-        }, 3000);
+        }, 1000);
       } else {
         console.log("Not found");
         // console.log(userID);
