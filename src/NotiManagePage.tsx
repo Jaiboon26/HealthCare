@@ -278,46 +278,55 @@ function NotiManagePage() {
   };
 
   const findTime = async () => {
-    try {
-      const accessToken = await getAccessToken();
-      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
-        collection: 'NotifyTime',
-        database: 'HealthCare',
-        dataSource: 'HealthCareDemo',
-        filter: {
-          LineID: userID,
-        },
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Request-Headers': '*',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
-
-      const data = responseFind.data;
-      // console.log(accessToken);
-
-      if (data && data.document && data.document.LineID === userID) {
-        console.log(data);
-
-        setSelectedHours1(data.document.Morning[0]);
-        setSelectedMins1(data.document.Morning[1]);
-
-        setSelectedHours2(data.document.Noon[0]);
-        setSelectedMins2(data.document.Noon[1]);
-
-        setSelectedHours3(data.document.Evening[0]);
-        setSelectedMins3(data.document.Evening[1]);
-
-        setSelectedHours4(data.document.Night[0]);
-        setSelectedMins4(data.document.Night[1]);
-      } else {
-        insertTime();
+    if (!liff.isLoggedIn()) {
+      try {
+        await liff.login();
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error('Error fetching data from MongoDB:', error);
+    }
+    else {
+      try {
+        const accessToken = await getAccessToken();
+        const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
+          collection: 'NotifyTime',
+          database: 'HealthCare',
+          dataSource: 'HealthCareDemo',
+          filter: {
+            LineID: userID,
+          },
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
 
+        const data = responseFind.data;
+        // console.log(accessToken);
+
+        if (data && data.document && data.document.LineID === userID) {
+          console.log(data);
+
+          setSelectedHours1(data.document.Morning[0]);
+          setSelectedMins1(data.document.Morning[1]);
+
+          setSelectedHours2(data.document.Noon[0]);
+          setSelectedMins2(data.document.Noon[1]);
+
+          setSelectedHours3(data.document.Evening[0]);
+          setSelectedMins3(data.document.Evening[1]);
+
+          setSelectedHours4(data.document.Night[0]);
+          setSelectedMins4(data.document.Night[1]);
+        } else {
+          insertTime();
+        }
+      } catch (error) {
+        console.error('Error fetching data from MongoDB:', error);
+
+      }
     }
   };
 
