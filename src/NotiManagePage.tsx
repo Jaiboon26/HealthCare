@@ -239,7 +239,13 @@ function NotiManagePage() {
   };
 
   const insertTime = async () => {
-    if (!liff.isLoggedIn()) return
+    if (!liff.isLoggedIn()) {
+      try {
+        await liff.login();
+      } catch (error) {
+        console.error(error);
+      }
+    }
     else {
 
       try {
