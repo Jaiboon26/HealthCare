@@ -3,12 +3,28 @@ import { useEffect, useState } from "react";
 import liff from "@line/liff";
 //import profile from "./assets/pic/profile.jpg";
 import './UserPage.css'
-import { Avatar, Box, Typography } from "@mui/material";
+import { Avatar, Box, Skeleton, Stack, Typography } from "@mui/material";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import QRCode from "react-qr-code";
 import axios from "axios";
 import { getAccessToken } from "./connectDB";
+
+function Variants() {
+  return (
+    <Stack spacing={1}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', margin: '20px', alignItems: 'center' }}>
+
+        <Skeleton variant="rounded" width="100%" height={60} />
+        <div className="bodySkeleton" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+          <Skeleton variant="rounded" width="100%" height={600} />
+
+        </div>
+      </div>
+    </Stack>
+  );
+}
 
 function UserPage() {
   const [message, setMessage] = useState("");
@@ -16,6 +32,8 @@ function UserPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [userID, setUserID] = useState("");
+
+  const [loading, setLoading] = useState(true);
 
 
   const initializeLiff = async () => {
@@ -61,6 +79,10 @@ function UserPage() {
       setPictureUrl(userPictureUrl ?? "");
     } catch (err) {
       console.error(err);
+    } finally {
+      setTimeout(() => {
+        setLoading(false)
+      }, 3000);
     }
   };
 
@@ -166,6 +188,10 @@ function UserPage() {
       findProfile();
     }
   }, [userID, displayName]);
+
+  if (loading) {
+    return <Variants />
+  }
 
   return (
     <div>
