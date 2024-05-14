@@ -6,12 +6,131 @@ import { AppBar, Avatar, Box, Button, ButtonGroup, Card, CardContent, IconButton
 import CustomizedDialogs from "./DialogModule";
 import axios from "axios";
 import { getAccessToken } from "./connectDB";
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+
+function Variants() {
+  return (
+    <Stack spacing={1}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px', alignItems: 'center' }}>
+
+        {/* For variant="text", adjust the height via font-size */}
+        {/* <Skeleton variant="text" sx={{ fontSize: '1rem' }} /> */}
+        <Skeleton variant="rounded" width="100%" height={60} />
+
+        {/* For other variants, adjust the size with `width` and `height` */}
+        {/* <Skeleton variant="circular" width={40} height={40} /> */}
+        <Skeleton variant="rectangular" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          width: '200px',
+          minHeight: '50px',
+          zIndex: '1'
+        }} />
+
+
+        <Skeleton variant="rounded" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          minWidth: '310px',
+          position: 'relative',
+          top: '-35px',
+          minHeight: '100px'
+        }} />
+
+
+        <Skeleton variant="rectangular" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          width: '200px',
+          minHeight: '50px',
+          zIndex: '1'
+        }} />
+
+
+        <Skeleton variant="rounded" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          minWidth: '310px',
+          position: 'relative',
+          top: '-35px',
+          minHeight: '100px'
+        }} />
+
+        <Skeleton variant="rectangular" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          width: '200px',
+          minHeight: '50px',
+          zIndex: '1'
+        }} />
+
+
+        <Skeleton variant="rounded" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          minWidth: '310px',
+          position: 'relative',
+          top: '-35px',
+          minHeight: '100px'
+        }} />
+
+        <Skeleton variant="rectangular" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          width: '200px',
+          minHeight: '50px',
+          zIndex: '1'
+        }} />
+
+
+        <Skeleton variant="rounded" width={210} height={60} sx={{
+          display: 'flex',
+          height: "auto",
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: "20px",
+          minWidth: '310px',
+          position: 'relative',
+          top: '-35px',
+          minHeight: '100px'
+        }} />
+
+
+      </div>
+
+    </Stack>
+  );
+}
 
 function NotiManagePage() {
 
   const [open, setOpen] = React.useState(false);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const [loading, setLoading] = useState(true);
 
   const [selectedTime, setSelectedTime] = React.useState<string>("");
   const [selectedHours, setSelectedHours] = useState<string>("");
@@ -40,110 +159,119 @@ function NotiManagePage() {
     setOpen(false);
   };
 
-  // const handleSave = (hours: string, mins: string) => {
-  //   // Handle the saved data as needed
-  //   if (selectedTime === "เช้า") {
-  //     setSelectedHours1(hours);
-  //     setSelectedMins1(mins);
-  //   }
-  //   else if (selectedTime === "กลางวัน") {
-  //     setSelectedHours2(hours);
-  //     setSelectedMins2(mins);
-  //   }
-  //   else if (selectedTime === "เย็น") {
-  //     setSelectedHours3(hours);
-  //     setSelectedMins3(mins);
-  //   }
-  // };
+  const handleSave = (hours: string, mins: string) => {
+    // Handle the saved data as needed
+    if (selectedTime === "เช้า") {
+      setSelectedHours1(hours);
+      setSelectedMins1(mins);
+    }
+    else if (selectedTime === "กลางวัน") {
+      setSelectedHours2(hours);
+      setSelectedMins2(mins);
+    }
+    else if (selectedTime === "เย็น") {
+      setSelectedHours3(hours);
+      setSelectedMins3(mins);
+    }
+    else if (selectedTime === "ก่อนนอน") {
+      setSelectedHours4(hours);
+      setSelectedMins4(mins);
+    }
+  };
 
   // const [message, setMessage] = useState("");
   // const [error, setError] = useState("");
   const [pictureUrl, setPictureUrl] = useState("");
   // const [displayName, setDisplayName] = useState("");
-  const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
+  const [userID, setUserID] = useState("");
 
 
-  // const initializeLiff = async () => {
-  //   try {
-  //     await liff.init({
-  //       liffId: "2004903683-YjLEAEmQ"
-  //     });
-
-  //     //setMessage("LIFF init succeeded.");
-
-  //     // login
-  //     if (!liff.isLoggedIn()) {
-  //       try {
-  //         await liff.login();
-  //         setIsLoggedIn(true);
-  //       } catch (error) {
-  //         console.error(error);
-  //       }
-  //     } else {
-  //       setIsLoggedIn(true);
-  //       const accessToken = liff.getIDToken();
-  //       console.log(accessToken);
-  //     }
-
-
-  //     // Fetch user profile
-  //     fetchUserProfile();
-  //   } catch (e) {
-  //     // setMessage("LIFF init failed.");
-  //     // setError(`${e}`);
-  //   }
-  // };
-
-
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const profile = await liff.getProfile();
-  //     const userProfile = profile.userId;
-  //     const userDisplayName = profile.displayName;
-  //     const statusMessage = profile.statusMessage;
-  //     const userPictureUrl = profile.pictureUrl;
-
-
-  //     // setDisplayName(userDisplayName);
-  //     setUserID(userProfile);
-  //     setPictureUrl(userPictureUrl ?? "");
-  //     // findTime();
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  const insertTime = async () => {
+  const initializeLiff = async () => {
     try {
-      const accessToken = await getAccessToken();
-      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
-        collection: 'NotifyTime',
-        database: 'HealthCare',
-        dataSource: 'HealthCareDemo',
-        document: {
-          LineID: userID,
-          Morning: ["08", "30"],
-          Noon: ["12", "00"],
-          Evening: ["17", "15"],
-          Night: ["21", "15"],
-        },
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Request-Headers': '*',
-          'Authorization': `Bearer ${accessToken}`,
-        },
+      await liff.init({
+        liffId: "2004903683-YjLEAEmQ"
       });
 
-      const data = responseFind.data;
-    } catch (error) {
-      console.error('Error fetching data from MongoDB:', error);
+      //setMessage("LIFF init succeeded.");
 
+      // login
+      if (!liff.isLoggedIn()) {
+        try {
+          await liff.login();
+          setIsLoggedIn(true);
+        } catch (error) {
+          console.error(error);
+        }
+      } else {
+        setIsLoggedIn(true);
+        const accessToken = liff.getIDToken();
+        console.log(accessToken);
+      }
+
+
+      // Fetch user profile
+      fetchUserProfile();
+    } catch (e) {
+      // setMessage("LIFF init failed.");
+      // setError(`${e}`);
+    }
+  };
+
+
+  const fetchUserProfile = async () => {
+    try {
+      const profile = await liff.getProfile();
+      const userProfile = profile.userId;
+      const userDisplayName = profile.displayName;
+      const statusMessage = profile.statusMessage;
+      const userPictureUrl = profile.pictureUrl;
+
+
+      // setDisplayName(userDisplayName);
+      setUserID(userProfile);
+      setPictureUrl(userPictureUrl ?? "");
+      // findTime();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const insertTime = async () => {
+    if (!liff.isLoggedIn()) return
+    else {
+
+      try {
+        const accessToken = await getAccessToken();
+        const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+          collection: 'NotifyTime',
+          database: 'HealthCare',
+          dataSource: 'HealthCareDemo',
+          document: {
+            LineID: userID,
+            Morning: ["08", "30"],
+            Noon: ["12", "00"],
+            Evening: ["17", "15"],
+            Night: ["21", "15"],
+          },
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+
+        const data = responseFind.data;
+      } catch (error) {
+        console.error('Error fetching data from MongoDB:', error);
+
+      }
     }
   };
 
   const findTime = async () => {
-
     try {
       const accessToken = await getAccessToken();
       const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/findOne', {
@@ -188,7 +316,7 @@ function NotiManagePage() {
   };
 
   useEffect(() => {
-    //initializeLiff();
+    initializeLiff();
     findTime();
   },
     []);
@@ -198,6 +326,10 @@ function NotiManagePage() {
       findTime();
     }
   }, [isLoggedIn, userID]);
+
+  if (loading) {
+    return <Variants />;
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px', alignItems: 'center' }}>
@@ -401,7 +533,6 @@ function NotiManagePage() {
       </div>
 
       <CustomizedDialogs open={open} onClose={handleClose} time={selectedTime} LineID={userID} hoursprev={selectedHours} minsprev={selectedMins} refreshData={findTime} />
-
     </div>
   );
 }

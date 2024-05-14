@@ -169,40 +169,40 @@ function AddMedicPage() {
   };
 
 
-  const initializeLiff = async () => {
-    try {
-      await liff.init({
-        liffId: "2004903683-QpWDzDk1"
-      });
+  // const initializeLiff = async () => {
+  //   try {
+  //     await liff.init({
+  //       liffId: "2004903683-QpWDzDk1"
+  //     });
 
-      if (!liff.isLoggedIn()) {
-        await liff.login();
-      }
+  //     if (!liff.isLoggedIn()) {
+  //       await liff.login();
+  //     }
 
-      fetchUserProfile();
-    } catch (error) {
-      console.error("LIFF initialization failed:", error);
-      // You can set an error state here or display an error message
-    }
-  };
+  //     fetchUserProfile();
+  //   } catch (error) {
+  //     console.error("LIFF initialization failed:", error);
+  //     // You can set an error state here or display an error message
+  //   }
+  // };
 
-  const fetchUserProfile = async () => {
-    try {
-      const profile = await liff.getProfile();
-      const userProfile = profile.userId;
-      const userDisplayName = profile.displayName;
-      const statusMessage = profile.statusMessage;
-      const userPictureUrl = profile.pictureUrl;
+  // const fetchUserProfile = async () => {
+  //   try {
+  //     const profile = await liff.getProfile();
+  //     const userProfile = profile.userId;
+  //     const userDisplayName = profile.displayName;
+  //     const statusMessage = profile.statusMessage;
+  //     const userPictureUrl = profile.pictureUrl;
 
 
-      // setDisplayName(userDisplayName);
-      setUserID(userProfile);
-      setUserIDChoose(userProfile);
-      setUserPIC(userPictureUrl ?? "");
-    } catch (err) {
-      console.error(err);
-    }
-  }
+  //     // setDisplayName(userDisplayName);
+  //     setUserID(userProfile);
+  //     setUserIDChoose(userProfile);
+  //     setUserPIC(userPictureUrl ?? "");
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // }
 
 
   const handleUser = (e: SelectChangeEvent) => {
@@ -569,7 +569,7 @@ function AddMedicPage() {
   }
 
   useEffect(() => {
-    initializeLiff();
+    // initializeLiff();
     // console.log(userInList);
     findUser();
     listUser();
