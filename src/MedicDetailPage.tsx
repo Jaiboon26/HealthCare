@@ -136,12 +136,12 @@ function MedicDetailPage() {
 
   const navigate = useNavigate();
 
-  const handleEdit = (medicName: string) => {
-    navigate(`/EditMedicPage/${medicName}`);
+  const handleEdit = (medicName: string, username: string) => {
+    navigate(`/EditMedicPage/${medicName}/${username}`);
   };
 
-  const handleHistory = (medicName: string, userID: string, username: string) => {
-    navigate(`/MEDHistory/${medicName}/${userID}/${username}`);
+  const handleHistory = (medicName: string, userID: string) => {
+    navigate(`/MEDHistory/${medicName}/${userID}`);
   };
 
   const handleDelete = (medicID: string, medicName: string, lineID: string) => {
@@ -303,10 +303,10 @@ function MedicDetailPage() {
                 <IconButton aria-label="delete" sx={{ position: 'absolute', top: '0', right: '0' }} onClick={() => handleDelete(medic.MedicID, medic.MedicName, userID)}>
                   <DeleteIcon sx={{ bgcolor: 'red', color: 'white', padding: '5px', borderRadius: '100%' }} />
                 </IconButton>
-                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleHistory(medic.MedicID, userID, username)}>
+                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleHistory(medic.MedicID, userID)}>
                   <HistoryIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
                 </IconButton>
-                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', right: '45px' }} onClick={() => handleEdit(medic.MedicID)}>
+                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', right: '45px' }} onClick={() => handleEdit(medic.MedicID, username)}>
                   <EditIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
                 </IconButton>
               </div>

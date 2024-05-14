@@ -67,7 +67,7 @@ const router = createBrowserRouter([
     element: <QrReader />
   },
   {
-    path: "/EditMedicPage/:medicID",
+    path: "/EditMedicPage/:medicID/:username",
     element: <EditMedicPage />
   },
   {
@@ -95,7 +95,7 @@ const router = createBrowserRouter([
     element: <MedicineLogs_client />
   },
   {
-    path: "/MEDHistory/:MedicID/:userID/:username",
+    path: "/MEDHistory/:MedicID/:userID",
     element: <MEDHistory />
   },
 
