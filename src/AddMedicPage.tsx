@@ -418,6 +418,11 @@ function AddMedicPage() {
       }
     } else {
 
+      let adjustedStock = stock;
+      if (halfUnit === true) {
+        adjustedStock = stock * 2;
+      }
+
       try {
         const accessToken = await getAccessToken();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
@@ -434,7 +439,7 @@ function AddMedicPage() {
             Night: night,
             afbf: afbf,
             HalfUnit: halfUnit,
-            stock: stock,
+            stock: adjustedStock,
             MedicPicture: urlImage,
             Status: true
           },
@@ -465,6 +470,11 @@ function AddMedicPage() {
       }
     } else {
 
+      let adjustedStock = stock;
+      if (halfUnit === true) {
+        adjustedStock = stock * 2;
+      }
+
       try {
         const accessToken = await getAccessToken();
         const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
@@ -481,12 +491,12 @@ function AddMedicPage() {
             Night: night,
             afbf: afbf,
             HalfUnit: halfUnit,
-            stock: stock,
+            stock: adjustedStock,
             MedicPicture: urlImage,
             EditBy: userName,
             EditDate: currentDate,
             EditTime: currentTime,
-            Status: "Enable"
+            Status: true
           },
         }, {
           headers: {
@@ -784,7 +794,7 @@ function AddMedicPage() {
               1 เม็ด
             </Button>
             <Button variant={halfUnit === true ? 'contained' : 'outlined'} onClick={HandleHalfUnit}>
-              ครึ่งเม็ด
+              ครึ่งเม็ด <p style={{ color: 'red' }}>*ถ้าเลือกครึ่งเม็ด ยาจะถูก x2</p>
             </Button>
           </div>
         </div>

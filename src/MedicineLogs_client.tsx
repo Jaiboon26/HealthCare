@@ -161,7 +161,7 @@ const MedicineLogs: React.FC = () => {
 
     const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
-      };
+    };
 
 
     let navigate = useNavigate();
