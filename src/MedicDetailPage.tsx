@@ -64,6 +64,7 @@ function MedicDetailPage() {
 
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
   const [userID, setUserID] = useState("");
+  const [username, setUsername] = useState("");
   const [userPIC, setUserPIC] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -139,8 +140,8 @@ function MedicDetailPage() {
     navigate(`/EditMedicPage/${medicName}`);
   };
 
-  const handleHistory = (medicName: string, userID: string) => {
-    navigate(`/MEDHistory/${medicName}/${userID}`);
+  const handleHistory = (medicName: string, userID: string, username: string) => {
+    navigate(`/MEDHistory/${medicName}/${userID}/${username}`);
   };
 
   const handleDelete = (medicID: string, medicName: string, lineID: string) => {
@@ -176,6 +177,7 @@ function MedicDetailPage() {
       // setDisplayName(userDisplayName);
       setUserID(userProfile);
       setUserPIC(userPictureUrl ?? "");
+      setUsername(userDisplayName);
 
 
     } catch (err) {
@@ -301,7 +303,7 @@ function MedicDetailPage() {
                 <IconButton aria-label="delete" sx={{ position: 'absolute', top: '0', right: '0' }} onClick={() => handleDelete(medic.MedicID, medic.MedicName, userID)}>
                   <DeleteIcon sx={{ bgcolor: 'red', color: 'white', padding: '5px', borderRadius: '100%' }} />
                 </IconButton>
-                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleHistory(medic.MedicID, userID)}>
+                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleHistory(medic.MedicID, userID, username)}>
                   <HistoryIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
                 </IconButton>
                 <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', right: '45px' }} onClick={() => handleEdit(medic.MedicID)}>

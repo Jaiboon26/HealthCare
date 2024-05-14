@@ -78,6 +78,7 @@ const daysOfWeek = [
 
 function AddMedicPage() {
   const [userIDChoose, setUserIDChoose] = useState("");
+  const [userName, setUserName] = useState("");
   const [userIDManage, setUserIDManage] = useState("");
   const [userPIC, setUserPIC] = useState("");
   const [medicName, setMedicName] = useState("");
@@ -228,6 +229,7 @@ function AddMedicPage() {
       setUserID(userProfile);
       setUserIDChoose(userProfile);
       setUserPIC(userPictureUrl ?? "");
+      setUserName(userDisplayName)
     } catch (err) {
       console.error(err);
     } finally {
@@ -481,7 +483,7 @@ function AddMedicPage() {
             HalfUnit: halfUnit,
             stock: stock,
             MedicPicture: urlImage,
-            EditBy: userID,
+            EditBy: userName,
             EditDate: currentDate,
             EditTime: currentTime,
             Status: "Enable"

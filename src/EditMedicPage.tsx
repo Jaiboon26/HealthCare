@@ -45,6 +45,7 @@ const daysOfWeek = [
 
 function EditMedicPage() {
   const { medicID } = useParams<{ medicID: string }>();
+  const { username } = useParams<{ username: string }>();
   const { userID } = useParams<{ userID: string }>();
 
   const [medicName, setMedicName] = useState(medicID);
@@ -150,7 +151,7 @@ function EditMedicPage() {
           HalfUnit: halfUnit,
           stock: stock,
           MedicPicture: url,
-          EditBy: userID,
+          EditBy: username,
           EditDate: currentDate,
           EditTime: currentTime,
           Status: "Enable"
@@ -227,12 +228,12 @@ function EditMedicPage() {
       );
 
       console.log("Response from MongoDB update:", responseFind.data);
-      // setChecked(true);
-      // setTimeout(() => {
-      //   setChecked(false);
-      //   // navigate('/MedicDetailPage');
-      //   navigate(-1);
-      // }, 3000);
+      setChecked(true);
+      setTimeout(() => {
+        setChecked(false);
+        // navigate('/MedicDetailPage');
+        navigate(-1);
+      }, 3000);
 
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);

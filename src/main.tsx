@@ -95,7 +95,7 @@ const router = createBrowserRouter([
     element: <MedicineLogs_client />
   },
   {
-    path: "/MEDHistory/:MedicID/:userID",
+    path: "/MEDHistory/:MedicID/:userID/username",
     element: <MEDHistory />
   },
 
