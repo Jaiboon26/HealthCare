@@ -233,8 +233,6 @@ function NotiManagePage() {
       // findTime();
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -326,6 +324,8 @@ function NotiManagePage() {
       } catch (error) {
         console.error('Error fetching data from MongoDB:', error);
 
+      } finally {
+        setLoading(false);
       }
     }
   };
