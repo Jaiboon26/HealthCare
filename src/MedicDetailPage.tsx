@@ -71,7 +71,7 @@ function MedicDetailPage() {
   const modalRef = useRef<HTMLDivElement>(null);
   const [getMedic, setGetMedic] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
