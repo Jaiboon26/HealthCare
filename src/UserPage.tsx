@@ -13,16 +13,18 @@ import { getAccessToken } from "./connectDB";
 function Variants() {
   return (
     <Stack spacing={1}>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', margin: '20px', alignItems: 'center' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px', alignItems: 'center' }}>
 
-        <Skeleton variant="rounded" width="100%" height={60} />
-        <div className="bodySkeleton" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <Skeleton variant="rectangular" width="100%" height={60} />
 
-          <Skeleton variant="rounded" width="100%" height={600} />
+        <div style={{ display: 'flex', flexDirection: 'column', width: "100%", gap: '5px' }} >
 
+          <Skeleton variant="rounded" width="100%" height={200} />
+
+          <Skeleton variant="rounded" width="100%" height={300} />
         </div>
       </div>
-    </Stack>
+    </Stack >
   );
 }
 
@@ -87,30 +89,40 @@ function UserPage() {
   };
 
   const insertTime = async () => {
-    try {
-      const accessToken = await getAccessToken();
-      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
-        collection: 'NotifyTime',
-        database: 'HealthCare',
-        dataSource: 'HealthCareDemo',
-        document: {
-          LineID: userID,
-          Morning: ["08", "30"],
-          Noon: ["12", "00"],
-          Evening: ["17", "15"],
-        },
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Request-Headers': '*',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
+    if (!liff.isLoggedIn()) {
+      try {
+        await liff.login();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
 
-      const data = responseFind.data;
-    } catch (error) {
-      console.error('Error fetching data from MongoDB:', error);
+      try {
+        const accessToken = await getAccessToken();
+        const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+          collection: 'NotifyTime',
+          database: 'HealthCare',
+          dataSource: 'HealthCareDemo',
+          document: {
+            LineID: userID,
+            Morning: ["08", "30"],
+            Noon: ["12", "00"],
+            Evening: ["17", "15"],
+            Night: ["21", "30"],
+          },
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
 
+        const data = responseFind.data;
+      } catch (error) {
+        console.error('Error fetching data from MongoDB:', error);
+
+      }
     }
   };
 
