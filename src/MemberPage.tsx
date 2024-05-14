@@ -6,7 +6,7 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Card, CardContent, Divider, Fab, IconButton } from "@mui/material";
+import { Card, CardContent, Divider, Fab, IconButton, Skeleton, Stack } from "@mui/material";
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import SvgIcon from '@mui/material/SvgIcon';
@@ -20,6 +20,25 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import HistoryIcon from '@mui/icons-material/History';
 
+
+
+function Variants() {
+  return (
+    <Stack spacing={1}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', margin: '20px', alignItems: 'center' }}>
+
+        <Skeleton variant="rounded" width="100%" height={60} animation="wave" />
+        <div className="bodySkeleton" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+          <Skeleton variant="rounded" width="100%" height={250} animation="wave" />
+          <Skeleton variant="rounded" width="100%" height={250} animation="wave" />
+          <Skeleton variant="rounded" width="100%" height={250} animation="wave" />
+
+        </div>
+      </div>
+    </Stack>
+  );
+}
 
 
 const fabStyle = {
@@ -48,6 +67,8 @@ function MemberPage() {
   const [pictureUrl, setPictureUrl] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [userID, setUserID] = useState("");
+
+  const [loading, setLoading] = useState(true);
 
 
   const initializeLiff = async () => {
@@ -149,6 +170,7 @@ function MemberPage() {
       if (responseData && responseData.document) {
         setUserIDManage(responseData.document.User);
         console.log(userIDManage);
+        setLoading(false)
         // updateMedic();
         // console.log(Object.keys(data.document.User).length);
       } else {
@@ -230,6 +252,10 @@ function MemberPage() {
   useEffect(() => {
     findManageUser();
   }, [userIDManage])
+
+  if (loading) {
+    return <Variants />
+  }
 
   return (
     <>
