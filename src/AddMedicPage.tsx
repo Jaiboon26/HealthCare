@@ -104,7 +104,7 @@ function AddMedicPage() {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [urlImage, setUrlImage] = useState("");
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [open, setOpen] = useState(true);
 
@@ -794,9 +794,10 @@ function AddMedicPage() {
               1 เม็ด
             </Button>
             <Button variant={halfUnit === true ? 'contained' : 'outlined'} onClick={HandleHalfUnit}>
-              ครึ่งเม็ด <p style={{ color: 'red' }}>*ถ้าเลือกครึ่งเม็ด ยาจะถูก x2</p>
+              ครึ่งเม็ด
             </Button>
           </div>
+          <p style={{ color: 'red' }}>*ถ้าเลือกครึ่งเม็ด ยาจะถูก x2</p>
         </div>
 
         <div className="stock" style={{}}>

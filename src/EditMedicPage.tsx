@@ -524,9 +524,10 @@ function EditMedicPage() {
               1 เม็ด
             </Button>
             <Button variant={halfUnit === true ? 'contained' : 'outlined'} onClick={HandleHalfUnit}>
-              ครึ่งเม็ด <p style={{ color: 'red' }}>*ถ้าเลือกครึ่งเม็ด ยาจะถูก x2</p>
+              ครึ่งเม็ด
             </Button>
           </div>
+          <p style={{ color: 'red' }}>*ถ้าเลือกครึ่งเม็ด ยาจะถูก x2</p>
         </div>
 
         <div className="stock" style={{}}>
