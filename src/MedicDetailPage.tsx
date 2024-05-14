@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
-import { Box, AppBar, Toolbar, Avatar, Typography, ButtonGroup, Card, CardContent, IconButton, SvgIcon, Checkbox, FormControlLabel, FormGroup, Modal } from "@mui/material";
+import { Box, AppBar, Toolbar, Avatar, Typography, ButtonGroup, Card, CardContent, IconButton, SvgIcon, Checkbox, FormControlLabel, FormGroup, Modal, Skeleton, Stack } from "@mui/material";
 import { FindModule } from "./Database_Module/FindModule";
 import { useNavigate } from "react-router-dom";
 import { UpdateModulePull } from "./Database_Module/UpdateModulePull";
@@ -9,6 +9,25 @@ import axios from "axios";
 import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+
+
+function Variants() {
+  return (
+    <Stack spacing={1}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', margin: '20px', alignItems: 'center' }}>
+
+        <Skeleton variant="rounded" width="100%" height={60} />
+        <div className="bodySkeleton" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+          <Skeleton variant="rounded" width="100%" height={250} />
+          <Skeleton variant="rounded" width="100%" height={250} />
+          <Skeleton variant="rounded" width="100%" height={250} />
+
+        </div>
+      </div>
+    </Stack>
+  );
+}
 
 
 interface Medic {
@@ -48,6 +67,8 @@ function MedicDetailPage() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [getMedic, setGetMedic] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -153,6 +174,8 @@ function MedicDetailPage() {
 
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -194,6 +217,9 @@ function MedicDetailPage() {
 
   //Uc1e97d3b9701a31fba1f9911852eeb8f
 
+  if (loading) {
+    return <Variants />
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', margin: '20px' }}>

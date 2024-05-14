@@ -78,7 +78,9 @@ function EditMedicPage() {
   const [morning, setMorning] = useState(false);
   const [noon, setNoon] = useState(false);
   const [evening, setEvening] = useState(false);
+  const [night, setNight] = useState(false);
   const [afbf, setAfbf] = useState("Before");
+  const [halfUnit, setHalfUnit] = useState(false);
   const [stock, setStock] = useState(0);
 
 
@@ -135,7 +137,9 @@ function EditMedicPage() {
         Morning: morning,
         Noon: noon,
         Evening: evening,
+        Night: night,
         afbf: afbf,
+        HalfUnit: halfUnit,
         stock: stock,
         MedicPicture: url,
         Status: "Enable"
@@ -157,7 +161,9 @@ function EditMedicPage() {
               Morning: morning,
               Noon: noon,
               Evening: evening,
+              Night: night,
               afbf: afbf,
+              HalfUnit: halfUnit,
               stock: stock,
               MedicPicture: url,
               Status: "Enable"
@@ -173,7 +179,7 @@ function EditMedicPage() {
         }
       );
 
-      // console.log("Response from MongoDB update:", responseFind.data);
+      console.log("Response from MongoDB update:", responseFind.data);
       setChecked(true);
       setTimeout(() => {
         setChecked(false);
@@ -208,6 +214,8 @@ function EditMedicPage() {
         setMorning(responseData.document.Morning);
         setNoon(responseData.document.Noon);
         setEvening(responseData.document.Evening);
+        setNight(responseData.document.Night);
+        setHalfUnit(responseData.document.HalfUnit);
         setAfbf(responseData.document.afbf);
         setStock(responseData.document.stock);
         // console.log(responseData.checkDay);
@@ -240,6 +248,14 @@ function EditMedicPage() {
 
   const EventEvening = () => {
     setEvening(!evening)
+  }
+
+  const EventNight = () => {
+    setNight(!night)
+  }
+
+  const HandleHalfUnit = () => {
+    setHalfUnit(!halfUnit)
   }
 
   const handleBeforeClick = () => {
@@ -412,10 +428,11 @@ function EditMedicPage() {
             ช่วงเวลาที่กิน
           </Typography>
           <div className="btgroup"
-            style={{ display: 'flex', flexDirection: 'row', gap: '60px' }}>
+            style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
             <Button variant={morning === true ? 'contained' : 'outlined'} onClick={EventMorning}>เช้า</Button>
             <Button variant={noon === true ? 'contained' : 'outlined'} onClick={EventNoon}>กลางวัน</Button>
             <Button variant={evening === true ? 'contained' : 'outlined'} onClick={EventEvening}>เย็น</Button>
+            <Button variant={night === true ? 'contained' : 'outlined'} onClick={EventNight}>ก่อนนอน</Button>
           </div>
         </div>
 
@@ -429,6 +446,20 @@ function EditMedicPage() {
             </Button>
             <Button variant={afbf === 'After' ? 'contained' : 'outlined'} onClick={handleAfterClick}>
               หลังอาหาร
+            </Button>
+          </div>
+        </div>
+
+        <div className="HalfUnitGroup" style={{ marginBottom: '20px' }}>
+          <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
+            กินครั้งละ
+          </Typography>
+          <div className="btgroup" style={{ display: 'flex', flexDirection: 'row', gap: '60px' }}>
+            <Button variant={halfUnit === false ? 'contained' : 'outlined'} onClick={HandleHalfUnit}>
+              1 เม็ด
+            </Button>
+            <Button variant={halfUnit === true ? 'contained' : 'outlined'} onClick={HandleHalfUnit}>
+              ครึ่งเม็ด
             </Button>
           </div>
         </div>
