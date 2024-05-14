@@ -13,6 +13,8 @@ import axios, { all } from "axios";
 import Slide from '@mui/material/Slide'
 import { FindModule } from "./Database_Module/FindModule";
 import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "./Database_Module/firebase";
@@ -23,6 +25,24 @@ interface User {
   Picture: string;
   Name: string;
   // Add other properties as needed
+}
+
+function Variants() {
+  return (
+    <Stack spacing={1}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '40px', margin: '20px', alignItems: 'center' }}>
+
+        <Skeleton variant="rounded" width="100%" height={60} />
+        <div className="bodySkeleton" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+          <Skeleton variant="rounded" width="100%" height={250} />
+          <Skeleton variant="rounded" width="100%" height={250} />
+          <Skeleton variant="rounded" width="100%" height={250} />
+
+        </div>
+      </div>
+    </Stack>
+  );
 }
 
 const ITEM_HEIGHT = 48;
@@ -83,6 +103,8 @@ function AddMedicPage() {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [urlImage, setUrlImage] = useState("");
 
+  const [loading, setLoading] = useState(true);
+
   const [open, setOpen] = useState(true);
 
   const [checked, setChecked] = useState(false);
@@ -98,7 +120,9 @@ function AddMedicPage() {
   const [morning, setMorning] = useState(false);
   const [noon, setNoon] = useState(false);
   const [evening, setEvening] = useState(false);
+  const [night, setNight] = useState(false);
   const [afbf, setAfbf] = useState("Before");
+  const [halfUnit, setHalfUnit] = useState(false);
   const [stock, setStock] = useState(0);
 
 
@@ -134,8 +158,6 @@ function AddMedicPage() {
         const snapshot = await uploadBytes(imageRef, imageUpload);
         const url = await getDownloadURL(snapshot.ref);
         setImageUrls((prev) => [...prev, url]);
-        console.log("Success");
-        console.log(url);
         setUrlImage(url);
       } catch (error) {
         console.error("Error uploading image:", error);
@@ -169,45 +191,46 @@ function AddMedicPage() {
   };
 
 
-  // const initializeLiff = async () => {
-  //   try {
-  //     await liff.init({
-  //       liffId: "2004903683-QpWDzDk1"
-  //     });
+  const initializeLiff = async () => {
+    try {
+      await liff.init({
+        liffId: "2004903683-QpWDzDk1"
+      });
 
-  //     if (!liff.isLoggedIn()) {
-  //       await liff.login();
-  //     }
+      if (!liff.isLoggedIn()) {
+        await liff.login();
+      }
 
-  //     fetchUserProfile();
-  //   } catch (error) {
-  //     console.error("LIFF initialization failed:", error);
-  //     // You can set an error state here or display an error message
-  //   }
-  // };
+      fetchUserProfile();
+    } catch (error) {
+      console.error("LIFF initialization failed:", error);
+      // You can set an error state here or display an error message
+    }
+  };
 
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const profile = await liff.getProfile();
-  //     const userProfile = profile.userId;
-  //     const userDisplayName = profile.displayName;
-  //     const statusMessage = profile.statusMessage;
-  //     const userPictureUrl = profile.pictureUrl;
+  const fetchUserProfile = async () => {
+    try {
+      const profile = await liff.getProfile();
+      const userProfile = profile.userId;
+      const userDisplayName = profile.displayName;
+      const statusMessage = profile.statusMessage;
+      const userPictureUrl = profile.pictureUrl;
 
 
-  //     // setDisplayName(userDisplayName);
-  //     setUserID(userProfile);
-  //     setUserIDChoose(userProfile);
-  //     setUserPIC(userPictureUrl ?? "");
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // }
+      // setDisplayName(userDisplayName);
+      setUserID(userProfile);
+      setUserIDChoose(userProfile);
+      setUserPIC(userPictureUrl ?? "");
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
 
   const handleUser = (e: SelectChangeEvent) => {
     setUserIDChoose(e.target.value as string);
-    // console.log(userID)
   }
 
   const EventMorning = () => {
@@ -220,6 +243,14 @@ function AddMedicPage() {
 
   const EventEvening = () => {
     setEvening(!evening)
+  }
+
+  const EventNight = () => {
+    setNight(!night)
+  }
+
+  const HandleHalfUnit = () => {
+    setHalfUnit(!halfUnit)
   }
 
   const handleBeforeClick = () => {
@@ -264,11 +295,6 @@ function AddMedicPage() {
   const handleToggleAllDays = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAllday(event.target.checked);
   };
-
-  useEffect(() => {
-    console.log(selectedDays);
-    console.log(checkDay);
-  }, [selectedDays])
 
   useEffect(() => {
     if (allday === false) {
@@ -357,8 +383,10 @@ function AddMedicPage() {
         setMorning(false);
         setNoon(false);
         setEvening(false);
+        setNight(false);
         setPreviewUrl("https://placehold.co/600x400.png");
         setChecked(true);
+        setHalfUnit(false);
         setStock(0);
         setTimeout(() => {
           setChecked(false);
@@ -394,7 +422,9 @@ function AddMedicPage() {
             Morning: morning,
             Noon: noon,
             Evening: evening,
+            Night: night,
             afbf: afbf,
+            HalfUnit: halfUnit,
             stock: stock,
             MedicPicture: urlImage,
             Status: "Enable"
@@ -408,8 +438,6 @@ function AddMedicPage() {
         });
 
         const data = responseFind.data;
-
-        // console.log(data)
 
 
       } catch (error) {
@@ -441,9 +469,6 @@ function AddMedicPage() {
 
       const data = responseFind.data;
 
-      // console.log(data)
-
-
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
 
@@ -470,8 +495,6 @@ function AddMedicPage() {
 
       const data = responseFind.data;
 
-      // console.log(data)
-
 
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
@@ -491,14 +514,11 @@ function AddMedicPage() {
 
       // Access the data property from the response
       const responseData = response.data;
-      console.log(responseData);
 
       if (responseData && responseData.document) {
         setUserInList(responseData.document.User);
         setUserIDManage(responseData.document.LineID);
-        console.log(responseData.document.userID);
         // updateMedic();
-        // console.log(Object.keys(data.document.User).length);
       } else {
         console.log("Not found");
         // insertMedic();
@@ -525,15 +545,12 @@ function AddMedicPage() {
 
       // Access the data property from the response
       const responseData = response.data;
-      console.log(responseData);
 
       if (responseData && responseData.documents) {
-        console.log(responseData.documents);
         setEachUser(responseData.documents);
 
       } else {
         console.log("Not found");
-        console.log(userID);
       }
     } catch (error) {
       // Handle errors
@@ -553,13 +570,10 @@ function AddMedicPage() {
 
       // Access the data property from the response
       const responseData = response.data;
-      console.log(responseData);
 
       if (responseData && responseData.document) {
-        // console.log(data);
 
       } else {
-        // console.log("Not found , Insert Will run");
         insertData();
       }
     } catch (error) {
@@ -569,8 +583,7 @@ function AddMedicPage() {
   }
 
   useEffect(() => {
-    // initializeLiff();
-    // console.log(userInList);
+    initializeLiff();
     findUser();
     listUser();
     getUser();
@@ -586,6 +599,10 @@ function AddMedicPage() {
     getUser();
   }, [userInList]);
 
+  if (loading) {
+    return <Variants />
+  }
+
 
 
   async function handleSubmit(): Promise<void> {
@@ -594,7 +611,6 @@ function AddMedicPage() {
     if (medicName != "") {
       // insertMedic();
       uploadFile();
-      await console.log(medicName, "\n", morning, "\n", noon, "\n", evening, "\n", afbf, '\n', imageUrls, '\n', userIDChoose)
     }
     else {
       setCheckedFail(true);
@@ -676,10 +692,11 @@ function AddMedicPage() {
             ช่วงเวลาที่กิน
           </Typography>
           <div className="btgroup"
-            style={{ display: 'flex', flexDirection: 'row', gap: '60px' }}>
+            style={{ display: 'flex', flexDirection: 'row', gap: '20px' }}>
             <Button variant={morning === true ? 'contained' : 'outlined'} onClick={EventMorning}>เช้า</Button>
             <Button variant={noon === true ? 'contained' : 'outlined'} onClick={EventNoon}>กลางวัน</Button>
             <Button variant={evening === true ? 'contained' : 'outlined'} onClick={EventEvening}>เย็น</Button>
+            <Button variant={night === true ? 'contained' : 'outlined'} onClick={EventNight}>ก่อนนอน</Button>
           </div>
         </div>
 
@@ -693,6 +710,20 @@ function AddMedicPage() {
             </Button>
             <Button variant={afbf === 'After' ? 'contained' : 'outlined'} onClick={handleAfterClick}>
               หลังอาหาร
+            </Button>
+          </div>
+        </div>
+
+        <div className="HalfUnitGroup" style={{ marginBottom: '20px' }}>
+          <Typography component="div" variant="h6" sx={{ color: 'black', fontWeight: 'bold', width: '100%' }}>
+            กินครั้งละ
+          </Typography>
+          <div className="btgroup" style={{ display: 'flex', flexDirection: 'row', gap: '60px' }}>
+            <Button variant={halfUnit === false ? 'contained' : 'outlined'} onClick={HandleHalfUnit}>
+              1 เม็ด
+            </Button>
+            <Button variant={halfUnit === true ? 'contained' : 'outlined'} onClick={HandleHalfUnit}>
+              ครึ่งเม็ด
             </Button>
           </div>
         </div>
