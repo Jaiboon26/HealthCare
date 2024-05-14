@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import liff from "@line/liff";
 import { Box, AppBar, Toolbar, Avatar, Typography, ButtonGroup, Card, CardContent, IconButton, SvgIcon, Checkbox, FormControlLabel, FormGroup, Modal, Skeleton, Stack } from "@mui/material";
 import { FindModule } from "./Database_Module/FindModule";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { UpdateModulePull } from "./Database_Module/UpdateModulePull";
 import { getAccessToken } from "./connectDB";
 import axios from "axios";
@@ -32,6 +32,7 @@ function Variants() {
 
 
 interface Medic {
+  _id: string;
   MedicID: string;
   MedicName: string;
   MedicDate: { [key: string]: boolean }[];
@@ -43,6 +44,9 @@ interface Medic {
   MedicPicture: string;
   stock: Int32List;
   Status: string;
+  EditBy: string;
+  EditDate: string;
+  EditTime: string;
   // Add other properties as needed
 }
 
@@ -60,67 +64,84 @@ const shortDayNames: { [key: string]: string } = {
   Sunday: 'อา'
 };
 
-function MedicDetailPage() {
+function MEDHistory() {
 
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
-  const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
+  const { MedicID } = useParams<{ MedicID: any }>();
+  const { userID } = useParams<{ userID: any }>();
   const [userPIC, setUserPIC] = useState("");
+  const [medicName, setMedicName] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [getMedic, setGetMedic] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
   // setUserID("Uc1e97d3b9701a31fba1f9911852eeb8f");
 
 
-  const findMedicine = async () => {
-    try {
-      const response = await FindModule({
-        collection: "MedicDetail",
-        database: "HealthCare",
-        filter: { LineID: userID }, //Change to liff
-      });
+  // const findMedicine = async () => {
+  //   try {
+  //     const response = await FindModule({
+  //       collection: "MedicDetail",
+  //       database: "HealthCare",
+  //       filter: { LineID: userID }, //Change to liff
+  //     });
 
-      // Access the data property from the response
-      const responseData = response.data;
-      // console.log(responseData);
+  //     // Access the data property from the response
+  //     const responseData = response.data;
+  //     // console.log(responseData);
 
-      if (responseData) {
-        const medicineList = responseData.document.Medicine || []; // Use empty array if Medicine is undefined
-        setGetMedic(medicineList);
-        console.log(getMedic);
-        // setMediclist(getMedic);
-      } else {
-        console.log("Not found");
-      }
+  //     if (responseData) {
+  //       const medicineList = responseData.document.Medicine || []; // Use empty array if Medicine is undefined
+  //       setGetMedic(medicineList);
+  //       console.log(getMedic);
+  //       // setMediclist(getMedic);
+  //     } else {
+  //       console.log("Not found");
+  //     }
 
-      // Continue with your logic here
-    } catch (error) {
-      // Handle errors
-      console.error('Error in findProfile:', error);
-    }
-  }
+  //     // Continue with your logic here
+  //   } catch (error) {
+  //     // Handle errors
+  //     console.error('Error in findProfile:', error);
+  //   }
+  // }
 
 
   const medicinelist = async () => {
     try {
-      const response = await FindModuleMultiple({
-        collection: "MedicineList",
-        database: "HealthCare",
-        filter: { MedicID: { $in: getMedic } },
-      });
+      const accessToken = await getAccessToken();
 
+      const responseFind = await axios.post(
+        'https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/find',
+        {
+          collection: 'UpdateHistory',
+          database: 'HealthCare',
+          dataSource: 'HealthCareDemo',
+          filter: { MedicID: MedicID },
+          sort: { _id: -1 },
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        }
+      );
       // Access the data property from the response
-      const responseData = response.data;
+      const responseData = responseFind.data;
       // console.log(responseData);
 
       if (responseData && responseData.documents) {
         console.log(responseData.documents);
         setMediclist(responseData.documents);
+        setMedicName(responseData.documents[0].MedicName);
+        setLoading(false);
       } else {
         console.log("Not found");
         // console.log(userID);
@@ -139,62 +160,18 @@ function MedicDetailPage() {
     navigate(`/EditMedicPage/${medicName}`);
   };
 
-  const handleHistory = (medicName: string, userID: string) => {
-    navigate(`/MEDHistory/${medicName}/${userID}`);
+  const handleHistory = (medicName: string) => {
+    navigate(`/MEDHistory/${medicName}`);
   };
 
   const handleDelete = (medicID: string, medicName: string, lineID: string) => {
     navigate(`/DeleteMedicPage/${medicID}/${medicName}/${lineID}`)
   };
 
-  // const initializeLiff = async () => {
-  //   try {
-  //     await liff.init({
-  //       liffId: "2004903683-4e5OEOWn"
-  //     });
-
-  //     if (!liff.isLoggedIn()) {
-  //       await liff.login();
-  //     }
-
-  //     fetchUserProfile();
-  //   } catch (error) {
-  //     console.error("LIFF initialization failed:", error);
-  //     // You can set an error state here or display an error message
-  //   }
-  // };
-
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const profile = await liff.getProfile();
-  //     const userProfile = profile.userId;
-  //     const userDisplayName = profile.displayName;
-  //     const statusMessage = profile.statusMessage;
-  //     const userPictureUrl = profile.pictureUrl;
-
-
-  //     // setDisplayName(userDisplayName);
-  //     setUserID(userProfile);
-  //     setUserPIC(userPictureUrl ?? "");
-
-
-  //   } catch (err) {
-  //     console.error(err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // }
-
-  useEffect(() => {
-    // initializeLiff();
-    // findMedicine();
-    // medicinelist();
-  }, [])
-
-  useEffect(() => {
-    findMedicine();
-    console.log(userID);
-  }, [userID])
+  // useEffect(() => {
+  //   findMedicine();
+  //   console.log(userID);
+  // }, [userID])
 
   useEffect(() => {
     medicinelist();
@@ -220,6 +197,10 @@ function MedicDetailPage() {
   }, [modalOpen]);
 
 
+  const formatDate = (dateStr: any) => {
+    const [year, month, day] = dateStr.split('-');
+    return `${day}-${month}-${year}`;
+  };
 
   //Uc1e97d3b9701a31fba1f9911852eeb8f
 
@@ -258,29 +239,29 @@ function MedicDetailPage() {
               src={userPIC}
               sx={{ width: '36px', height: '36px', marginRight: '10px' }} /> {/* Adjust margin if necessary */}
             <Typography variant="h6" component="div" sx={{ color: 'black', fontWeight: 'bold' }}>
-              ข้อมูลรายการยา
+              ประวัติการแก้ไขยา {medicName}
             </Typography>
           </Toolbar>
         </AppBar>
       </Box>
 
       {mediclist.map((medic: Medic) => (
-        <div key={medic.MedicID} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
-
+        <div key={medic._id} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
           <Card sx={{
             display: 'grid',
             gridTemplateRows: 'auto auto', // Two rows of auto height
             gridTemplateColumns: '100px auto',
             height: "auto",
             alignItems: 'center',
-            // justifyContent: 'center',
-            // bgcolor: '#A8E3F0',
             boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
             minWidth: '310px',
             position: 'relative',
           }}>
+            <div className="EditBy" style={{ gridColumn: '1 / span 2', marginLeft: '10px' }}>
+              <p>แก้ไขโดย : {medic.EditBy}</p>
+              <p>เมื่อวันที่ : {medic.EditDate} เวลา {medic.EditTime}</p>
+            </div>
             <div className="MedicIMG" style={{ justifyContent: 'right', display: 'flex' }}>
-
               <button
                 onClick={() => {
                   setModalOpen(true); // Open the modal
@@ -291,26 +272,13 @@ function MedicDetailPage() {
                 <Avatar
                   alt={medic.MedicName}
                   src={medic.MedicPicture}
-                  sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '30px', borderRadius: '0px' }}
+                  sx={{ width: '75px', height: '75px', borderRadius: '0px', border: '1px solid black' }}
                 />
               </button>
             </div>
             <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left', alignItems: 'left' }}>
-              <div className="buttonGroup" style={{ marginBottom: '50px' }}>
-
-                <IconButton aria-label="delete" sx={{ position: 'absolute', top: '0', right: '0' }} onClick={() => handleDelete(medic.MedicID, medic.MedicName, userID)}>
-                  <DeleteIcon sx={{ bgcolor: 'red', color: 'white', padding: '5px', borderRadius: '100%' }} />
-                </IconButton>
-                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleHistory(medic.MedicID, userID)}>
-                  <HistoryIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
-                </IconButton>
-                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', right: '45px' }} onClick={() => handleEdit(medic.MedicID)}>
-                  <EditIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
-                </IconButton>
-              </div>
               <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px', paddingTop: 0 }}>
                 <div className="MedicDetail" style={{ textAlign: 'left' }}>
-
                   <Typography component="div" variant="h5">
                     {medic.MedicName}
                   </Typography>
@@ -319,7 +287,6 @@ function MedicDetailPage() {
                   ) : (
                     <Typography variant="subtitle2">กินก่อนอาหาร</Typography>
                   )}
-
                   <Typography variant="subtitle2">คงเหลือ {medic.stock} เม็ด</Typography>
                 </div>
               </CardContent>
@@ -336,8 +303,6 @@ function MedicDetailPage() {
                 }
               </p>
             </div>
-
-
             <div style={{ gridColumn: '1 / span 2' }}>
               <FormGroup style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
                 <FormControlLabel control={<Checkbox checked={medic.Morning} />} label="เช้า" />
@@ -349,8 +314,8 @@ function MedicDetailPage() {
               </FormGroup>
             </div>
           </Card>
-
         </div>
+
       ))}
       {/* {modalOpen && selectedImage && (
         <div ref={modalRef} style={{ position: 'fixed', top: '0', left: '0', width: '100%', height: '100%', backgroundColor: 'rgba(0, 0, 0, 0.5)', zIndex: 9999 }}>
@@ -386,4 +351,4 @@ function MedicDetailPage() {
   );
 }
 
-export default MedicDetailPage;
+export default MEDHistory;

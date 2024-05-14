@@ -103,7 +103,7 @@ function AddMedicPage() {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [urlImage, setUrlImage] = useState("");
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [open, setOpen] = useState(true);
 
@@ -117,6 +117,9 @@ function AddMedicPage() {
 
   const [eachUser, setEachUser] = useState([]);
 
+  const currentDate = new Date().toLocaleDateString('th-TH');
+  const currentTime = new Date().toLocaleTimeString('th-TH');
+
   const [morning, setMorning] = useState(false);
   const [noon, setNoon] = useState(false);
   const [evening, setEvening] = useState(false);
@@ -127,6 +130,8 @@ function AddMedicPage() {
 
 
   const [file, setFile] = useState<File | null>(null);
+
+
   // const [test, setTest] = useState(Blob)
 
   const [previewUrl, setPreviewUrl] = useState("https://placehold.co/600x400.png");
@@ -151,6 +156,7 @@ function AddMedicPage() {
     if (imageUpload == null) {
       updateMedic();
       insertMedic();
+      insertHistoryMedic();
     }
     else {
       const imageRef = ref(storage, `${userIDChoose}/${imageUpload.name + v4()}`);
@@ -168,6 +174,7 @@ function AddMedicPage() {
   useEffect(() => {
     updateMedic();
     insertMedic();
+    insertHistoryMedic();
   }, [urlImage])
 
 
@@ -438,6 +445,58 @@ function AddMedicPage() {
         });
 
         const data = responseFind.data;
+
+
+      } catch (error) {
+        console.error('Error fetching data from MongoDB:', error);
+
+      }
+    }
+  }
+
+  const insertHistoryMedic = async () => {
+    if (!liff.isLoggedIn()) {
+      try {
+        await liff.login();
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+
+      try {
+        const accessToken = await getAccessToken();
+        const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+          collection: 'UpdateHistory',
+          database: 'HealthCare',
+          dataSource: 'HealthCareDemo',
+          document: {
+            MedicID: inputId,
+            MedicName: medicName,
+            MedicDate: checkDay,
+            Morning: morning,
+            Noon: noon,
+            Evening: evening,
+            Night: night,
+            afbf: afbf,
+            HalfUnit: halfUnit,
+            stock: stock,
+            MedicPicture: urlImage,
+            EditBy: userID,
+            EditDate: currentDate,
+            EditTime: currentTime,
+            Status: "Enable"
+          },
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*',
+            'Authorization': `Bearer ${accessToken}`,
+          },
+        });
+
+        const data = responseFind.data;
+
+        console.log("Response from MongoDB update:", data);
 
 
       } catch (error) {

@@ -75,6 +75,9 @@ function EditMedicPage() {
 
   const [eachUser, setEachUser] = useState([]);
 
+  const currentDate = new Date().toLocaleDateString('th-TH');
+  const currentTime = new Date().toLocaleTimeString('th-TH');
+
   const [morning, setMorning] = useState(false);
   const [noon, setNoon] = useState(false);
   const [evening, setEvening] = useState(false);
@@ -103,6 +106,7 @@ function EditMedicPage() {
   const uploadFile = async () => {
     if (imageUpload == null) {
       UpdateMedic(previewUrl)
+      insertHistoryMedic(previewUrl)
     }
     else {
 
@@ -115,7 +119,8 @@ function EditMedicPage() {
         setUrlImage(url);
         console.log(url); // This will log the updated URL
         if (url != null) {
-          UpdateMedic(url); // Pass the URL directly to the UpdateMedic function
+          UpdateMedic(url);
+          insertHistoryMedic(url); // Pass the URL directly to the UpdateMedic function
         } else {
           console.log("Error: Image URL not defined");
         }
@@ -125,7 +130,49 @@ function EditMedicPage() {
     }
   };
 
+  const insertHistoryMedic = async (url: string) => {
 
+    try {
+      const accessToken = await getAccessToken();
+      const responseFind = await axios.post('https://ap-southeast-1.aws.data.mongodb-api.com/app/data-gcfjf/endpoint/data/v1/action/insertOne', {
+        collection: 'UpdateHistory',
+        database: 'HealthCare',
+        dataSource: 'HealthCareDemo',
+        document: {
+          MedicID: medicID,
+          MedicName: medicName,
+          MedicDate: checkDay,
+          Morning: morning,
+          Noon: noon,
+          Evening: evening,
+          Night: night,
+          afbf: afbf,
+          HalfUnit: halfUnit,
+          stock: stock,
+          MedicPicture: url,
+          EditBy: userID,
+          EditDate: currentDate,
+          EditTime: currentTime,
+          Status: "Enable"
+        },
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+
+      const data = responseFind.data;
+
+      console.log("Response from MongoDB update:", data);
+
+
+    } catch (error) {
+      console.error('Error fetching data from MongoDB:', error);
+
+    }
+  }
 
 
   const UpdateMedic = async (url: string) => {
@@ -180,12 +227,12 @@ function EditMedicPage() {
       );
 
       console.log("Response from MongoDB update:", responseFind.data);
-      setChecked(true);
-      setTimeout(() => {
-        setChecked(false);
-        // navigate('/MedicDetailPage');
-        navigate(-1);
-      }, 3000);
+      // setChecked(true);
+      // setTimeout(() => {
+      //   setChecked(false);
+      //   // navigate('/MedicDetailPage');
+      //   navigate(-1);
+      // }, 3000);
 
     } catch (error) {
       console.error('Error fetching data from MongoDB:', error);
