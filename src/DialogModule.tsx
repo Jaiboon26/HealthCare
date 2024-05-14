@@ -46,6 +46,9 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
         else if (time === "เย็น") {
             setTimeday("Evening");
         }
+        else if (time === "ก่อนนอน") {
+            setTimeday("Night");
+        }
     }
 
 
@@ -123,11 +126,34 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                                 setHours(e.target.value as string);
                             }}
                         >
-                            {Array.from({ length: 25 }, (_, index) => index.toString().padStart(2, '0')).map((valueHours) => (
-                                <MenuItem key={valueHours} value={valueHours}>
-                                    {valueHours}
-                                </MenuItem>
-                            ))}
+                            {timeday === "Morning" && (
+                                Array.from({ length: 4 }, (_, index) => (index + 6).toString().padStart(2, '0')).map((valueHours) => (
+                                    <MenuItem key={valueHours} value={valueHours}>
+                                        {valueHours}
+                                    </MenuItem>
+                                ))
+                            )}
+                            {timeday === "Noon" && (
+                                Array.from({ length: 6 }, (_, index) => (index + 10).toString().padStart(2, '0')).map((valueHours) => (
+                                    <MenuItem key={valueHours} value={valueHours}>
+                                        {valueHours}
+                                    </MenuItem>
+                                ))
+                            )}
+                            {timeday === "Evening" && (
+                                Array.from({ length: 4 }, (_, index) => (index + 16).toString().padStart(2, '0')).map((valueHours) => (
+                                    <MenuItem key={valueHours} value={valueHours}>
+                                        {valueHours}
+                                    </MenuItem>
+                                ))
+                            )}
+                            {timeday === "Night" && (
+                                Array.from({ length: 4 }, (_, index) => (index + 20).toString().padStart(2, '0')).map((valueHours) => (
+                                    <MenuItem key={valueHours} value={valueHours}>
+                                        {valueHours}
+                                    </MenuItem>
+                                ))
+                            )}
                         </Select>
                     </FormControl>
                     <FormControl sx={{ mt: 2, minWidth: 120 }}>
@@ -139,7 +165,7 @@ const CustomizedDialogs: React.FC<CustomizedDialogsProps> = ({ open, onClose, ti
                                 setMins(e.target.value as string);
                             }}
                         >
-                            {Array.from({ length: 12 }, (_, index) => (index * 5).toString().padStart(2, '0')).map((valueMins) => (
+                            {Array.from({ length: 60 }, (_, index) => (index).toString().padStart(2, '0')).map((valueMins) => (
                                 <MenuItem key={valueMins} value={valueMins}>
                                     {valueMins}
                                 </MenuItem>
