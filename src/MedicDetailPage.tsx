@@ -37,6 +37,7 @@ interface Medic {
   Morning: boolean;
   Noon: boolean;
   Evening: boolean;
+  Night: boolean;
   afbf: string;
   MedicPicture: string;
   stock: Int32List;
@@ -61,14 +62,14 @@ const shortDayNames: { [key: string]: string } = {
 function MedicDetailPage() {
 
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
-  const [userID, setUserID] = useState("");
+  const [userID, setUserID] = useState("Uc1e97d3b9701a31fba1f9911852eeb8f");
   const [userPIC, setUserPIC] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const [getMedic, setGetMedic] = useState([]);
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -141,46 +142,46 @@ function MedicDetailPage() {
     navigate(`/DeleteMedicPage/${medicID}/${medicName}/${lineID}`)
   };
 
-  const initializeLiff = async () => {
-    try {
-      await liff.init({
-        liffId: "2004903683-4e5OEOWn"
-      });
+  // const initializeLiff = async () => {
+  //   try {
+  //     await liff.init({
+  //       liffId: "2004903683-4e5OEOWn"
+  //     });
 
-      if (!liff.isLoggedIn()) {
-        await liff.login();
-      }
+  //     if (!liff.isLoggedIn()) {
+  //       await liff.login();
+  //     }
 
-      fetchUserProfile();
-    } catch (error) {
-      console.error("LIFF initialization failed:", error);
-      // You can set an error state here or display an error message
-    }
-  };
+  //     fetchUserProfile();
+  //   } catch (error) {
+  //     console.error("LIFF initialization failed:", error);
+  //     // You can set an error state here or display an error message
+  //   }
+  // };
 
-  const fetchUserProfile = async () => {
-    try {
-      const profile = await liff.getProfile();
-      const userProfile = profile.userId;
-      const userDisplayName = profile.displayName;
-      const statusMessage = profile.statusMessage;
-      const userPictureUrl = profile.pictureUrl;
-
-
-      // setDisplayName(userDisplayName);
-      setUserID(userProfile);
-      setUserPIC(userPictureUrl ?? "");
+  // const fetchUserProfile = async () => {
+  //   try {
+  //     const profile = await liff.getProfile();
+  //     const userProfile = profile.userId;
+  //     const userDisplayName = profile.displayName;
+  //     const statusMessage = profile.statusMessage;
+  //     const userPictureUrl = profile.pictureUrl;
 
 
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  }
+  //     // setDisplayName(userDisplayName);
+  //     setUserID(userProfile);
+  //     setUserPIC(userPictureUrl ?? "");
+
+
+  //   } catch (err) {
+  //     console.error(err);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // }
 
   useEffect(() => {
-    initializeLiff();
+    // initializeLiff();
     // findMedicine();
     // medicinelist();
   }, [])
@@ -264,63 +265,81 @@ function MedicDetailPage() {
           <Card sx={{
             display: 'grid',
             gridTemplateRows: 'auto auto', // Two rows of auto height
-            gridTemplateColumns: 'auto auto',
+            gridTemplateColumns: '100px auto',
             height: "auto",
             alignItems: 'center',
-            justifyContent: 'center',
+            // justifyContent: 'center',
             // bgcolor: '#A8E3F0',
             boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
             minWidth: '310px',
             position: 'relative',
           }}>
-            <button
-              onClick={() => {
-                setModalOpen(true); // Open the modal
-                setSelectedImage(medic.MedicPicture); // Set the selected image URL
-              }}
-              style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
-            >
-              <Avatar
-                alt={medic.MedicName}
-                src={medic.MedicPicture}
-                sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '10px', borderRadius: '0px' }}
-              />
-            </button>
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <IconButton aria-label="delete" sx={{ position: 'absolute', top: '0', right: '0' }} onClick={() => handleDelete(medic.MedicID, medic.MedicName, userID)}>
-                <DeleteIcon sx={{ bgcolor: 'red', color: 'white', padding: '5px', borderRadius: '100%' }} />
-              </IconButton>
-              <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleEdit(medic.MedicID)}>
-                <EditIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
-              </IconButton>
-              <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <Typography component="div" variant="h5">
-                  {medic.MedicName}
-                </Typography>
-                {medic.afbf === "After" ? (
-                  <Typography variant="subtitle2">กินหลังอาหาร</Typography>
-                ) : (
-                  <Typography variant="subtitle2">กินก่อนอาหาร</Typography>
-                )}
+            <div className="MedicIMG" style={{ justifyContent: 'right', display: 'flex' }}>
 
-                <Typography variant="subtitle2">คงเหลือ {medic.stock} เม็ด</Typography>
+              <button
+                onClick={() => {
+                  setModalOpen(true); // Open the modal
+                  setSelectedImage(medic.MedicPicture); // Set the selected image URL
+                }}
+                style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
+              >
+                <Avatar
+                  alt={medic.MedicName}
+                  src={medic.MedicPicture}
+                  sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '30px', borderRadius: '0px' }}
+                />
+              </button>
+            </div>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left', alignItems: 'left' }}>
+              <div className="buttonGroup" style={{ marginBottom: '50px' }}>
+
+                <IconButton aria-label="delete" sx={{ position: 'absolute', top: '0', right: '0' }} onClick={() => handleDelete(medic.MedicID, medic.MedicName, userID)}>
+                  <DeleteIcon sx={{ bgcolor: 'red', color: 'white', padding: '5px', borderRadius: '100%' }} />
+                </IconButton>
+                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleEdit(medic.MedicID)}>
+                  <EditIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
+                </IconButton>
+              </div>
+              <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px', paddingTop: 0 }}>
+                <div className="MedicDetail" style={{ textAlign: 'left' }}>
+
+                  <Typography component="div" variant="h5">
+                    {medic.MedicName}
+                  </Typography>
+                  {medic.afbf === "After" ? (
+                    <Typography variant="subtitle2">กินหลังอาหาร</Typography>
+                  ) : (
+                    <Typography variant="subtitle2">กินก่อนอาหาร</Typography>
+                  )}
+
+                  <Typography variant="subtitle2">คงเหลือ {medic.stock} เม็ด</Typography>
+                </div>
               </CardContent>
             </Box>
-            <div style={{ gridRow: 'span 2', gridColumn: '1 / span 2', margin: '2px' }}> {/* Merge second column to 1 row */}
-              <p style={{ margin: '2px' }}>วันที่รับประทานยา : {' '}
-                {Object.entries(medic.MedicDate)
-                  .filter(entry => entry[1]) // Filter out the entries where the value is true
-                  .map(([day, _]) => shortDayNames[day]) // Map to the short day names
-                  .join(', ') // Join the short day names with comma
+            <div style={{ gridRow: 'span 2', gridColumn: '1 / span 2', margin: '2px', textAlign: 'center' }}>
+              <p style={{ margin: '2px' }}>
+                วันที่รับประทานยา : {' '}
+                {Object.values(medic.MedicDate).filter(value => value).length === 7
+                  ? 'กินทุกวัน'
+                  : Object.entries(medic.MedicDate)
+                    .filter(entry => entry[1]) // Filter out the entries where the value is true
+                    .map(([day, _]) => shortDayNames[day]) // Map to the short day names
+                    .join(', ') // Join the short day names with comma
                 }
               </p>
             </div>
 
-            <FormGroup style={{ display: "flex", flexDirection: "row", gridColumn: '1 / span 2', justifyContent: 'center' }}>
-              <FormControlLabel control={<Checkbox checked={medic.Morning} />} label="เช้า" />
-              <FormControlLabel control={<Checkbox checked={medic.Noon} />} label="กลางวัน" />
-              <FormControlLabel control={<Checkbox checked={medic.Evening} />} label="เย็น" />
-            </FormGroup>
+
+            <div style={{ gridColumn: '1 / span 2' }}>
+              <FormGroup style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+                <FormControlLabel control={<Checkbox checked={medic.Morning} />} label="เช้า" />
+                <FormControlLabel control={<Checkbox checked={medic.Noon} />} label="กลางวัน" />
+                <FormControlLabel control={<Checkbox checked={medic.Evening} />} label="เย็น" />
+              </FormGroup>
+              <FormGroup style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+                <FormControlLabel control={<Checkbox checked={medic.Night} />} label="ก่อนนอน" />
+              </FormGroup>
+            </div>
           </Card>
 
         </div>
