@@ -170,7 +170,6 @@ function MemberPage() {
       if (responseData && responseData.document) {
         setUserIDManage(responseData.document.User);
         console.log(userIDManage);
-        setLoading(false)
         // updateMedic();
         // console.log(Object.keys(data.document.User).length);
       } else {
@@ -231,7 +230,9 @@ function MemberPage() {
       if (responseData && responseData.documents) {
         console.log(responseData.documents);
         setEachUser(responseData.documents);
-
+        setTimeout(() => {
+          setLoading(false)
+        }, 3000);
       } else {
         console.log("Not found");
         // console.log(userID);
@@ -242,7 +243,6 @@ function MemberPage() {
       console.error('Error in findProfile:', error);
     }
   }
-
 
   useEffect(() => {
     findProfile();
