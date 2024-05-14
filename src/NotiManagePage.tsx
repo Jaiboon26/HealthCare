@@ -239,7 +239,7 @@ function NotiManagePage() {
   };
 
   const insertTime = async () => {
-    if (!liff.isLoggedIn()) {
+    if (userID === "") {
       try {
         await liff.login();
       } catch (error) {
@@ -278,7 +278,7 @@ function NotiManagePage() {
   };
 
   const findTime = async () => {
-    if (!liff.isLoggedIn()) {
+    if (userID === "") {
       try {
         await liff.login();
       } catch (error) {
@@ -332,15 +332,12 @@ function NotiManagePage() {
 
   useEffect(() => {
     initializeLiff();
-    findTime();
   },
     []);
 
   useEffect(() => {
-    if (isLoggedIn) {
-      findTime();
-    }
-  }, [isLoggedIn, userID]);
+    findTime();
+  }, [userID]);
 
   if (loading) {
     return <Variants />;
