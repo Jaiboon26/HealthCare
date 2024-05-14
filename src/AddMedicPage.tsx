@@ -436,7 +436,7 @@ function AddMedicPage() {
             HalfUnit: halfUnit,
             stock: stock,
             MedicPicture: urlImage,
-            Status: "Enable"
+            Status: true
           },
         }, {
           headers: {

@@ -75,7 +75,7 @@ const router = createBrowserRouter([
     element: <DeleteConfirmPage />
   },
   {
-    path: "/MemberPage/MedicDetailPage/:client_id/:client_pic/:client_name",
+    path: "/MemberPage/MedicDetailPage/:client_id/:client_pic/:client_name/:username",
     element: <MedicDetailPage_client />
   },
   {

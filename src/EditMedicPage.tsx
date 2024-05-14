@@ -154,7 +154,7 @@ function EditMedicPage() {
           EditBy: username,
           EditDate: currentDate,
           EditTime: currentTime,
-          Status: "Enable"
+          Status: true
         },
       }, {
         headers: {
@@ -190,7 +190,7 @@ function EditMedicPage() {
         HalfUnit: halfUnit,
         stock: stock,
         MedicPicture: url,
-        Status: "Enable"
+        Status: true
       };
 
       const responseFind = await axios.post(
@@ -214,7 +214,7 @@ function EditMedicPage() {
               HalfUnit: halfUnit,
               stock: stock,
               MedicPicture: url,
-              Status: "Enable"
+              Status: true
             }
           },
         },

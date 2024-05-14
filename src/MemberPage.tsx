@@ -118,9 +118,9 @@ function MemberPage() {
   };
 
 
-  const handleEdit = (client_id: string, client_pic: string, client_name: string) => {
+  const handleEdit = (client_id: string, client_pic: string, client_name: string, displayName: string) => {
     const encodedPic = encodeURIComponent(client_pic);
-    navigate(`/MemberPage/MedicDetailPage/${client_id}/${encodedPic}/${client_name}`);
+    navigate(`/MemberPage/MedicDetailPage/${client_id}/${encodedPic}/${client_name}/${displayName}`);
   };
 
   const NotiEdit = (client_id: string, client_pic: string, client_name: string) => {
@@ -278,7 +278,7 @@ function MemberPage() {
               </CardContent>
               <ButtonGroup variant="text" aria-label="text button group"
                 sx={{ marginBottom: '20px' }}>
-                <IconButton aria-label="delete" onClick={() => handleEdit(users.LineID, users.Picture, users.Name)}>
+                <IconButton aria-label="delete" onClick={() => handleEdit(users.LineID, users.Picture, users.Name, displayName)}>
                   <EditIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
                 </IconButton>
 

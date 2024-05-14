@@ -9,6 +9,7 @@ import axios from "axios";
 import { FindModuleMultiple } from "./Database_Module/FindModuleMultiple";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import HistoryIcon from '@mui/icons-material/History';
 
 
 interface Medic {
@@ -18,6 +19,7 @@ interface Medic {
   Morning: boolean;
   Noon: boolean;
   Evening: boolean;
+  Night: boolean;
   afbf: string;
   MedicPicture: string;
   stock: Int32List;
@@ -40,6 +42,7 @@ function MedicDetailPage_client() {
   const { client_id } = useParams<{ client_id: any }>();
   const { client_pic } = useParams<{ client_pic: any }>();
   const { client_name } = useParams<{ client_name: any }>();
+  const { username } = useParams<{ username: any }>();
   const decodedPic = decodeURIComponent(client_pic);
 
   const [mediclist, setMediclist] = useState<Medic[]>([]); // Initialize as an empty array of type Medic[]
@@ -113,8 +116,12 @@ function MedicDetailPage_client() {
 
   const navigate = useNavigate();
 
-  const handleEdit = (medicName: string) => {
-    navigate(`/EditMedicPage/${medicName}`);
+  const handleEdit = (medicName: string, username: string) => {
+    navigate(`/EditMedicPage/${medicName}/${username}`);
+  };
+
+  const handleHistory = (medicName: string, userID: string) => {
+    navigate(`/MEDHistory/${medicName}/${userID}`);
   };
 
   const handleDelete = (medicID: string, medicName: string, lineID: string) => {
@@ -203,63 +210,84 @@ function MedicDetailPage_client() {
           <Card sx={{
             display: 'grid',
             gridTemplateRows: 'auto auto', // Two rows of auto height
-            gridTemplateColumns: 'auto auto',
+            gridTemplateColumns: '100px auto',
             height: "auto",
             alignItems: 'center',
-            justifyContent: 'center',
+            // justifyContent: 'center',
             // bgcolor: '#A8E3F0',
             boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
             minWidth: '310px',
             position: 'relative',
           }}>
-            <button
-              onClick={() => {
-                setModalOpen(true); // Open the modal
-                setSelectedImage(medic.MedicPicture); // Set the selected image URL
-              }}
-              style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
-            >
-              <Avatar
-                alt={medic.MedicName}
-                src={medic.MedicPicture}
-                sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '10px', borderRadius: '0px' }}
-              />
-            </button>
-            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-              <IconButton aria-label="delete" sx={{ position: 'absolute', top: '0', right: '0' }} onClick={() => handleDelete(medic.MedicID, medic.MedicName, userID)}>
-                <DeleteIcon sx={{ bgcolor: 'red', color: 'white', padding: '5px', borderRadius: '100%' }} />
-              </IconButton>
-              <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleEdit(medic.MedicID)}>
-                <EditIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
-              </IconButton>
-              <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
-                <Typography component="div" variant="h5">
-                  {medic.MedicName}
-                </Typography>
-                {medic.afbf === "After" ? (
-                  <Typography variant="subtitle2">กินหลังอาหาร</Typography>
-                ) : (
-                  <Typography variant="subtitle2">กินก่อนอาหาร</Typography>
-                )}
+            <div className="MedicIMG" style={{ justifyContent: 'right', display: 'flex' }}>
 
-                <Typography variant="subtitle2">คงเหลือ {medic.stock} เม็ด</Typography>
+              <button
+                onClick={() => {
+                  setModalOpen(true); // Open the modal
+                  setSelectedImage(medic.MedicPicture); // Set the selected image URL
+                }}
+                style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
+              >
+                <Avatar
+                  alt={medic.MedicName}
+                  src={medic.MedicPicture}
+                  sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '30px', borderRadius: '0px' }}
+                />
+              </button>
+            </div>
+            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'left', alignItems: 'left' }}>
+              <div className="buttonGroup" style={{ marginBottom: '50px' }}>
+
+                <IconButton aria-label="delete" sx={{ position: 'absolute', top: '0', right: '0' }} onClick={() => handleDelete(medic.MedicID, medic.MedicName, userID)}>
+                  <DeleteIcon sx={{ bgcolor: 'red', color: 'white', padding: '5px', borderRadius: '100%' }} />
+                </IconButton>
+                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', left: '0' }} onClick={() => handleHistory(medic.MedicID, userID)}>
+                  <HistoryIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
+                </IconButton>
+                <IconButton aria-label="edit" sx={{ position: 'absolute', top: '0', right: '45px' }} onClick={() => handleEdit(medic.MedicID, username)}>
+                  <EditIcon sx={{ bgcolor: '#3B5998', color: 'white', padding: '5px', borderRadius: '100%' }} />
+                </IconButton>
+              </div>
+              <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px', paddingTop: 0 }}>
+                <div className="MedicDetail" style={{ textAlign: 'left' }}>
+
+                  <Typography component="div" variant="h5">
+                    {medic.MedicName}
+                  </Typography>
+                  {medic.afbf === "After" ? (
+                    <Typography variant="subtitle2">กินหลังอาหาร</Typography>
+                  ) : (
+                    <Typography variant="subtitle2">กินก่อนอาหาร</Typography>
+                  )}
+
+                  <Typography variant="subtitle2">คงเหลือ {medic.stock} เม็ด</Typography>
+                </div>
               </CardContent>
             </Box>
-            <div style={{ gridRow: 'span 2', gridColumn: '1 / span 2', margin: '2px' }}> {/* Merge second column to 1 row */}
-              <p style={{ margin: '2px' }}>วันที่รับประทานยา : {' '}
-                {Object.entries(medic.MedicDate)
-                  .filter(entry => entry[1]) // Filter out the entries where the value is true
-                  .map(([day, _]) => shortDayNames[day]) // Map to the short day names
-                  .join(', ') // Join the short day names with comma
+            <div style={{ gridRow: 'span 2', gridColumn: '1 / span 2', margin: '2px', textAlign: 'center' }}>
+              <p style={{ margin: '2px' }}>
+                วันที่รับประทานยา : {' '}
+                {Object.values(medic.MedicDate).filter(value => value).length === 7
+                  ? 'กินทุกวัน'
+                  : Object.entries(medic.MedicDate)
+                    .filter(entry => entry[1]) // Filter out the entries where the value is true
+                    .map(([day, _]) => shortDayNames[day]) // Map to the short day names
+                    .join(', ') // Join the short day names with comma
                 }
               </p>
             </div>
 
-            <FormGroup style={{ display: "flex", flexDirection: "row", gridColumn: '1 / span 2', justifyContent: 'center' }}>
-              <FormControlLabel control={<Checkbox checked={medic.Morning} />} label="เช้า" />
-              <FormControlLabel control={<Checkbox checked={medic.Noon} />} label="กลางวัน" />
-              <FormControlLabel control={<Checkbox checked={medic.Evening} />} label="เย็น" />
-            </FormGroup>
+
+            <div style={{ gridColumn: '1 / span 2' }}>
+              <FormGroup style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+                <FormControlLabel control={<Checkbox checked={medic.Morning} />} label="เช้า" />
+                <FormControlLabel control={<Checkbox checked={medic.Noon} />} label="กลางวัน" />
+                <FormControlLabel control={<Checkbox checked={medic.Evening} />} label="เย็น" />
+              </FormGroup>
+              <FormGroup style={{ display: "flex", flexDirection: "row", justifyContent: 'center' }}>
+                <FormControlLabel control={<Checkbox checked={medic.Night} />} label="ก่อนนอน" />
+              </FormGroup>
+            </div>
           </Card>
 
         </div>
@@ -297,5 +325,4 @@ function MedicDetailPage_client() {
     </div>
   );
 }
-
 export default MedicDetailPage_client;
