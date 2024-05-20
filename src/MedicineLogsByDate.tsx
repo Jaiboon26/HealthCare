@@ -81,6 +81,7 @@ const MedicineLogsByDate: React.FC = () => {
         Morning?: Medicine[];
         Noon?: Medicine[];
         Evening?: Medicine[];
+        Night?: Medicine[];
     }>({});
 
 
@@ -158,12 +159,14 @@ const MedicineLogsByDate: React.FC = () => {
                 const morningMedicines = responseData.documents.filter((medicine: Medicine) => medicine.MatchedTime === 'Morning');
                 const noonMedicines = responseData.documents.filter((medicine: Medicine) => medicine.MatchedTime === 'Noon');
                 const eveningMedicines = responseData.documents.filter((medicine: Medicine) => medicine.MatchedTime === 'Evening');
+                const nightNedicines = responseData.documents.filter((medicine: Medicine) => medicine.MatchedTime === 'Night');
 
                 // Update state with filtered medicines
                 setMedicinesByMonth({
                     'Morning': morningMedicines,
                     'Noon': noonMedicines,
-                    'Evening': eveningMedicines
+                    'Evening': eveningMedicines,
+                    'Night': nightNedicines
                 });
 
             } else {
@@ -209,6 +212,7 @@ const MedicineLogsByDate: React.FC = () => {
                         <Tab label="เข้า" {...a11yProps(0)} />
                         <Tab label="กลางวัน" {...a11yProps(1)} sx={{ marginLeft: '30px', marginRight: '30px' }} />
                         <Tab label="เย็น" {...a11yProps(2)} />
+                        <Tab label="ก่อนนอน" {...a11yProps(3)} />
                     </Tabs>
                 </Box>
                 {medicinesByMonth['Morning']?.length ? (
@@ -376,6 +380,62 @@ const MedicineLogsByDate: React.FC = () => {
                     ))
                 ) : (
                     <CustomTabPanel value={value} index={2}>
+                        <h1 style={{ textAlign: 'center' }}>ไม่มีประวัติการกินยา</h1>
+                    </CustomTabPanel>
+                )}
+
+                {medicinesByMonth['Night']?.length ? (
+                    medicinesByMonth['Night']?.map((medicine: Medicine) => (
+                        <CustomTabPanel key={medicine._id} value={value} index={3}>
+                            <div key={medicine.MedicID} style={{ overflow: 'hidden', border: '2px dashed #a8e3f0' }}>
+
+                                <Card sx={{
+                                    display: 'grid',
+                                    gridTemplateRows: 'auto auto', // Two rows of auto height
+                                    gridTemplateColumns: 'auto auto',
+                                    height: "auto",
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    // bgcolor: '#A8E3F0',
+                                    boxShadow: '0px 0px 4px 2px #A8E3F0, 0px 1px 1px 0px #A8E3F0, 0px 1px 3px 0px #A8E3F0',
+                                    minWidth: '310px',
+                                    position: 'relative',
+                                }}>
+                                    <button
+                                        onClick={() => {
+                                            // setModalOpen(true); // Open the modal
+                                            // setSelectedImage(medicine.MedicPicture); // Set the selected image URL
+                                        }}
+                                        style={{ background: 'none', border: 'none', padding: '0', margin: '0', cursor: 'pointer' }}
+                                    >
+                                        <Avatar
+                                            alt={medicine.MedicName}
+                                            src={medicine.MedicPicture}
+                                            sx={{ width: '75px', height: '75px', marginLeft: '10px', marginTop: '10px', borderRadius: '0px' }}
+                                        />
+                                    </button>
+                                    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                                        <CardContent sx={{ flex: '1 0 auto', marginRight: '10px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                                            <Typography component="div" variant="h5">
+                                                {medicine.MedicName}
+                                            </Typography>
+                                            {medicine.timestamp && (
+                                                <Typography variant="subtitle2">รับประทานเมื่อ {medicine.timestamp}</Typography>
+                                            )}
+                                            {medicine.AcceptType === null ? (
+                                                <Typography variant="subtitle2" style={{ color: 'red' }}>ไม่ได้กิน</Typography>
+                                            ) : (
+                                                <Typography variant="subtitle2" style={{ color: 'green' }}>กินแล้ว</Typography>
+                                            )}
+                                        </CardContent>
+                                    </Box>
+                                </Card>
+
+                            </div>
+                        </CustomTabPanel>
+                    ))
+                ) : (
+                    <CustomTabPanel value={value} index={3}>
                         <h1 style={{ textAlign: 'center' }}>ไม่มีประวัติการกินยา</h1>
                     </CustomTabPanel>
                 )}
