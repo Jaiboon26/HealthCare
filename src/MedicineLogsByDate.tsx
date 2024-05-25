@@ -208,7 +208,7 @@ const MedicineLogsByDate: React.FC = () => {
 
             <Box sx={{ width: '100%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'center', width: '100%' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" >
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" allowScrollButtonsMobile scrollButtons variant="scrollable" >
                         <Tab label="เข้า" {...a11yProps(0)} />
                         <Tab label="กลางวัน" {...a11yProps(1)} sx={{ marginLeft: '30px', marginRight: '30px' }} />
                         <Tab label="เย็น" {...a11yProps(2)} />
